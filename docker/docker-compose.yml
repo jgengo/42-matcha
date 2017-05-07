@@ -1,0 +1,15 @@
+web:
+  image: tutum/apache-php
+  ports:
+    - "1337:80"
+  links:
+    - db:db
+db:
+  image: mysql
+  ports:
+    - "1338:3306"
+  volumes:
+    - /Users/titus/matcha/docker/sql:/var/lib/mysql
+  restart: always
+  environment:
+    - MYSQL_ROOT_PASSWORD=root 
