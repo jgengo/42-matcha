@@ -24,7 +24,7 @@ I planned to devellop it with **node.js (+Express)** to learn this technology an
 
 It's a project supposed to be done alone, but I've to thanks some of my fellows who inspired me during my scolarity and probably has written some lines of code in my own kernel for the rest of my life.
 
-* `cbarbier - Cedric Barbier`
+* `cbarbier - Cedric Barbier` :+1:
 * `arive-de - Alix Rive Decaillot`
 * `mkantzer - Manon Kantzer`
 * `lramirez - Lara Ramirez`
