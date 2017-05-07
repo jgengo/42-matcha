@@ -8,12 +8,12 @@ I planned to devellop it with **node.js (+Express)** to learn this technology an
 
 ## Guide Line
 
-- [ ] t
-- [ ] t
-- [ ] t
-- [ ] t 
-- [x] t
-- [ ] t
+- [ ] Think about UI design and framework css (bootstrap? materialize? ...)
+- [ ] Users Model and All functions (create, edit, destroy, show)
+- [ ] All Models (Stalk, Like, Block)
+- [ ] Geoloc Model (and Force if not given)
+- [ ] Algorithm to match with someone else (with sexual orientation)
+- [ ] WebSocket ? to make a live-chat
 
 ### It's coming!
 
