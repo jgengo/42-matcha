@@ -9,6 +9,7 @@ I planned to devellop it with **node.js (+Express)** to learn this technology an
 ## Guide Line
 
 - [ ] Think about UI design and framework css (bootstrap? materialize? ...)
+- [ ] Choose the html template (Jade, EJS, Haml, ...)
 - [ ] Users Model and All functions (create, edit, destroy, show)
 - [ ] All Models (Stalk, Like, Block)
 - [ ] Geoloc Model (and Force if not given)
