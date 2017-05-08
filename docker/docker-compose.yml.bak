@@ -2,6 +2,8 @@ web:
   image: tutum/apache-php
   ports:
     - "1337:80"
+  volumes:
+    - /Users/titus/matcha/docker/www:/app
   links:
     - db:db
 db:
@@ -9,7 +11,7 @@ db:
   ports:
     - "1338:3306"
   volumes:
-    - ~/Users/titus/matcha/docker/sql:/var/lib/mysql
+    - /Users/titus/matcha/docker/sql:/var/lib/mysql
   restart: always
   environment:
     - MYSQL_ROOT_PASSWORD=root 
