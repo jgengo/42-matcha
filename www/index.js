@@ -1,7 +1,21 @@
 var express = require('express'),
     fs = require('fs'),
     haml = require('hamljs'),
+    mysql = require('mysql'),
     app = express();
+
+
+var connection = mysql.createConnection({
+  host: 'localhost',
+  port: '1338',
+  user: 'root',
+  password: 'root'
+});
+
+connection.connect(function(err) {
+  if (err) throw err
+  console.log('[mysql] You are now connected...');
+});
 
 app.get('/', function(req, res) {
   res.setHeader('Content-Type', 'text/plain');
