@@ -8,7 +8,7 @@ I chose to learn and use **node.js (+Express)** and thereby discover a new langu
 
 ## Guideline
 
-- [x] Create two linked docker containers to host apache, php and adminer on one hand, and mysql on the other.
+- [x] Create two linked docker containers to host Apache, PHP and Adminer on one hand, and MySQL on the other.
 - [ ] Think about UI design and CSS framework (bootstrap? materialize? ...)
 - [ ] Choose a HTML template (Jade, EJS, Haml, ...)
 - [ ] Create User model and all associated functions (create, edit, destroy, show)
