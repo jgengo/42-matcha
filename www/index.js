@@ -2,6 +2,8 @@ var express = require('express'),
     mysql = require('mysql'),
     app = express();
 
+app.set('views', './views')
+app.set('view engine', 'pug');
 
 var connection = mysql.createConnection({
   host: 'localhost',
