@@ -15,7 +15,7 @@
     "gulp-util": "^3.0.8"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "gulp"
   },
   "author": "jgengo <jgengo@student.42.fr>",
   "license": "ISC"
