@@ -1,6 +1,4 @@
 var express = require('express'),
-    fs = require('fs'),
-    haml = require('hamljs'),
     mysql = require('mysql'),
     app = express();
 
@@ -17,18 +15,7 @@ connection.connect(function(err) {
   console.log('[mysql] You are now connected...');
 });
 
-app.get('/', function(req, res) {
-  res.setHeader('Content-Type', 'text/plain');
-  res.end('welcome here');
-})
-.get('/test', function(req, res) {
-  var hamlView = fs.readFileSync('views/test.haml', 'utf8');
-  res.end(haml.render(hamlView));
-})
-.use(function(req, res, next) {
-  res.setHeader('Content-Type', 'text/plain');
-  res.status(404).send('Page introuvable');
-});
+require('./routes')(app);
 
 var server = app.listen(1336, function() {
   var port = server.address().port
