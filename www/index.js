@@ -3,7 +3,8 @@ var express = require('express'),
     app = express();
 
 app.set('views', './views')
-app.set('view engine', 'pug');
+app.set('view engine', 'ejs');
+app.use(express.static(__dirname + '/public'));
 
 var connection = mysql.createConnection({
   host: 'localhost',

@@ -4,8 +4,8 @@ var gulp = require('gulp');
 var sass = require('gulp-sass');
 var gutil = require('gulp-util');
 
-var sassInput = 'assets/sass/**/*.scss';
-var sassOutput = 'assets/css/';
+var sassInput = 'public/assets/sass/**/*.scss';
+var sassOutput = 'public/assets/css/';
 
 var sassOptions = {
   errLogToConsole: true,
