@@ -10,7 +10,7 @@ class User {
 	}
 
 	static create (content, callback) {
-		connection.query('SELECT email FROM users WHERE email = ?', [content.email], function(err, result) {
+		connection.query('SELECT email FROM users WHERE email = ?', [content.email], (err, result) => {
 			if (err) throw err
 			if (result.length > 0)
 			{
