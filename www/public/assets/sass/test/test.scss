@@ -1,4 +1,18 @@
 body 
 {
-  color: #123
+	background-color: #ddd
+}
+.test
+{
+	width: 225px;
+	background-color: #000;
+	height: 100%;
+	border-right: 5px solid #fff;
+	.brand {
+		width: 100%;
+		text-align: center;
+		padding-top: 20px;
+		color: #ccc;
+		font-size: 2em;
+	}
 }

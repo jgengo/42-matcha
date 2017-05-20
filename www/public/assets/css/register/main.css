@@ -1,0 +1,43 @@
+body {
+  height: 100vh;
+}
+
+#container {
+  height: 100%;
+}
+
+#registerform {
+  height: 100%;
+  align-items: center;
+}
+
+#registerform #header {
+  text-align: center;
+  margin-bottom: 50px;
+  font-size: 1.5em;
+  background: none;
+  box-shadow: none;
+}
+
+#registerform form {
+  border-radius: 3px;
+}
+
+#registerform #signup {
+  padding-top: 10px;
+  text-align: center;
+}
+
+#registerform #footer {
+  box-shadow: none;
+  background: none;
+}
+
+#registerform #divider {
+  padding-top: 20px;
+  color: #bbb;
+}
+
+#registerform #success {
+  text-align: center;
+}

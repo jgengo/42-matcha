@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Matcha</title>
+    <link rel="stylesheet" type="text/css" href="../semantic/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/register/main.css">
+</head>
+<body>
+    <div class="ui container" id="container">
+        <div class="ui centered grid" id="registerform">
+            <div class="six wide tablet eight wide column">
+            <% if (locals.flash && locals.flash.error) { %>
+                <div class="ui negative message"><%= flash.error %></div>
+            <% } %>
+            <div class="ui message" id="header">
+                <div class="ui image">
+                    <img src="../logo2.png">
+                </div>
+            </div>
+            <form action="/users/login" method="post" class="ui form attached fluid segment">
+                <div class="field">
+                    <label>E-mail</label>
+                    <div class="ui left icon input">
+                        <i class="user icon"></i>
+                        <input type="email" name="email" onfocus="this.placeholder=''" onblur="this.placeholder='E-mail address'" placeholder="E-mail address">
+                    </div>
+                </div>
+                <div class="field">
+                    <label>Password</label>
+                    <div class="ui left icon input">
+                        <i class="lock icon"></i>
+                        <input type="password" name="password" onfocus="this.placeholder=''" onblur="this.placeholder='Password'" placeholder="Password">
+                    </div>
+                </div>
+                <div class="ui animated large fade fluid violet button" type="submit" onClick="sendForm()">
+                <div class="visible content">Login</div>
+                <div class="hidden content"><i class="icon right arrow"></i></div>
+                </div>
+                <div class="field">
+                <div class="ui horizontal divider" id="divider">new to matcha ?</div>
+                <a href="/users/register"><div class="ui basic large violet fluid button">Register</div></a>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="../semantic/semantic.min.js"></script>   
+    <script>
+    function sendForm() {
+        $('form').submit()
+    };
+    $('form').form({
+        inline: true,
+        fields: {
+            email: { identifier: 'email', rules: [{ type: 'email', prompt: 'Please enter a valid email' }] },
+            password: { identifier: 'password', rules: [{ type: 'empty', prompt: 'Please enter your password' }, { type: 'minLength[8]', prompt: 'Your password must be at least {ruleValue} characters'}] }
+        }
+    });
+    </script>

@@ -1,22 +1,25 @@
 var express = require('express'),
-    mysql = require('mysql'),
     app = express();
+    bodyParser = require('body-parser')
+    session = require('express-session')
 
+// ---- template engine ----
 app.set('views', './views')
 app.set('view engine', 'ejs');
+
+// ---- middleware ----
 app.use(express.static(__dirname + '/public'));
+app.use('/semantic', express.static(__dirname + '/public/assets/semantic/dist'))
 
-var connection = mysql.createConnection({
-  host: 'localhost',
-  port: '1338',
-  user: 'root',
-  password: 'root'
-});
-
-connection.connect(function(err) {
-  if (err) throw err
-  console.log('[mysql] You are now connected...');
-});
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
+app.use(session({
+  secret: 'wonderful42',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false }
+}))
+app.use(require(__dirname + '/middlewares/flash.js'))
 
 require('./routes')(app);
 

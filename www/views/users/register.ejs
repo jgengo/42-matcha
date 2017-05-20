@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Matcha</title>
+    <link rel="stylesheet" type="text/css" href="../semantic/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/register/main.css">
+</head>
+<body>
+    <div class="ui container" id="container">
+        <div class="ui centered grid" id="registerform">
+            <div class="six wide tablet eight wide column">
+            <% if (locals.flash && locals.flash.error) { %>
+                <div class="ui negative message">
+                <%= flash.error %>
+                </div>
+            <% } %>
+            <div class="ui message" id="header">
+                <div class="ui image">
+                    <img src="../logo2.png">
+                </div>
+            </div>
+            <form action="/users/register" method="post" class="ui form attached fluid segment">
+                <% if (locals.flash && locals.flash.success) { %>
+                    <div class="ui positive message" id="success"><%= flash.success %></div>
+                    <a href="/users/login">
+                    <div class="ui animated large fade fluid violet button">
+                        <div class="visible content">Login</div>
+                        <div class="hidden content"><i class="icon right arrow"></i></div>
+                    </div></a>
+                <% } else { %>
+                    <div class="two fields">
+                        <div class="field">
+                        <label>First name</label>
+                        <input type="text" name="firstName" onfocus="this.placeholder=''" onblur="this.placeholder='Jordane'" placeholder="Jordane">
+                        </div>
+                        <div class="field">
+                        <label>Last name</label>
+                        <input type="text" name="lastName" onfocus="this.placeholder=''" onblur="this.placeholder='Gengo'" placeholder="Gengo">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>E-mail</label>
+                        <input type="email" name="email" onfocus="this.placeholder=''" onblur="this.placeholder='jgengo@student.42.fr'" placeholder="jgengo@student.42.fr">
+                    </div>
+                    <div class="two fields">
+                        <div class="field">
+                        <label>Password</label>
+                        <input type="password" name="password" onfocus="this.placeholder=''" onblur="this.placeholder='at least 8 characters'" placeholder="at least 8 characters">
+                        </div>
+                        <div class="field">
+                        <label>Re-enter password</label>
+                        <input type="password" name="passwordCheck" placeholder="">
+                        </div>
+                    </div>
+                        <div class="ui animated fade large fluid violet button" type="submit" onClick="sendForm()">
+                        <div class="visible content">Register</div>
+                        <div class="hidden content"><i class="icon right arrow"></i></div>
+                        </div>
+                        <div class="ui horizontal divider" id="divider">Or </div>
+                        <p id="signup">Already have an account? <a href="/users/login">Sign in <i class="icon caret right"></i></a></p>
+                <% } %>
+            </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="../semantic/semantic.min.js"></script>
+    <script>
+    function sendForm() {
+        $('form').submit()
+    };
+    $('form').form({
+        inline: true,
+        fields: {
+            firstName: { identifier: 'firstName', rules: [{ type: 'empty', prompt: 'Please enter your first name' }] },
+            lastName: { identifier: 'lastName', rules: [{ type: 'empty', prompt: 'Please enter your last name' }] },
+            email: { identifier: 'email', rules: [{ type: 'email', prompt: 'Please enter a valid email' }] },
+            password: { identifier: 'password', rules: [{ type: 'empty', prompt: 'Please enter your password' }, { type: 'minLength[8]', prompt: 'Your password must be at least {ruleValue} characters'}] },
+            passwordCheck: { identifier: 'passwordCheck', rules: [{ type: 'empty', prompt: 'Please re-enter your password' }, { type: 'minLength[8]', prompt: 'Your password must be at least {ruleValue} characters'}, {type: 'match[password]', prompt: 'Passwords don\'t match'}] }
+        }
+    });
+    </script>
+
+
+    
+</body>
+</html>
