@@ -17,7 +17,7 @@
             <% } %>
             <div class="ui message" id="header">
                 <div class="ui image">
-                    <img src="../logo2.png">
+                    <img src="../logo.png">
                 </div>
             </div>
             <form action="/users/register" method="post" class="ui form attached fluid segment">
@@ -29,7 +29,7 @@
                         <div class="hidden content"><i class="icon right arrow"></i></div>
                     </div></a>
                 <% } else { %>
-                    <div class="two fields">
+                    <!-- <div class="two fields"> -->
                         <div class="field">
                         <label>First name</label>
                         <input type="text" name="firstName" onfocus="this.placeholder=''" onblur="this.placeholder='Jordane'" placeholder="Jordane">
@@ -38,12 +38,12 @@
                         <label>Last name</label>
                         <input type="text" name="lastName" onfocus="this.placeholder=''" onblur="this.placeholder='Gengo'" placeholder="Gengo">
                         </div>
-                    </div>
+                    <!-- </div> -->
                     <div class="field">
                         <label>E-mail</label>
                         <input type="email" name="email" onfocus="this.placeholder=''" onblur="this.placeholder='jgengo@student.42.fr'" placeholder="jgengo@student.42.fr">
                     </div>
-                    <div class="two fields">
+                    <!-- <div class="two fields"> -->
                         <div class="field">
                         <label>Password</label>
                         <input type="password" name="password" onfocus="this.placeholder=''" onblur="this.placeholder='at least 8 characters'" placeholder="at least 8 characters">
@@ -52,7 +52,7 @@
                         <label>Re-enter password</label>
                         <input type="password" name="passwordCheck" placeholder="">
                         </div>
-                    </div>
+                    <!-- </div> -->
                         <div class="ui animated fade large fluid violet button" type="submit" onClick="sendForm()">
                         <div class="visible content">Register</div>
                         <div class="hidden content"><i class="icon right arrow"></i></div>
