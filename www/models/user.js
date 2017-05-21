@@ -5,7 +5,7 @@ class User {
 	constructor (row) {
 		this.row = row
 	}
-	get email () {
+	get email() {
 		return this.row.email
 	}
 
@@ -25,14 +25,27 @@ class User {
 			}
 		})
 	}
-
+	static find (content, callback) {
+		connection.query('SELECT * FROM users WHERE id = ? LIMIT 1', [content], (err, rows) => {
+			if (err) throw err
+			callback(new User(rows[0]))
+		})
+	}
 	static all (callback) {
 		connection.query('SELECT * FROM users', (err, rows) => {
 			if (err) throw err
 			callback(rows.map((row) => new User(row)))
 		})
 	}
-
+	static is_complete (id, callback) {
+		connection.query('SELECT validate_step FROM users WHERE id = ?', [id], (err, rows) => {
+			if (err) throw err
+			if (rows[0].validate_step === 0)
+				callback(true)
+			else
+				callback(false)
+		})
+	}
 }
 
 module.exports = User

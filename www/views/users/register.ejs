@@ -10,11 +10,6 @@
     <div class="ui container" id="container">
         <div class="ui centered grid" id="registerform">
             <div class="six wide tablet eight wide column">
-            <% if (locals.flash && locals.flash.error) { %>
-                <div class="ui negative message">
-                <%= flash.error %>
-                </div>
-            <% } %>
             <div class="ui message" id="header">
                 <div class="ui image">
                     <img src="../logo.png">
@@ -53,6 +48,13 @@
                         <input type="password" name="passwordCheck" placeholder="">
                         </div>
                     <!-- </div> -->
+                        <% if (locals.flash && locals.flash.error) { %>
+                            <div class="ui negative message"><ul>
+                            <% for (error of flash.error) { %>
+                                <li><%= error %></li>
+                            <% } %>
+                            </ul></div>
+                        <% } %>
                         <div class="ui animated fade large fluid violet button" type="submit" onClick="sendForm()">
                         <div class="visible content">Register</div>
                         <div class="hidden content"><i class="icon right arrow"></i></div>
