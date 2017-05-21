@@ -15,10 +15,10 @@
                     <img src="../logo.png">
                 </div>
             </div>
-            <form action="/users/register" method="post" class="ui form attached fluid segment">
+            <form action="/register" method="post" class="ui form attached fluid segment">
                 <% if (locals.flash && locals.flash.success) { %>
                     <div class="ui positive message" id="success"><%= flash.success %></div>
-                    <a href="/users/login">
+                    <a href="/login">
                     <div class="ui animated large fade fluid violet button">
                         <div class="visible content">Login</div>
                         <div class="hidden content"><i class="icon right arrow"></i></div>
@@ -60,7 +60,7 @@
                         <div class="hidden content"><i class="icon right arrow"></i></div>
                         </div>
                         <div class="ui horizontal divider" id="divider">Or </div>
-                        <p id="signup">Already have an account? <a href="/users/login">Sign in <i class="icon caret right"></i></a></p>
+                        <p id="signup">Already have an account? <a href="/login">Sign in <i class="icon caret right"></i></a></p>
                 <% } %>
             </form>
             </div>
@@ -73,6 +73,17 @@
     function sendForm() {
         $('form').submit()
     };
+    $('.ui.image').transition('jiggle').click(function(){
+        let array = [
+            'jiggle',
+            'tada',
+            'pulse',
+            'shake',
+            'bounce'
+        ];
+        let random = 0 + Math.floor(Math.random() * 4);
+        $('.ui.image').transition(array[random]) 
+    });
     $('form').form({
         inline: true,
         fields: {

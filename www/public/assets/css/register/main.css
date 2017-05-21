@@ -38,6 +38,6 @@ body {
   color: #bbb;
 }
 
-#registerform #success {
+#registerform #success, #registerform #error {
   text-align: center;
 }

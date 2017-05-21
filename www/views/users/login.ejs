@@ -10,15 +10,17 @@
     <div class="ui container" id="container">
         <div class="ui centered grid" id="registerform">
             <div class="six wide tablet eight wide column">
-            <% if (locals.flash && locals.flash.error) { %>
-                <div class="ui negative message"><%= flash.error %></div>
-            <% } %>
             <div class="ui message" id="header">
                 <div class="ui image">
                     <img src="../logo.png">
                 </div>
             </div>
-            <form action="/users/login" method="post" class="ui form attached fluid segment">
+            <form action="/login" method="post" class="ui form attached fluid segment">
+            <% if (locals.flash && locals.flash.error) { %>
+                <div class="ui negative message" id="error">
+                <%= flash.error %>
+                </div>
+            <% } %>
                 <div class="field">
                     <label>E-mail</label>
                     <div class="ui left icon input">
@@ -39,7 +41,7 @@
                 </div>
                 <div class="field">
                 <div class="ui horizontal divider" id="divider">new to matcha ?</div>
-                <a href="/users/register"><div class="ui basic large violet fluid button">Register</div></a>
+                <a href="/register"><div class="ui basic large violet fluid button">Register</div></a>
                 </div>
             </form>
             </div>
@@ -51,6 +53,17 @@
     function sendForm() {
         $('form').submit()
     };
+    $('.ui.image').transition('jiggle').click(function(){
+        let array = [
+            'jiggle',
+            'tada',
+            'pulse',
+            'shake',
+            'bounce'
+        ];
+        let random = 0 + Math.floor(Math.random() * 4);
+        $('.ui.image').transition(array[random]) 
+    });
     $('form').form({
         inline: true,
         fields: {
