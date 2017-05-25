@@ -1,0 +1,22 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="/semantic/semantic.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+<script src="/assets/datepicker/dist/datepicker.min.js"></script>
+<script>
+function sendForm() {
+    $('form').submit()
+};
+$('.ui.image').transition('jiggle').click(function(){
+    let array = [
+        'jiggle',
+        'tada',
+        'pulse',
+        'shake',
+        'bounce'
+    ];
+    let random = 0 + Math.floor(Math.random() * 4);
+    $('.ui.image').transition(array[random]) 
+});
+</script>
+</body>
+</html>

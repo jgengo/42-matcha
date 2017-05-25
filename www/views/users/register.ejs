@@ -1,90 +1,64 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Matcha</title>
-    <link rel="stylesheet" type="text/css" href="../semantic/semantic.min.css">
-    <link rel="stylesheet" type="text/css" href="../assets/css/register/main.css">
-</head>
-<body>
-    <div class="ui container" id="container">
-        <div class="ui centered grid" id="registerform">
-            <div class="six wide tablet eight wide column">
-            <div class="ui message" id="header">
-                <div class="ui image">
-                    <img src="../logo.png">
-                </div>
-            </div>
-            <form action="/register" method="post" class="ui form attached fluid segment">
-                <% if (locals.flash && locals.flash.success) { %>
-                    <div class="ui positive message" id="success"><%= flash.success %></div>
-                    <a href="/login">
-                    <div class="ui animated large fade fluid violet button">
-                        <div class="visible content">Login</div>
-                        <div class="hidden content"><i class="icon right arrow"></i></div>
-                    </div></a>
-                <% } else { %>
-                    <!-- <div class="two fields"> -->
-                        <div class="field">
-                        <label>First name</label>
-                        <input type="text" name="firstName" onfocus="this.placeholder=''" onblur="this.placeholder='Jordane'" placeholder="Jordane">
-                        </div>
-                        <div class="field">
-                        <label>Last name</label>
-                        <input type="text" name="lastName" onfocus="this.placeholder=''" onblur="this.placeholder='Gengo'" placeholder="Gengo">
-                        </div>
-                    <!-- </div> -->
-                    <div class="field">
-                        <label>E-mail</label>
-                        <input type="email" name="email" onfocus="this.placeholder=''" onblur="this.placeholder='jgengo@student.42.fr'" placeholder="jgengo@student.42.fr">
-                    </div>
-                    <!-- <div class="two fields"> -->
-                        <div class="field">
-                        <label>Password</label>
-                        <input type="password" name="password" onfocus="this.placeholder=''" onblur="this.placeholder='at least 8 characters'" placeholder="at least 8 characters">
-                        </div>
-                        <div class="field">
-                        <label>Re-enter password</label>
-                        <input type="password" name="passwordCheck" placeholder="">
-                        </div>
-                    <!-- </div> -->
-                        <% if (locals.flash && locals.flash.error) { %>
-                            <div class="ui negative message"><ul>
-                            <% for (error of flash.error) { %>
-                                <li><%= error %></li>
-                            <% } %>
-                            </ul></div>
-                        <% } %>
-                        <div class="ui animated fade large fluid violet button" type="submit" onClick="sendForm()">
-                        <div class="visible content">Register</div>
-                        <div class="hidden content"><i class="icon right arrow"></i></div>
-                        </div>
-                        <div class="ui horizontal divider" id="divider">Or </div>
-                        <p id="signup">Already have an account? <a href="/login">Sign in <i class="icon caret right"></i></a></p>
-                <% } %>
-            </form>
+<%- include("_header") %>
+    <div class="ui centered grid" id="registerform">
+        <div class="six wide tablet eight wide column">
+        <div class="ui message" id="header">
+            <div class="ui image">
+                <img src="../logo.png">
             </div>
         </div>
+        <form action="/register" method="post" class="ui form attached fluid segment">
+            <% if (locals.flash && locals.flash.success) { %>
+                <div class="ui positive message" id="success"><%= flash.success %></div>
+                <a href="/login">
+                <div class="ui animated large fade fluid violet button">
+                    <div class="visible content">Login</div>
+                    <div class="hidden content"><i class="icon right arrow"></i></div>
+                </div></a>
+            <% } else { %>
+                <!-- <div class="two fields"> -->
+                    <div class="field">
+                    <label>First name</label>
+                    <input type="text" name="firstName" onfocus="this.placeholder=''" onblur="this.placeholder='Jordane'" placeholder="Jordane">
+                    </div>
+                    <div class="field">
+                    <label>Last name</label>
+                    <input type="text" name="lastName" onfocus="this.placeholder=''" onblur="this.placeholder='Gengo'" placeholder="Gengo">
+                    </div>
+                <!-- </div> -->
+                <div class="field">
+                    <label>E-mail</label>
+                    <input type="email" name="email" onfocus="this.placeholder=''" onblur="this.placeholder='jgengo@student.42.fr'" placeholder="jgengo@student.42.fr">
+                </div>
+                    <div class="field">
+                    <label>Password</label>
+                    <input type="password" name="password" onfocus="this.placeholder=''" onblur="this.placeholder='at least 8 characters'" placeholder="at least 8 characters">
+                    </div>
+                    <div class="field">
+                    <label>Password confirmation</label>
+                    <input type="password" name="passwordCheck" placeholder="">
+                    </div>
+                    <% if (locals.flash && locals.flash.error) { %>
+                        <div class="ui negative message"><ul>
+                        <% for (error of flash.error) { %>
+                            <li><%= error %></li>
+                        <% } %>
+                        </ul></div>
+                    <% } %>
+                    <div class="ui animated fade large fluid violet button" type="submit" onClick="sendForm()">
+                    <div class="visible content">Register</div>
+                    <div class="hidden content"><i class="icon right arrow"></i></div>
+                    </div>
+                    <div class="ui horizontal divider" id="divider">Or </div>
+                    <p id="signup">Already have an account? <a href="/login">Sign in <i class="icon caret right"></i></a></p>
+            <% } %>
+        </form>
+        </div>
     </div>
+</div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="../semantic/semantic.min.js"></script>
-    <script>
-    function sendForm() {
-        $('form').submit()
-    };
-    $('.ui.image').transition('jiggle').click(function(){
-        let array = [
-            'jiggle',
-            'tada',
-            'pulse',
-            'shake',
-            'bounce'
-        ];
-        let random = 0 + Math.floor(Math.random() * 4);
-        $('.ui.image').transition(array[random]) 
-    });
-    $('form').form({
+<%- include("_footer") %>
+<script>
+$('form').form({
         inline: true,
         fields: {
             firstName: { identifier: 'firstName', rules: [{ type: 'empty', prompt: 'Please enter your first name' }] },
@@ -94,9 +68,4 @@
             passwordCheck: { identifier: 'passwordCheck', rules: [{ type: 'empty', prompt: 'Please re-enter your password' }, { type: 'minLength[8]', prompt: 'Your password must be at least {ruleValue} characters'}, {type: 'match[password]', prompt: 'Passwords don\'t match'}] }
         }
     });
-    </script>
-
-
-    
-</body>
-</html>
+</script>

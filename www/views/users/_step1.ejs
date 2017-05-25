@@ -1,0 +1,80 @@
+<div class="ui form">
+
+  <!-- Gender -->
+  <div class="field">
+    <label>Gender</label>
+    <div class="inline fields center aligned column">
+      <div class="field">
+        <div class="ui radio checkbox">
+          <input type="radio" name="gender" checked="" tabindex="0" class="hidden">
+          <i class="blue huge icons">
+            <i class="big thin circle icon"></i>
+            <i class="male icon"></i>
+          </i>
+          <label>Male</label>
+        </div>
+      </div>
+      <div class="field">
+        <div class="ui radio checkbox">
+          <input type="radio" name="gender" tabindex="0" class="hidden">
+          <i class="huge icons">
+            <i class="purple big thin circle icon"></i>
+            <i class="purple female icon"></i>
+          </i>
+          <label>Female</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Orientation -->
+  <div class="field">
+    <label>Interrested by</label>
+    <div class="inline fields">
+      <div class="field">
+        <div class="ui radio checkbox">
+          <input type="radio" name="orientation" checked="" tabindex="0" class="hidden">
+          <label>Men</label>
+        </div>
+      </div>
+      <div class="field">
+        <div class="ui radio checkbox">
+          <input type="radio" name="orientation" tabindex="0" class="hidden">
+          <label>Women</label>
+        </div>
+      </div>
+      <div class="field">
+        <div class="ui radio checkbox">
+          <input type="radio" name="orientation" tabindex="0" class="hidden">
+          <label>Both</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Birthdate -->
+  <div class="field">
+    <label>Birthdate</label>
+    <input data-toggle="datepicker" placeholder="Click here to select your birthdate">
+  </div>
+
+  <!-- Location -->
+  <div cass="field">
+    <label>Location</label>
+    <input type="text" placeholder="Paris" />
+    <div class="ui checkbox" style="margin-top: 5px">
+      <input type="checkbox" name="checkLocation" />
+      <label>Hide from others</label>
+    </div>
+  </div>
+
+  <!-- Button -->
+  <div class="field" style="margin-top: 20px">
+    <div class="ui animated fade large fluid violet button" type="submit" onClick="sendForm()">
+      <div class="visible content">Confirm</div>
+      <div class="hidden content"><i class="icon right arrow"></i></div>
+    </div>
+  </div>
+
+
+</div>

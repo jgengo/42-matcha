@@ -1,0 +1,42 @@
+<%- include("_header") %>
+
+<div class="ui centered grid" id="registerform">
+    <div class="six wide tablet twelve wide column">
+            <div class="ui message" id="header">
+    <div class="ui image">
+        <img src="/logo.png">
+    </div>
+</div>
+<div class="ui three top attached steps tiny">
+  <div class="completed step">
+    <i class="truck icon"></i>
+    <div class="content">
+      <div class="title">Register</div>
+      <div class="description">First step into our world</div>
+    </div>
+  </div>
+  <div class="<%= (user.validate_step === 1) ? 'active' : 'completed' %> step">
+    <i class="add user icon"></i>
+    <div class="content">
+      <div class="title">Basic</div>
+      <div class="description">Enter basic informations</div>
+    </div>
+  </div>
+  <div class="<%= (user.validate_step === 2) ? 'active' : 'disabled' %> step">
+    <i class="info icon"></i>
+    <div class="content">
+      <div class="title">Advanced</div>
+      <div class="description">Give us moar details</div>
+    </div>
+  </div>
+</div>
+<div class="ui attached segment">
+   <%- include("_step"+user.validate_step) %>
+</div>
+
+<%- include("_footer") %>
+<script>
+$('.ui.radio.checkbox').checkbox();
+$('.ui.checkbox').checkbox();
+$('[data-toggle="datepicker"]').datepicker({format: 'yyyy-mm-dd'});
+</script>

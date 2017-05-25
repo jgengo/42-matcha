@@ -1,13 +1,4 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Matcha</title>
-    <link rel="stylesheet" type="text/css" href="../semantic/semantic.min.css">
-    <link rel="stylesheet" type="text/css" href="../assets/css/register/main.css">
-</head>
-<body>
-    <div class="ui container" id="container">
+<%- include("_header") %>
         <div class="ui centered grid" id="registerform">
             <div class="six wide tablet eight wide column">
             <div class="ui message" id="header">
@@ -16,11 +7,13 @@
                 </div>
             </div>
             <form action="/login" method="post" class="ui form attached fluid segment">
-            <% if (locals.flash && locals.flash.error) { %>
-                <div class="ui negative message" id="error">
-                <%= flash.error %>
-                </div>
-            <% } %>
+                <% if (locals.flash && locals.flash.error) { %>
+                    <div class="ui negative message"><ul>
+                    <% for (error of flash.error) { %>
+                        <li><%= error %></li>
+                    <% } %>
+                    </ul></div>
+                <% } %>
                 <div class="field">
                     <label>E-mail</label>
                     <div class="ui left icon input">
@@ -47,28 +40,31 @@
             </div>
         </div>
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="../semantic/semantic.min.js"></script>   
-    <script>
-    function sendForm() {
-        $('form').submit()
-    };
-    $('.ui.image').transition('jiggle').click(function(){
-        let array = [
-            'jiggle',
-            'tada',
-            'pulse',
-            'shake',
-            'bounce'
-        ];
-        let random = 0 + Math.floor(Math.random() * 4);
-        $('.ui.image').transition(array[random]) 
-    });
-    $('form').form({
-        inline: true,
-        fields: {
-            email: { identifier: 'email', rules: [{ type: 'email', prompt: 'Please enter a valid email' }] },
-            password: { identifier: 'password', rules: [{ type: 'empty', prompt: 'Please enter your password' }, { type: 'minLength[8]', prompt: 'Your password must be at least {ruleValue} characters'}] }
-        }
-    });
-    </script>
+<%- include("_footer") %>
+<script>
+$('form').form({
+    inline: true,
+    fields: {
+        email: { identifier: 'email', rules: [{ type: 'email', prompt: 'Please enter a valid email' }] },
+        password: { identifier: 'password', rules: [{ type: 'empty', prompt: 'Please enter your password' }, { type: 'minLength[8]', prompt: 'Your password must be at least {ruleValue} characters'}] }
+    }
+});
+toastr.options = {
+  "closeButton": true,
+  "newestOnTop": true,
+  "progressBar": true,
+  "positionClass": "toast-top-right",
+  "preventDuplicates": true,
+  "showDuration": "300",
+  "hideDuration": "1000",
+  "timeOut": "5000",
+  "extendedTimeOut": "1000",
+  "showEasing": "swing",
+  "hideEasing": "linear",
+  "showMethod": "fadeIn",
+  "hideMethod": "fadeOut"
+}
+<% if (locals.toastr && locals.toastr.error) { %>
+    toastr["error"]("<%= toastr.error[0] %>","<%= toastr.error[1] %>")
+<% } %>
+</script>

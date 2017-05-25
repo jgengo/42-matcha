@@ -10,7 +10,7 @@ class Checker {
     }
     static _isBigEnough(param, name, size)
     {
-    	return param.length < size ? name + " is not enough big" : undefined
+    	return param.length < size && param.length > 0 ? name + " is not enough big" : undefined
     }
 
     static register (params, callback)
@@ -24,6 +24,16 @@ class Checker {
             this._isEqual(params.password, params.passwordCheck, 'Passwords'),
             this._isBigEnough(params.password, 'Password', 8),
             this._isBigEnough(params.passwordCheck, 'Password Check', 8)
+        ]
+        let callbacks = array.filter( (d) => d !== undefined );
+        callbacks.length ? callback(callbacks) : callback('ok')
+    }
+    static login (params, callback)
+    {
+        let array = [
+            this._isRequired(params.email, 'E-mail'),
+            this._isRequired(params.password, 'Password'),
+            this._isBigEnough(params.password, 'Password', 8)
         ]
         let callbacks = array.filter( (d) => d !== undefined );
         callbacks.length ? callback(callbacks) : callback('ok')

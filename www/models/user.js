@@ -5,6 +5,18 @@ class User {
     constructor(row) {
         this.row = row
     }
+    get id() {
+    	return this.row.id
+    }
+    get first_name() {
+    	return this.row.first_name
+    }
+    get last_name() {
+    	return this.row.last_name
+    }
+    get validate_step() {
+    	return this.row.validate_step
+    }
     get email() {
         return this.row.email
     }
@@ -31,7 +43,10 @@ class User {
     static find(content, callback) {
         connection.query('SELECT * FROM users WHERE id = ? LIMIT 1', [content], (err, rows) => {
             if (err) throw err
-            callback(new User(rows[0]))
+            if (rows.length)
+            	callback(new User(rows[0]))
+            else
+            	callback('invalid')
         })
     }
     static all(callback) {
@@ -42,16 +57,16 @@ class User {
     }
 
     static sign_in(content, callback) {
-    	connection.query('SELECT email, password FROM users WHERE email = ? LIMIT 1', [content.email], (err, rows) => {
+    	connection.query('SELECT * FROM users WHERE email = ? LIMIT 1', [content.email], (err, rows) => {
     		if (err) throw err
     		if (rows.length) {
     			let bcrypt = require('bcrypt');
     			bcrypt.compare(content.password, rows[0].password, (err, res) => {
     				if (err) throw err
-    				callback(res ? true : "Invalid password");
+    				callback(res ? new User(rows[0]) : ["Invalid password"]);
     			})
     		} else
-    			callback("Unknown e-mail")
+    			callback(["Unknown e-mail"])
     	})
     }
 
