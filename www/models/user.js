@@ -55,6 +55,21 @@ class User {
             callback(rows.map((row) => new User(row)))
         })
     }
+    static update(req, callback) {
+        let params = req.body
+        let sql = "UPDATE users SET"
+        for (var prop in params)
+            sql += " " + prop + " = " + connection.escape(params[prop]) + ","
+        sql = sql.slice(0, -1)
+        sql += " WHERE id = " + connection.escape(req.session.user.id)
+        console.log(sql)
+        connection.query(sql, (err, res) => {
+            if (err) throw err
+            callback('success')
+        })
+    }
+
+
 
     static sign_in(content, callback) {
     	connection.query('SELECT * FROM users WHERE email = ? LIMIT 1', [content.email], (err, rows) => {

@@ -1,5 +1,11 @@
 let fs = require('fs');
 
+
+// Model
+//-----------------------------------------------------------------------------------------------
+let User = require('../models/user')
+let Checker = require('../models/checker')
+
 // Functions
 //-----------------------------------------------------------------------------------------------
 function isAuth(req, res, next) {
@@ -14,8 +20,9 @@ function isValidated(req, res, next) {
   if (req.session.user !== undefined && req.session.user.validate_step !== undefined) {
     if (req.session.user.validate_step !== 0)
       res.redirect('/register/step/')
+  } else {
+    next()
   }
-  next()
 }
 
 // Routes
@@ -31,9 +38,7 @@ module.exports = (app) => {
     .get('/register', (req, res) => {
         res.render('users/register')
     })
-    .post('/register', (req, res) => {
-        let Checker = require('../models/checker')
-        let User = require('../models/user')
+    .post('/register', (req, res) => {  
         Checker.register(req.body, (callback) => {
             if (callback !== 'ok') {
                 req.flash('error', callback)
@@ -50,7 +55,7 @@ module.exports = (app) => {
     // app.get('/users/:id', (req, res) => {
     //     let id = req.params.id;
     //     if (parseInt(id, 10)) {
-    //       let User = require('../models/user')
+    //       
     //       User.find(id, (user) => {
     //           res.render('users/index', {
     //               user: user
@@ -66,9 +71,6 @@ module.exports = (app) => {
         res.render('users/login')
     })
     .post('/login', (req, res) => {
-        let User = require('../models/user')
-        let Checker = require('../models/checker')
-
         Checker.login(req.body, (callback) => {
             if (callback !== 'ok') {
                 req.flash('error', callback)
@@ -96,12 +98,32 @@ module.exports = (app) => {
     //-------------------------------------------------------------------------------------------
     app.get('/register/step/', isAuth, (req, res) => {
       res.render('users/step', {user: req.session.user})
-      // let id = req.params.id;
-      // if (parseInt(id, 10)) {
-      //   let User = require('../models/user')
-
-      // }
     })
+    app.post('/register/step', isAuth, (req, res) => {
+      if (req.session.user.validate_step == 1) {
+        Checker.register_step_1(req.body, (callback) => {
+          if (callback !== 'ok') {
+            req.flash('error', callback)
+            res.redirect('step')
+          } else {
+            if (req.body.interested_by.length == 2 || req.body.interested_by.length == 0)
+              req.body.interested_by = 'both'
+            User.update(req, (callback) => {
+              if (callback === 'success') {
+                req.session.user.validate_step = 2
+                res.redirect('step')
+              }
+            })
+          }
+       })
+      }
+      else if (req.session.user.validate_step == 2) {
+        console.log('2');
+      } else {
+        res.redirect('/')
+      }
+
+  })
 
 
 }

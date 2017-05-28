@@ -1,0 +1,22 @@
+<form action="/register/step" method="post" class="ui form">
+
+  <!-- Tags -->
+  <div class="field">
+    <label>What do you like</label>
+    <input type="text" value="C, Ruby on Rails" data-role="tagsinput" id='tags' />
+  </div>
+  
+  <!-- Biography -->
+  <div class="field">
+    <label>More about you</label>
+    <textarea name='bio' id='bio'></textarea>
+  </div>
+
+  <!-- Button -->
+  <div class="field" style="margin-top: 20px">
+    <div class="ui animated fade large fluid violet button" type="submit" onClick="sendForm()">
+      <div class="visible content">Confirm</div>
+      <div class="hidden content"><i class="icon right arrow"></i></div>
+    </div>
+  </div>
+ </form>

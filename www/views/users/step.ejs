@@ -1,7 +1,7 @@
 <%- include("_header") %>
 
 <div class="ui centered grid" id="registerform">
-    <div class="six wide tablet twelve wide column">
+    <div class="ten wide tablet eight wide column">
             <div class="ui message" id="header">
     <div class="ui image">
         <img src="/logo.png">
@@ -19,24 +19,54 @@
     <i class="add user icon"></i>
     <div class="content">
       <div class="title">Basic</div>
-      <div class="description">Enter basic informations</div>
+      <div class="description">Enter basic information</div>
     </div>
   </div>
   <div class="<%= (user.validate_step === 2) ? 'active' : 'disabled' %> step">
     <i class="info icon"></i>
     <div class="content">
       <div class="title">Advanced</div>
-      <div class="description">Give us moar details</div>
+      <div class="description">Give us some more details</div>
     </div>
   </div>
 </div>
 <div class="ui attached segment">
    <%- include("_step"+user.validate_step) %>
 </div>
-
 <%- include("_footer") %>
+
+
 <script>
 $('.ui.radio.checkbox').checkbox();
 $('.ui.checkbox').checkbox();
 $('[data-toggle="datepicker"]').datepicker({format: 'yyyy-mm-dd'});
+
+
+<% if (user.validate_step == 1) { %>
+$('#g_male').click(function() {
+  $(this).toggleClass('grey violet inverted');
+  $('#g_female').toggleClass('grey violet inverted');
+  $('input[type="radio"]').not(':checked').prop("checked", true);
+});
+$('#g_female').click(function() { 
+  $(this).toggleClass('grey violet inverted');
+  $('#g_male').toggleClass('grey violet inverted');
+  $('input[type="radio"]').not(':checked').prop("checked", true);
+});
+
+$('#o_male').click(function() {
+  $(this).toggleClass('grey violet inverted');
+  $('#c_o_male').prop("checked", !$('#c_o_male').prop("checked"))
+});
+$('#o_female').click(function() {
+  $(this).toggleClass('grey violet inverted');
+  $('#c_o_female').prop("checked", !$('#c_o_female').prop("checked"))
+});
+<% } if (user.validate_step == 2) { %>
+$('#tags').tagsinput({
+  maxTags: 5,
+  tagClass: 'ui violet label'
+});
+<% } %>
+
 </script>
