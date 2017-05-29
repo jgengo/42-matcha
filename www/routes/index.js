@@ -46,26 +46,16 @@ module.exports = (app) => {
             } else {
                 User.create(req.body, (callback) => {
                     if (callback === 'success')
-                        req.flash('success', "Welcome to matcha site!")
+                      req.flash('success', "Welcome to matcha site!")
+                    else if (callback === 'taken')
+                      req.flash('error', ["E-mail already taken!"])
                     res.redirect('register')
                 })
             }
         })
     })
-    // app.get('/users/:id', (req, res) => {
-    //     let id = req.params.id;
-    //     if (parseInt(id, 10)) {
-    //       
-    //       User.find(id, (user) => {
-    //           res.render('users/index', {
-    //               user: user
 
-    //           })
-    //       })
-    //     } else {
-    //       res.render('users/index', {user: 'invalid'})    
-    //     }
-    // })
+
     app
     .get('/login', (req, res) => {
         res.render('users/login')
@@ -106,8 +96,10 @@ module.exports = (app) => {
             req.flash('error', callback)
             res.redirect('step')
           } else {
-            if (req.body.interested_by.length == 2 || req.body.interested_by.length == 0)
+            if ( (req.body.interested_by && req.body.interested_by.length == 2) || !req.body.interested_by)
               req.body.interested_by = 'both'
+            if (req.body.birthdate == '') 
+              delete req.body.birthdate
             User.update(req, (callback) => {
               if (callback === 'success') {
                 req.session.user.validate_step = 2
@@ -118,7 +110,16 @@ module.exports = (app) => {
        })
       }
       else if (req.session.user.validate_step == 2) {
-        console.log('2');
+        console.log(req.body);
+        Checker.register_step_2(req.body, (callback) => {
+          if (callback !== 'ok') {
+            req.flash('error', callback)
+            res.redirect('step')
+          } else {
+            console.log(req.body);
+            res.redirect('step')
+          }
+        })
       } else {
         res.redirect('/')
       }

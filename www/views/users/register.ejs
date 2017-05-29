@@ -15,6 +15,13 @@
                     <div class="hidden content"><i class="icon right arrow"></i></div>
                 </div></a>
             <% } else { %>
+                <% if (locals.flash && locals.flash.error) { %>
+                    <div class="ui negative message"><ul>
+                    <% for (error of flash.error) { %>
+                        <li><%= error %></li>
+                    <% } %>
+                     </ul></div>
+                <% } %>
                 <!-- <div class="two fields"> -->
                     <div class="field">
                     <label>First name</label>
@@ -37,13 +44,6 @@
                     <label>Password confirmation</label>
                     <input type="password" name="passwordCheck" placeholder="">
                     </div>
-                    <% if (locals.flash && locals.flash.error) { %>
-                        <div class="ui negative message"><ul>
-                        <% for (error of flash.error) { %>
-                            <li><%= error %></li>
-                        <% } %>
-                        </ul></div>
-                    <% } %>
                     <div class="ui animated fade large fluid violet button" type="submit" onClick="sendForm()">
                     <div class="visible content">Register</div>
                     <div class="hidden content"><i class="icon right arrow"></i></div>

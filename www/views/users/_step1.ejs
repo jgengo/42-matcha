@@ -7,6 +7,16 @@
   <input type="checkbox" name="interested_by" id="c_o_female" value="female" hidden>
   <input type="text" name='validate_step' value='2' hidden>
 
+
+  <% if (locals.flash && locals.flash.error) { %>
+    <div class="ui negative message"><ul>
+    <% for (error of flash.error) { %>
+      <li><%= error %></li>
+    <% } %>
+    </ul></div>
+  <% } %>
+
+
   <!-- Gender -->
   <div class="field">
     <label>Gender</label>

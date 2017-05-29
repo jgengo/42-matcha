@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(session({ secret: 'wonderful42', resave: false, saveUninitialized: true, cookie: { secure: false } }))
 app.use(require(__dirname + '/middlewares/flash.js'))
-require('underscore-express')(app);
+
 // Views & templating engine
 //-----------------------------------------------------------------------------------------------
 app.set('views', './views')

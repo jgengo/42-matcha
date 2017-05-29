@@ -1,9 +1,17 @@
 <form action="/register/step" method="post" class="ui form">
 
+  <% if (locals.flash && locals.flash.error) { %>
+    <div class="ui negative message"><ul>
+    <% for (error of flash.error) { %>
+      <li><%= error %></li>
+    <% } %>
+    </ul></div>
+  <% } %>
+
   <!-- Tags -->
   <div class="field">
     <label>What do you like</label>
-    <input type="text" value="C, Ruby on Rails" data-role="tagsinput" id='tags' />
+    <input type="text" name="tags" value="C, Ruby on Rails" data-role="tagsinput" id='tags' />
   </div>
   
   <!-- Biography -->

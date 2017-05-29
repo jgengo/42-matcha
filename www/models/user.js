@@ -2,6 +2,8 @@ let connection = require('../config/db')
 
 class User {
 
+    // Getter
+    //---------------------------------------------------------------------------------------------------------------------
     constructor(row) {
         this.row = row
     }
@@ -21,6 +23,8 @@ class User {
         return this.row.email
     }
 
+    // Rails like functions
+    //---------------------------------------------------------------------------------------------------------------------
     static create(content, callback) {
         connection.query('SELECT email FROM users WHERE email = ?', [content.email], (err, result) => {
             if (err) throw err
@@ -70,7 +74,8 @@ class User {
     }
 
 
-
+    // Methods
+    //---------------------------------------------------------------------------------------------------------------------
     static sign_in(content, callback) {
     	connection.query('SELECT * FROM users WHERE email = ? LIMIT 1', [content.email], (err, rows) => {
     		if (err) throw err
