@@ -10,13 +10,13 @@
 
   <!-- Tags -->
   <div class="field">
-    <label>What do you like</label>
+    <label id='mi'>Main interests</label>
     <input type="text" name="tags" value="C, Ruby on Rails" data-role="tagsinput" id='tags' />
   </div>
   
   <!-- Biography -->
   <div class="field">
-    <label>More about you</label>
+    <label>About you</label>
     <textarea name='bio' id='bio'></textarea>
   </div>
 
@@ -27,4 +27,13 @@
       <div class="hidden content"><i class="icon right arrow"></i></div>
     </div>
   </div>
- </form>
+</form>
+<div class="ui right close rail">
+  <div class="ui segment" id="helpbox">
+    <h5 class='ui header violet'>Main interests</h5>
+    <p>Give us up to five of your favourite things to help us find your perfect match.</p>
+    </div><div class='ui segment' id='helpbox'>
+    <h5 class='ui header violet'>About you</h5>
+      <p>Tell other members a bit more about yourself. This will be the bio used for your personal profile.</p>
+  </div>
+</div>

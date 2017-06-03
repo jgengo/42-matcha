@@ -10,12 +10,16 @@ class Checker {
 
     static _isEqual(param1, param2, name)
     {
-    	return param1 !== param2 ? name + " don't match" : undefined
+      return param1 !== param2 ? name + " don't match" : undefined
     }
 
     static _isBigEnough(param, name, size)
     {
-    	return param.length < size && param.length > 0 ? name + " is not enough big" : undefined
+      return param.length < size && param.length > 0 ? name + " is not enough big" : undefined
+    }
+    static _isNotBiggerThan(param, name, size)
+    {
+        return param.length > size ? "too much " + name + " given" : undefined 
     }
 
     static _checkInclusion(sp, params)
@@ -38,58 +42,75 @@ class Checker {
 
     // Login and register forms
     //---------------------------------------------------------------------------------------------------------------------
+
     static login (params, callback)
     {
         let strong_parameters = ['email', 'password']
-        
-        if (this._checkInclusion(strong_parameters, params) == -1)
-           callback(['Inclusion detected'])
-        else {
-            let array = [
-                this._isRequired(params.email, 'E-mail'),
-                this._isRequired(params.password, 'Password'),
-                this._isBigEnough(params.password, 'Password', 8)
-            ]
-            let callbacks = array.filter( (d) => d !== undefined );
-            callbacks.length ? callback(callbacks) : callback('ok')
-        }
+
+        return new Promise( (resolve, reject) => {
+            if (this._checkInclusion(strong_parameters, params) == -1) reject(['Inclusion detected']);
+            else {
+                let array = [
+                    this._isRequired(params.email, 'E-mail'),
+                    this._isRequired(params.password, 'Password'),
+                    this._isBigEnough(params.password, 'Password', 8)
+                ]
+                let filtered = array.filter( (d) => d !== undefined );
+                filtered.length ? reject(filtered) : resolve()                
+            }
+        })
     }
 
-
-    static register (params, callback)
-    {
+    static register (params) {
         let strong_parameters = ['firstName', 'lastName', 'email', 'password', 'passwordCheck']
 
-        if (this._checkInclusion(strong_parameters, params) == -1) 
-            callback(['Inclusion detected'])
-        else {
-            let array = [
-                this._isRequired(params.firstName, 'First name'),
-                this._isRequired(params.lastName, 'Last name'),
-                this._isRequired(params.email, 'E-mail'),
-                this._isRequired(params.password, 'Password'),
-                this._isRequired(params.passwordCheck, 'Password Check'),
-                this._isEqual(params.password, params.passwordCheck, 'Passwords'),
-                this._isBigEnough(params.password, 'Password', 8),
-                this._isBigEnough(params.passwordCheck, 'Password Check', 8)
-            ]
-            let callbacks = array.filter( (d) => d !== undefined );
-            callbacks.length ? callback(callbacks) : callback('ok')
-        }
+        return new Promise( (resolve, reject) => {
+            if (this._checkInclusion(strong_parameters, params) == -1) reject(['Inclusion deteted'])
+            else {
+                let array = [
+                    this._isRequired(params.firstName, 'First name'),
+                    this._isRequired(params.lastName, 'Last name'),
+                    this._isRequired(params.email, 'E-mail'),
+                    this._isRequired(params.password, 'Password'),
+                    this._isRequired(params.passwordCheck, 'Password Check'),
+                    this._isEqual(params.password, params.passwordCheck, 'Passwords'),
+                    this._isBigEnough(params.password, 'Password', 8),
+                    this._isBigEnough(params.passwordCheck, 'Password Check', 8)
+                ]
+                let filtered = array.filter( (d) => d !== undefined );
+                filtered.length ? reject(filtered) : resolve() 
+            }
+        })
     }
 
-    static register_step_1(params, callback)
+    static register_step_1(params)
     {
-        let strong_parameters = ['validate_step', 'gender', 'birthdate','location', 'hide_location', 'interested_by']
-        if (this._checkInclusion(strong_parameters, params) == -1)
-            callback(['Inclusion detected'])
+      let strong_parameters = ['validate_step', 'gender', 'birthdate','location', 'hide_location', 'interested_by']
 
-        let array = [
-            this._isRequired(params.gender, 'Gender')
-        ]
-        let callbacks = array.filter( (d) => d !== undefined );
-        callbacks.length ? callback(callback) : callback('ok')
+      return new Promise ( (resolve, reject) => {
+        if (this._checkInclusion(strong_parameters, params) == -1)
+          reject(['Inclusion detected']);
+        else {
+          let array = [
+              this._isRequired(params.gender, 'Gender')
+          ]
+          let filtered = array.filter( (d) => d !== undefined );
+          filtered.length ? reject(callback) : resolve()            
+        }
+      })
     }
+    // static register_step_1(params, callback)
+    // {
+    //     let strong_parameters = ['validate_step', 'gender', 'birthdate','location', 'hide_location', 'interested_by']
+    //     if (this._checkInclusion(strong_parameters, params) == -1)
+    //         callback(['Inclusion detected'])
+
+    //     let array = [
+    //         this._isRequired(params.gender, 'Gender')
+    //     ]
+    //     let callbacks = array.filter( (d) => d !== undefined );
+    //     callbacks.length ? callback(callback) : callback('ok')
+    // }
 
     static register_step_2(params, callback)
     {
@@ -98,7 +119,8 @@ class Checker {
             callback(['Inclusion detected'])
         else {
             let array = [
-                this._isRequired(params.tags, 'Tags')
+                this._isRequired(params.tags, 'Tags'),
+                this._isNotBiggerThan(params.tags.split(','), 'Tags', 5)
             ]
             let callbacks = array.filter( (d) => d !== undefined );
             callbacks.length ? callback(callbacks) : callback('ok')

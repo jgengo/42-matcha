@@ -1,9 +1,12 @@
 // Node framework dependencies
 //-----------------------------------------------------------------------------------------------
-let express 		= require('express');
-let app 			= express();
-let bodyParser 		= require('body-parser');
-let session 		= require('express-session');
+let express       = require('express');
+let app           = express();
+let bodyParser    = require('body-parser');
+let session       = require('express-session');
+
+const chalk       = require('chalk');
+const log         = console.log
 
 // Static & middlewares
 //-----------------------------------------------------------------------------------------------
@@ -23,9 +26,9 @@ app.set('view engine', 'ejs');
 // Global variables
 //-----------------------------------------------------------------------------------------------
 app.locals = {
-	site: {
-		title: "Matcha"
-	} 
+  site: {
+    title: "Matcha"
+  } 
 };
 
 // Routes
@@ -36,5 +39,6 @@ require('./routes')(app);
 // Start server
 //-----------------------------------------------------------------------------------------------
 let server = app.listen(1336, () => {
-  console.log("[matcha] listening on port http://localhost:%s", server.address().port);
+  log('------------------------------------------------------------------------------------------>');
+  log(chalk.bold.yellow('[express]') + " listening on port " + chalk.underline("http://localhost:%s"), server.address().port);
 });

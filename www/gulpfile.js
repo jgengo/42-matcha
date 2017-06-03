@@ -23,12 +23,12 @@ gulp.task('watch', function() {
   return gulp
     .watch(sassInput, ['build-css'])
     .on('change', function(event) {
-      gutil.log('[Gulp] File ' + gutil.colors.gray(event.path) + ' was ' + gutil.colors.gray(event.type) + ', running tasks...');
+      gutil.log(gutil.colors.gray(event.path) + ' was ' + gutil.colors.gray(event.type) + ', running tasks...');
     });
 });
 
 gulp.task('run', function(){
-  return gutil.log('[Gulp] Gulp is running!')
+  return gutil.log('Gulp is running!')
 });
 
 gulp.task('default', ['run', 'build-css', 'watch']);

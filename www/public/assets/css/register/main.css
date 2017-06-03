@@ -60,3 +60,19 @@ body {
 .bootstrap-tagsinput input {
   margin-top: 15px !important;
 }
+
+#mi {
+  margin-bottom: -2px;
+}
+
+#helpbox {
+  box-shadow: none;
+}
+
+#helpbox:not(:first-child) {
+  margin: -0.5rem 0;
+}
+
+#helpbox h5 {
+  margin-bottom: 0.2em;
+}

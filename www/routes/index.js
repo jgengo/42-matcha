@@ -1,10 +1,9 @@
-let fs = require('fs');
-
+let fs        = require('fs');
 
 // Model
 //-----------------------------------------------------------------------------------------------
-let User = require('../models/user')
-let Checker = require('../models/checker')
+let User      = require('../models/user')
+let Checker   = require('../models/checker')
 
 // Functions
 //-----------------------------------------------------------------------------------------------
@@ -39,49 +38,49 @@ module.exports = (app) => {
         res.render('users/register')
     })
     .post('/register', (req, res) => {  
-        Checker.register(req.body, (callback) => {
-            if (callback !== 'ok') {
-                req.flash('error', callback)
-                res.redirect('register')
-            } else {
-                User.create(req.body, (callback) => {
-                    if (callback === 'success')
-                      req.flash('success', "Welcome to matcha site!")
-                    else if (callback === 'taken')
-                      req.flash('error', ["E-mail already taken!"])
-                    res.redirect('register')
-                })
-            }
+      Checker.register(req.body)
+      .then( () => {
+        User.create(req.body)
+        .then( () => {
+          req.flash('success', "Welcome to matcha site!")
+          res.redirect('register')
         })
+        .catch ( (err) => {
+          if (err === 'taken') {
+            req.flash('error', ["E-mail already taken!"])
+            res.redirect('register')
+          }
+        })
+      })
+      .catch ( (err) => {
+        req.flash('error', err);
+        res.redirect('register');
+      })
     })
-
 
     app
     .get('/login', (req, res) => {
         res.render('users/login')
     })
     .post('/login', (req, res) => {
-        Checker.login(req.body, (callback) => {
-            if (callback !== 'ok') {
-                req.flash('error', callback)
-                res.redirect('login')
-            } else {
-                User.sign_in(req.body, (callback) => {
-                    if (callback.constructor.name !== 'User') {
-                        req.flash('error', callback)
-                        res.redirect('login')
-                    } else {
-                        if (req.session.user === undefined) {
-                          req.session.user = {
-                            id: callback.id,
-                            validate_step: callback.validate_step
-                          }
-                          res.redirect('/')
-                        }
-                    }
-                })
-            }
-        })
+      Checker.login (req.body)
+        .then( () => {
+          User.sign_in(req.body)
+            .then( (user) => {
+              if (req.session.user === undefined) {
+                req.session.user = { id: user.id, validate_step: user.validate_step }
+                res.redirect('/');
+              }
+            })
+            .catch( (err) => {
+              req.flash('error', err);
+              res.redirect('login');
+            })
+      })
+      .catch ( (err) => {
+        req.flash('error', err);
+        res.redirect('login');
+      })
     })
 
     // Step registeration
@@ -90,25 +89,25 @@ module.exports = (app) => {
       res.render('users/step', {user: req.session.user})
     })
     app.post('/register/step', isAuth, (req, res) => {
+      
+
       if (req.session.user.validate_step == 1) {
-        Checker.register_step_1(req.body, (callback) => {
-          if (callback !== 'ok') {
-            req.flash('error', callback)
-            res.redirect('step')
-          } else {
+        Checker.register_step_1(req.body)
+          .then( () => {
             if ( (req.body.interested_by && req.body.interested_by.length == 2) || !req.body.interested_by)
               req.body.interested_by = 'both'
+
             if (req.body.birthdate == '') 
               delete req.body.birthdate
-            User.update(req, (callback) => {
-              if (callback === 'success') {
-                req.session.user.validate_step = 2
-                res.redirect('step')
-              }
-            })
-          }
-       })
+
+            User.update(req)
+              .then( () => { req.session.user.validate_step = 2; res.redirect('step'); } )
+              .catch( (err) => { req.flash('Error', err) })
+          })
+          .catch( (err) => { req.flash('error', err); res.redirect('step'); })
       }
+      
+
       else if (req.session.user.validate_step == 2) {
         console.log(req.body);
         Checker.register_step_2(req.body, (callback) => {
@@ -116,7 +115,6 @@ module.exports = (app) => {
             req.flash('error', callback)
             res.redirect('step')
           } else {
-            console.log(req.body);
             res.redirect('step')
           }
         })
