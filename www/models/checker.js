@@ -19,7 +19,7 @@ class Checker {
     }
     static _isNotBiggerThan(param, name, size)
     {
-        return param.length > size ? "too much " + name + " given" : undefined 
+        return param.length > size ? name + " is too big" : undefined 
     }
 
     static _checkInclusion(sp, params)
@@ -85,7 +85,7 @@ class Checker {
 
     static register_step_1(params)
     {
-      let strong_parameters = ['validate_step', 'gender', 'birthdate','location', 'hide_location', 'interested_by']
+      let strong_parameters = ['validate_step', 'gender', 'birthdate','location', 'hide_location', 'interested_by'];
 
       return new Promise ( (resolve, reject) => {
         if (this._checkInclusion(strong_parameters, params) == -1)
@@ -95,38 +95,29 @@ class Checker {
               this._isRequired(params.gender, 'Gender')
           ]
           let filtered = array.filter( (d) => d !== undefined );
-          filtered.length ? reject(callback) : resolve()            
+          filtered.length ? reject(filtered) : resolve()            
         }
       })
     }
-    // static register_step_1(params, callback)
-    // {
-    //     let strong_parameters = ['validate_step', 'gender', 'birthdate','location', 'hide_location', 'interested_by']
-    //     if (this._checkInclusion(strong_parameters, params) == -1)
-    //         callback(['Inclusion detected'])
 
-    //     let array = [
-    //         this._isRequired(params.gender, 'Gender')
-    //     ]
-    //     let callbacks = array.filter( (d) => d !== undefined );
-    //     callbacks.length ? callback(callback) : callback('ok')
-    // }
-
-    static register_step_2(params, callback)
+    static register_step_2(params)
     {
-        let strong_parameters = ['tags', 'bio']
-        if (this._checkInclusion(strong_parameters, params) == -1)
-            callback(['Inclusion detected'])
-        else {
-            let array = [
-                this._isRequired(params.tags, 'Tags'),
-                this._isNotBiggerThan(params.tags.split(','), 'Tags', 5)
-            ]
-            let callbacks = array.filter( (d) => d !== undefined );
-            callbacks.length ? callback(callbacks) : callback('ok')
-        }
-    }
+      let strong_parameters = ['validate_step', 'tags', 'bio'];
 
+      return new Promise ( (resolve, reject) => {
+        if (this._checkInclusion(strong_parameters, params) == -1)
+          reject(['Inclusion detected']);
+        else {
+          let array = [ 
+            this._isRequired(params.tags, 'Tags'),
+            this._isNotBiggerThan(params.tags.split(','), 'Tags', 5),
+            this._isNotBiggerThan(params.bio, 'About you', 1000),
+          ]
+          let filtered = array.filter( (d) => d !== undefined );
+          filtered.length ? reject(filtered) : resolve()
+        }
+      })
+    }
 
 }
 

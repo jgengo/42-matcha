@@ -1,9 +1,11 @@
-let fs        = require('fs');
+let fs          = require('fs');
 
 // Model
 //-----------------------------------------------------------------------------------------------
-let User      = require('../models/user')
-let Checker   = require('../models/checker')
+let User        = require('../models/user');
+let Checker     = require('../models/checker');
+let Tag         = require('../models/tag');
+let TagsUser    = require('../models/tagsuser');
 
 // Functions
 //-----------------------------------------------------------------------------------------------
@@ -17,8 +19,11 @@ function isAuth(req, res, next) {
 }
 function isValidated(req, res, next) {
   if (req.session.user !== undefined && req.session.user.validate_step !== undefined) {
+
     if (req.session.user.validate_step !== 0)
       res.redirect('/register/step/')
+    else
+      next()
   } else {
     next()
   }
@@ -109,15 +114,39 @@ module.exports = (app) => {
       
 
       else if (req.session.user.validate_step == 2) {
-        console.log(req.body);
-        Checker.register_step_2(req.body, (callback) => {
-          if (callback !== 'ok') {
-            req.flash('error', callback)
-            res.redirect('step')
-          } else {
-            res.redirect('step')
-          }
-        })
+        Checker.register_step_2(req.body)
+          .then( () => {
+            req.body.tags.toLowerCase().split(',').forEach( (tag) => { 
+              Tag.create(tag.trim())
+                .then( () => { TagsUser.create(req.session.user, tag.trim()); })
+                .then( () => {
+                  delete req.body.tags
+
+                  if (req.body.bio == '')
+                    delete req.body.bio
+                  
+                  User.update(req)
+                    .then( () => { req.session.user.validate_step = 0; res.redirect('/') })
+                }) 
+            })
+          })
+          .catch( (err) =>  {
+            req.flash('error', err);
+            res.redirect('step');
+          })
+
+
+
+
+        // console.log(req.body);
+        // Checker.register_step_2(req.body, (callback) => {
+        //   if (callback !== 'ok') {
+        //     req.flash('error', callback)
+        //     res.redirect('step')
+        //   } else {
+        //     res.redirect('step')
+        //   }
+        // })
       } else {
         res.redirect('/')
       }
