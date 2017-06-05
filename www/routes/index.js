@@ -75,6 +75,14 @@ module.exports = (app) => {
     })
 
     app
+    .get('/destroy', isAuth, isValidated, (req, res) => {
+      User.destroy(req.session.user)
+        .then( () =>  {
+          req.session.user = undefined
+          req.flash('success', 'Your account has been deleted!')
+          res.redirect('/login')
+        })
+    })
     .get('/logout', isAuth, isValidated, (req, res) => {
       req.session.user = undefined
       req.toastr('success', 'You are logged out', 'Success')
@@ -156,5 +164,12 @@ module.exports = (app) => {
           res.redirect('/')
   })
 
+
+    // Views
+    //-------------------------------------------------------------------------------------------
+    app
+    .get('/settings', isAuth, isValidated, (req, res) => {
+      res.render('settings')
+    })
 
 }

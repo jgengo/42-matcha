@@ -1,27 +1,65 @@
 <!DOCTYPE html>
 <html lang="fr">
-  <%- include("partials/_head") %>
+  <head>
+    <%- include("partials/_head") %>
+  </head>
+  
   <body>
-
   <%- include("partials/_navbar") %>
+
   
   <div class='ui container segment' id='ft_main'>
-    <h2 class="ui center aligned icon violet header"><i class=" circular violet inverted settings icon"></i> Settings </h2>
+
+    <!-- title -->
+    <h3 class="ui icon violet"><i class=" bordered violet inverted user icon"></i> Profile </h3>  
+    <div class='ui divider'></div>
+
+  
 
 
+<div class="ui five column grid">
+
+  <div class="column">
+    <div class="ui card" id='avatar'>
+    <div class="ui top attached segment mini center aligned"><h4>Avatar</h4></div>
+    <div class='image'><img class="ui image" src='https://semantic-ui.com/images/avatar2/large/kristy.png' /></div>
+    <div class="ui bottom attached button tiny violet"><i class="add icon"></i>Change</div>
+    </div>
   </div>
 
 
-<div class="ui inverted vertical footer segment form-page">
-  <div class="ui container"><a href='https://github.com/jgengo/matcha'><i class='icon github'></i> Github</a></div>
+<!--   <div class="column">
+    <div class="ui segment">
+      <img class="ui centered small image" src='https://semantic-ui.com/images/avatar2/large/kristy.png' />
+    </div>
+  </div>
+  <div class="column">
+    <div class="ui segment">
+      <img class="ui centered small image" src='https://semantic-ui.com/images/avatar2/large/kristy.png' />
+    </div>
+  </div>
+  <div class="column">
+    <div class="ui segment">
+      <img class="ui centered small image" src='https://semantic-ui.com/images/avatar2/large/kristy.png' />
+    </div>
+  </div>
+  <div class="column">
+    <div class="ui segment">
+      <img class="ui centered small image" src='https://semantic-ui.com/images/avatar2/large/kristy.png' />
+    </div>
+  </div> -->
 </div>
-  </body>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="/semantic/semantic.min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-  <script>
+
+
+
+</div>
+
+<%- include("partials/_footer") %>
+
+<script>
   function redirect_logout() { window.location.href='/logout'; }
   function redirect_settings() { window.location.href='/settings'; }
 
   $('.dropdown').dropdown({ transition: 'slide down' });
-  </script>
+  function destroyAcc() { if ( $("input[name='destroy']:checked")[0] ) { window.location.href='/destroy'; } }
+</script>

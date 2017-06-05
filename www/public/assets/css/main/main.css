@@ -8,8 +8,7 @@
 }
 
 #ft_navbar .active {
-  background: none;
-  box-shadow: 0 1px 0 #a76eb0;
+  background: rgba(0, 0, 0, 0.3) !important;
 }
 
 #ft_navbar #ft_settings {
@@ -30,6 +29,15 @@
   margin: 0;
 }
 
+#ft_navbar .ft_notif {
+  opacity: 0.30;
+}
+
+#ft_navbar .ft_notif:hover {
+  background: none !important;
+  opacity: 1;
+}
+
 #ft_navbar .ft_notif:before {
   background: none;
 }
@@ -44,9 +52,7 @@
   border-radius: 0;
   box-shadow: none;
   border: none;
-  border-right: 1px solid rgba(34, 36, 38, 0.15);
-  border-left: 1px solid rgba(34, 36, 38, 0.15);
-  height: 90vh;
+  height: 80vh;
 }
 
 @media (min-height: 320px) {
