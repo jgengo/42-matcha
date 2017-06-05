@@ -67,4 +67,7 @@ toastr.options = {
 <% if (locals.toastr && locals.toastr.error) { %>
     toastr["error"]("<%= toastr.error[0] %>","<%= toastr.error[1] %>")
 <% } %>
+<% if (locals.toastr && locals.toastr.success) { %>
+    toastr["success"]("<%= toastr.success[0] %>", "<%= toastr.success[1] %>")
+<% } %>
 </script>

@@ -1,0 +1,24 @@
+<div class="ui violet menu" id='ft_navbar'>
+  <div class='ui container'>
+    <a class='item' id="ft_brand" href='/'><img src='/logo.png' /></a>
+    <a class="item">
+      <i class="icon home"></i>Home
+    </a>
+    <a class="item active">
+      <i class="user icon"></i>Profil
+    </a>
+    <div class="right menu">
+      <a class="item ft_notif"><i class="talk icon single"></i><div class="floating mini ui violet label">2</div></a>
+      <a class="item ft_notif"><i class='icon announcement single'></i><div class="floating mini ui violet label">42</div></a>
+      <a class="ui right pointing top dropdown item ft_notif">
+        <i class="dropdown icon single " id='ft_settings'></i>
+        <div class="menu">
+          <div class="item" onClick='redirect_settings();'><i class='icon mail outline'></i>Contacts</div>
+          <div class="item" onClick='redirect_settings();'><i class='icon settings'></i>Settings</div>
+          <div class="divider"></div>
+          <div class="item" onClick='redirect_logout();''><i class='icon power'></i>Logout</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,21 @@
+@import 'navbar';
+
+#ft_main
+{
+	border-radius: 0;
+	box-shadow: none;
+	border: none;
+	border-right: 1px solid rgba(34,36,38,.15);
+	border-left: 1px solid rgba(34,36,38,.15);
+	height: 90vh;
+}
+
+
+
+@media (min-height: 320px) {
+  .ui.footer.form-page {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+  }
+}

@@ -1,28 +1,26 @@
 class Checker {
-
-
     // All useful functions
-    //---------------------------------------------------------------------------------------------------------------------
-    static _isRequired(param, name)
+    // --------------------------------------------------------------------------------------------------------------------
+    static _isRequired (param, name)
     {
         return param === undefined || param === '' ? name + " is not defined" : undefined
     }
 
-    static _isEqual(param1, param2, name)
+    static _isEqual (param1, param2, name)
     {
       return param1 !== param2 ? name + " don't match" : undefined
     }
 
-    static _isBigEnough(param, name, size)
+    static _isBigEnough (param, name, size)
     {
       return param.length < size && param.length > 0 ? name + " is not enough big" : undefined
     }
-    static _isNotBiggerThan(param, name, size)
+    static _isNotBiggerThan (param, name, size)
     {
         return param.length > size ? name + " is too big" : undefined 
     }
 
-    static _checkInclusion(sp, params)
+    static _checkInclusion (sp, params)
     {
         let keys = []
 
@@ -41,7 +39,7 @@ class Checker {
 
 
     // Login and register forms
-    //---------------------------------------------------------------------------------------------------------------------
+    // --------------------------------------------------------------------------------------------------------------------
 
     static login (params, callback)
     {

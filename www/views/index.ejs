@@ -1,1 +1,27 @@
-wpwpodpow
+<!DOCTYPE html>
+<html lang="fr">
+  <%- include("partials/_head") %>
+  <body>
+
+  <%- include("partials/_navbar") %>
+  
+  <div class='ui container segment' id='ft_main'>
+    <h2 class="ui center aligned icon violet header"><i class=" circular violet inverted settings icon"></i> Settings </h2>
+
+
+  </div>
+
+
+<div class="ui inverted vertical footer segment form-page">
+  <div class="ui container"><a href='https://github.com/jgengo/matcha'><i class='icon github'></i> Github</a></div>
+</div>
+  </body>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="/semantic/semantic.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+  <script>
+  function redirect_logout() { window.location.href='/logout'; }
+  function redirect_settings() { window.location.href='/settings'; }
+
+  $('.dropdown').dropdown({ transition: 'slide down' });
+  </script>

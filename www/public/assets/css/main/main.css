@@ -1,0 +1,58 @@
+#ft_navbar {
+  box-shadow: none;
+  border-radius: 0;
+}
+
+#ft_navbar #ft_brand:hover {
+  background: none;
+}
+
+#ft_navbar .active {
+  background: none;
+  box-shadow: 0 1px 0 #a76eb0;
+}
+
+#ft_navbar #ft_settings {
+  margin: 0;
+}
+
+#ft_navbar .dropdown > .transition {
+  box-shadow: none;
+  top: 90%;
+  border-radius: 0;
+}
+
+#ft_navbar .dropdown > .transition .divider {
+  margin: 0;
+}
+
+#ft_navbar .right.menu .single {
+  margin: 0;
+}
+
+#ft_navbar .ft_notif:before {
+  background: none;
+}
+
+#ft_navbar .ft_notif .label {
+  opacity: 0.77;
+  top: 0.2em;
+  left: 4.2em;
+}
+
+#ft_main {
+  border-radius: 0;
+  box-shadow: none;
+  border: none;
+  border-right: 1px solid rgba(34, 36, 38, 0.15);
+  border-left: 1px solid rgba(34, 36, 38, 0.15);
+  height: 90vh;
+}
+
+@media (min-height: 320px) {
+  .ui.footer.form-page {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+  }
+}
