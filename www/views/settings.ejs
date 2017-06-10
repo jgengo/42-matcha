@@ -16,10 +16,10 @@
         <h4>Destroy Account</h4>
         <p>This action is irreversible, be really sure before clicking the button.</p>
         <div class="ui checkbox">
-          <input type="checkbox" value='0' name="destroy">
+          <input type="checkbox" value='0' class='appDetails' name="destroy">
           <label>Yes, I'm sure !</label>
         </div>
-        <p><div class="ui animated fade small fluid red button" type="submit" onClick="destroyAcc()">
+        <p><div class="ui animated fade small fluid red button disabled" id='destroyButton' type="submit" onClick="destroyAcc()">
           <div class="visible content">Destroy</div>
           <div class="hidden content"><i class="icon trash"></i></div>
         </div></p>
@@ -35,5 +35,8 @@
   function redirect_settings() { window.location.href='/settings'; }
 
   $('.dropdown').dropdown({ transition: 'slide down' });
+  $(document).on("click",".appDetails", function () {
+    $('#destroyButton').toggleClass('disabled')
+});
   function destroyAcc() { if ( $("input[name='destroy']:checked")[0] ) { window.location.href='/destroy'; } }
 </script>

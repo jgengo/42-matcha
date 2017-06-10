@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <%- include("partials/_head") %>
+    <link rel="stylesheet" type="text/css" href="/assets/css/profil/main.css" />
+  </head>
+  
+  <body>
+  <%- include("partials/_navbar") %>
+
+<!--   <%- user.id %> -->
+  
+  <div class='ui container segment' id='ft_main'>
+
+    <!-- title -->
+    <h3 class="ui icon violet"><i class=" bordered violet inverted user icon"></i> Profile </h3>  
+    <div class='ui divider'></div>
+
+  
+
+
+<div class="ui two column grid">
+
+  <div class="three wide column">
+    <div class="ui card" id='avatar'>
+      <div class="ui top attached segment mini center aligned"><h4>Avatar</h4></div>
+      <div class='image'><img class="ui image" src='https://semantic-ui.com/images/avatar2/large/kristy.png' /></div>
+
+      <div class="ui button bottom attached animated fade violet" type="submit" onClick="sendForm()">
+        <div class="visible content">Change</div>
+        <div class="hidden content"><i class="icon add"></i></div>
+      </div>
+      <!-- <div class="ui bottom attached button tiny violet"><i class="add icon"></i>Change</div> -->
+    </div>
+  </div>
+
+  <div class="thirteen wide column ">
+    <div class="ui segment" id='aboutyou'>
+      <h3>About you</h3>
+      <p><%- user.bio || 'nothing' %></p>
+
+    </div>
+  </div>
+
+</div>
+<div class="ui divider"></div>
+
+
+</div>
+
+<%- include("partials/_footer") %>
+
+<script>
+  function redirect_logout() { window.location.href='/logout'; }
+  function redirect_settings() { window.location.href='/settings'; }
+
+  $('.dropdown').dropdown({ transition: 'slide down' });
+  function destroyAcc() { if ( $("input[name='destroy']:checked")[0] ) { window.location.href='/destroy'; } }
+</script>

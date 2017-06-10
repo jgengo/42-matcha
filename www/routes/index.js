@@ -47,6 +47,15 @@ module.exports = (app) => {
     app.get('/', isAuth, isValidated, (req, res) => {
         res.render('index')
     })
+
+    app.get('/profil/:id', isAuth, isValidated, (req, res) => {
+      User.find(req.params['id'])
+        .then( (user) => { 
+          user = user
+          res.render('profil', { user: user })
+        })
+      
+    })
     // Users
     //-------------------------------------------------------------------------------------------
     app

@@ -67,6 +67,17 @@ class User {
         })
     }
     
+    static find(id)
+    {
+      return new Promise( (resolve, reject) => {
+        connection.query("SELECT * FROM users WHERE id = ?", [id], (err, rows) => {
+          if (err) throw err;
+          resolve(new User(rows[0]).user);
+        })
+      })
+    }
+
+
     static destroy(user) {
       return new Promise ( (resolve, reject) => {
         connection.query("DELETE FROM users WHERE id = ?", [user.id], (err, result) => {

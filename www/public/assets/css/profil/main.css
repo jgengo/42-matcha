@@ -1,0 +1,19 @@
+#avatar {
+  border-radius: 0;
+}
+
+#avatar .button {
+  margin: 0;
+  width: 100%;
+}
+
+#aboutyou {
+  box-shadow: none;
+  height: 100%;
+  border-radius: 0;
+  border: 0;
+}
+
+#aboutyou .divider {
+  width: 50%;
+}
