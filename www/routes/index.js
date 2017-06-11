@@ -24,7 +24,6 @@ function isNotAuth(req, res, next) {
     next()
   }
 }
-
 function isValidated(req, res, next) {
   if (req.session.user !== undefined && req.session.user.validate_step !== undefined) {
     if (req.session.user.validate_step !== 0) { res.redirect('/register/step/') }
@@ -45,14 +44,18 @@ function isNotValidated(req, res, next) {
 module.exports = (app) => {
 
     app.get('/', isAuth, isValidated, (req, res) => {
-        res.render('index')
+        req.active('home')
+        res.render('index', { current_user: req.session.user })
     })
 
     app.get('/profil/:id', isAuth, isValidated, (req, res) => {
+      req.active('profil')
       User.find(req.params['id'])
         .then( (user) => { 
-          user = user
-          res.render('profil', { user: user })
+          User.getTags(user.id)
+            .then( (tags) => {
+              res.render('profil', { user: user, current_user: req.session.user, tags: tags })
+            })
         })
       
     })
@@ -71,7 +74,7 @@ module.exports = (app) => {
           res.redirect('register')
         })
         .catch ( (err) => {
-          if (err === 'taken') {
+          if (err === 'ER_DUP_ENTRY') {
             req.flash('error', ["E-mail already taken!"])
             res.redirect('register')
           }
@@ -178,7 +181,7 @@ module.exports = (app) => {
     //-------------------------------------------------------------------------------------------
     app
     .get('/settings', isAuth, isValidated, (req, res) => {
-      res.render('settings')
+      res.render('settings', {  current_user: req.session.user })
     })
 
 }

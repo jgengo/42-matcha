@@ -1,3 +1,8 @@
+<% 
+myProfil  = (user.id === current_user.id) ? true : false  
+age       = Math.floor(locals.moment().diff(user.birthdate, 'years', true));
+%>
+
 <!DOCTYPE html>
 <html lang="fr">
   <head>
@@ -7,43 +12,85 @@
   
   <body>
   <%- include("partials/_navbar") %>
-
-<!--   <%- user.id %> -->
   
   <div class='ui container segment' id='ft_main'>
 
     <!-- title -->
-    <h3 class="ui icon violet"><i class=" bordered violet inverted user icon"></i> Profile </h3>  
+    <h3 class="ui icon violet"><i class=" bordered violet inverted user icon"></i> <%- user.first_name + ' ' + user.last_name %> </h3>  
     <div class='ui divider'></div>
 
-  
+
+    <div class="ui stackable mobile reversed two column grid">
 
 
-<div class="ui two column grid">
+    <!-- left box // bio + content -->
+    <div class="thirteen wide column ">
 
+    <!-- About you -->
+    <div class='ui segment big' id='about'>
+      <h3>About</h3>
+      <a class="ui grey corner label hidden" id='about_edit'>
+        <i class="edit icon"></i>
+      </a>
+      <span><%- user.bio || 'nothing' %></span>
+    </div>
+
+    <!-- main interests -->
+    <h3>Main interests</h3>
+    <div class="ui violet tag labels">  
+      <% for (tag of tags) { %>
+        <a class="ui label"><%- tag %></a>
+      <% } %>
+    </div>
+
+    <!-- Gallery -->
+    <h3>Gallery</h3>
+    <div class="ui four column grid">
+      <div class="three wide column"><img class="ui rounded image" src='https://scontent.xx.fbcdn.net/v/t1.0-9/18582101_10155890566305476_7721772669419630745_n.jpg?oh=ecd115d736c4fcf34bf4d745a75d4734&oe=59A1766A' /></div>
+      <div class="three wide column"><img class="ui rounded image" src='https://scontent.xx.fbcdn.net/v/t1.0-9/18582101_10155890566305476_7721772669419630745_n.jpg?oh=ecd115d736c4fcf34bf4d745a75d4734&oe=59A1766A' /></div>
+      <div class="three wide column"><img class="ui rounded image" src='https://scontent.xx.fbcdn.net/v/t1.0-9/18582101_10155890566305476_7721772669419630745_n.jpg?oh=ecd115d736c4fcf34bf4d745a75d4734&oe=59A1766A' /></div>
+      <div class="three wide column"><img class="ui rounded image" src='https://scontent.xx.fbcdn.net/v/t1.0-9/18582101_10155890566305476_7721772669419630745_n.jpg?oh=ecd115d736c4fcf34bf4d745a75d4734&oe=59A1766A' /></div>
+    </div>
+  </div>
+
+
+  <!-- right box // avatar + infos -->
   <div class="three wide column">
-    <div class="ui card" id='avatar'>
-      <div class="ui top attached segment mini center aligned"><h4>Avatar</h4></div>
-      <div class='image'><img class="ui image" src='https://semantic-ui.com/images/avatar2/large/kristy.png' /></div>
-
+    <div class="ui card centered" id='avatar'>
+      <div class="ui top attached segment mini center aligned <%- (myProfil) ? '' : 'inverted violet' %>"><h4>Avatar</h4></div>
+      <div class='image'><img class="ui image" src='https://avatars.io/twitter/melany' /></div>
+      <% if (myProfil) { %>
       <div class="ui button bottom attached animated fade violet" type="submit" onClick="sendForm()">
         <div class="visible content">Change</div>
         <div class="hidden content"><i class="icon add"></i></div>
       </div>
+      <% } %>
       <!-- <div class="ui bottom attached button tiny violet"><i class="add icon"></i>Change</div> -->
     </div>
-  </div>
 
-  <div class="thirteen wide column ">
-    <div class="ui segment" id='aboutyou'>
-      <h3>About you</h3>
-      <p><%- user.bio || 'nothing' %></p>
+    <!-- birthdate & age -->
+    <h4 class="ui header">Age
+      <div class="sub header"><%- age %> yo.</div>
+    </h4>
+    <h4 class="ui header">Birthdate
+      <div class="sub header"><%- moment(user.birthdate).calendar() %></div>
+    </h4>
+    <p></p>
+
+    <!-- Location -->
+    <% if (user.hide_location == 0) { %>
+    <h4 class="ui header">Location
+    <div class="sub header"><%- user.location %></div>
+    </h4>
+    <% } %>
+
+    <h4 class="ui header">Joined <div class="sub header"><%- moment(user.created_at).fromNow() %></div></h4>
 
     </div>
+
   </div>
 
 </div>
-<div class="ui divider"></div>
 
 
 </div>
@@ -53,7 +100,8 @@
 <script>
   function redirect_logout() { window.location.href='/logout'; }
   function redirect_settings() { window.location.href='/settings'; }
-
   $('.dropdown').dropdown({ transition: 'slide down' });
-  function destroyAcc() { if ( $("input[name='destroy']:checked")[0] ) { window.location.href='/destroy'; } }
+  <% if (current_user.id == user.id) { %>
+  $('#about').hover( () => { $('#about_edit').toggleClass('hidden'); })
+  <% } %>
 </script>

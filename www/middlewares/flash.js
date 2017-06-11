@@ -9,6 +9,10 @@ module.exports = function (req, res, next)
 		req.session.toastr = undefined
 	}
 
+	req.active = function(content) {
+		res.locals.active = content
+	}
+
 	req.toastr = function(type, content, title) {
 		if (req.session.toastr === undefined) {
 			req.session.toastr = {}

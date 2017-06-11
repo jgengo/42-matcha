@@ -2,6 +2,7 @@
 //---------------------------------------------------------------------------------------------------------------------
 const connection    = require('../config/db')
 const bcrypt        = require('bcrypt');
+const moment        = require('moment');
 const saltRounds    = 10;
 
 const chalk         = require('chalk');
@@ -46,22 +47,29 @@ class User {
       })
     }
 
+    // Relations Getter Methods
+    //---------------------------------------------------------------------------------------------------------------------
+    static getTags(id) {
+      return new Promise( (resolve, reject) => {
+        connection.query('SELECT tags.name as tags FROM users JOIN tagsusers ON tagsusers.user_id = users.id JOIN tags ON tags.id = tagsusers.tag_id WHERE users.id = ?;', [id], (err, rows) => {
+          if (err) throw err;
+          resolve(rows.map( (row) => row.tags ));
+        })
+      })
+    }
+
     // Rails like functions
     //---------------------------------------------------------------------------------------------------------------------
 
     static create(content) {
         return new Promise( (resolve, reject) => {
-            connection.query("SELECT email FROM users WHERE email = ?", [content.email], (err, rows) => {
+            bcrypt.hash(content.password, saltRounds, (err, hash) => {
                 if (err) reject(err);
-                if (rows.length > 0) reject('taken');
-                bcrypt.hash(content.password, saltRounds, (err, hash) => {
-                    if (err) reject(err);
-                    connection.query('INSERT INTO users (first_name, last_name, email, password, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?);', [content.firstName, content.lastName, content.email, hash, new Date(), new Date()],
-                        (err, result) => {
-                            if (err) throw err;
-                            log(chalk.bold.yellow('[User] ') + "added into db.");
-                            resolve();
-                    })
+                connection.query('INSERT INTO users (first_name, last_name, email, password) VALUES (?, ?, ?, ?);', [content.firstName, content.lastName, content.email, hash],
+                    (err, result) => {
+                        if (err) { reject(err.code); log(chalk.bold.yellow('[User] ') + info('error') + " SQL catched while "+info('user creation')+" ["+err.code+"]"); return; }
+                        log(chalk.bold.yellow('[User] ') + "added into db.");
+                        resolve();
                 })
             })
         })

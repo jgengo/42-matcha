@@ -4,6 +4,7 @@ let express       = require('express');
 let app           = express();
 let bodyParser    = require('body-parser');
 let session       = require('express-session');
+const moment      = require('moment');
 
 const chalk       = require('chalk');
 const log         = console.log
@@ -26,6 +27,7 @@ app.set('view engine', 'ejs');
 // Global variables
 //-----------------------------------------------------------------------------------------------
 app.locals = {
+  moment: moment,
   site: {
     title: "Matcha"
   } 

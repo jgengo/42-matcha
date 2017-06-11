@@ -1,10 +1,10 @@
 <div class="ui inverted violet menu" id='ft_navbar'>
   <div class='ui container'>
     <a class='item' id="ft_brand" href='/'><img src='/logo_thumb.png' /></a>
-    <a class="item">
+    <a class="item <%- (locals.active && locals.active === 'home') ? 'active' : '' %>" href="/">
       <i class="icon home"></i>Home
     </a>
-    <a class="item active">
+    <a class="item <%- (locals.active && locals.active === 'profil') ? 'active' : '' %>" href='/profil/<%- (current_user) ? current_user.id : '' %>'>
       <i class="user icon"></i>Profil
     </a>
     <div class="right menu">
