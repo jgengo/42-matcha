@@ -181,7 +181,10 @@ module.exports = (app) => {
     //-------------------------------------------------------------------------------------------
     app
     .get('/settings', isAuth, isValidated, (req, res) => {
-      res.render('settings', {  current_user: req.session.user })
+      res.render('settings', { current_user: req.session.user })
+    })
+    .get('/contact', isAuth, isValidated, (req, res) => {
+      res.render('contact', { current_user: req.session.user })
     })
 
 }

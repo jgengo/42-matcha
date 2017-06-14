@@ -31,12 +31,7 @@
 <%- include("partials/_footer") %>
 
 <script>
-  function redirect_logout() { window.location.href='/logout'; }
-  function redirect_settings() { window.location.href='/settings'; }
+  $(document).on("click",".appDetails", function () { $('#destroyButton').toggleClass('disabled') });
 
-  $('.dropdown').dropdown({ transition: 'slide down' });
-  $(document).on("click",".appDetails", function () {
-    $('#destroyButton').toggleClass('disabled')
-});
   function destroyAcc() { if ( $("input[name='destroy']:checked")[0] ) { window.location.href='/destroy'; } }
 </script>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <%- include("partials/_head") %>
+    <link rel="stylesheet" type="text/css" href="/assets/css/profil/main.css" />
+  </head>
+  
+  <body>
+  <%- include("partials/_navbar") %>
+  
+  <div class='ui container segment' id='ft_main'>
+  <h3 class="ui icon violet"><i class=" bordered violet inverted mail outline icon"></i> Contact </h3>  
+    <div class='ui divider'></div>
+  
+
+   
+  <div class='ui form'>
+  <!-- reason -->
+  <div class="field">
+    <label>Topic</label>
+    <div class="ui selection dropdown">
+    <input type="hidden" name="reason">
+    <i class="dropdown icon"></i>
+    <div class="default text">Topic</div>
+    <div class="menu">
+      <div class="item" data-value="0">Greetings</div>
+      <div class="item" data-value="1">Bugs</div>
+      <div class="item" data-value="2">Other</div>
+    </div>
+  </div>
+  </div>
+
+  <!-- titre -->
+  <div class="field"><label>Title</label><input type="text" name="title" placeholder="Title"></div>
+
+  
+  <!-- textarea -->
+  <div class="field"><label>Your message</label><textarea name='message'></textarea></div>
+
+
+  <!-- Button -->
+  <div class="field" style="margin-top: 20px">
+    <div class="ui animated fade large fluid violet button" type="submit" onClick="sendForm()">
+      <div class="visible content">Send</div>
+      <div class="hidden content"><i class="icon right arrow"></i></div>
+    </div>
+  </div>
+  </div>
+
+
+  </div>
+</div>
+  </div>
+
+  <%- include("partials/_footer") %>
+
+  </body>
+  <script>
+  $('.ui.dropdown').dropdown();
+  </script>

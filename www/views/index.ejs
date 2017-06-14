@@ -15,10 +15,6 @@
 
 <%- include("partials/_footer") %>
 
-<script>
-  function redirect_logout() { window.location.href='/logout'; }
-  function redirect_settings() { window.location.href='/settings'; }
-
-  $('.dropdown').dropdown({ transition: 'slide down' });
+<script>  
   function destroyAcc() { if ( $("input[name='destroy']:checked")[0] ) { window.location.href='/destroy'; } }
 </script>
