@@ -6,6 +6,7 @@ const User        = require('../models/user');
 const Checker     = require('../models/checker');
 const Tag         = require('../models/tag');
 const TagsUser    = require('../models/tagsuser');
+const Mail        = require('../models/mail');
 
 // Functions
 //-----------------------------------------------------------------------------------------------
@@ -109,7 +110,13 @@ module.exports = (app) => {
           User.sign_in(req.body)
             .then( (user) => {
               if (req.session.user === undefined) {
-                req.session.user = { id: user.id, validate_step: user.validate_step }
+                req.session.user = { 
+                  id: user.id, 
+                  first_name: user.first_name,
+                  last_name: user.last_name,
+                  email: user.email,
+                  validate_step: user.validate_step 
+                }
                 res.redirect('/');
               }
             })
@@ -185,6 +192,17 @@ module.exports = (app) => {
     })
     .get('/contact', isAuth, isValidated, (req, res) => {
       res.render('contact', { current_user: req.session.user })
+    })
+    .post('/contact', isAuth, isValidated, (req, res) => {
+      Mail.admin_contact(req.body, req.session.user)
+        .then( () => { 
+          req.toastr('success', "mail has just been sent.")
+          res.redirect('/') 
+        })
+        .catch( () => { 
+          req.toastr('Failed', "mail has not been sent for some reason.")
+          res.redirect('/') 
+        })
     })
 
 }

@@ -3,6 +3,7 @@
   <head>
     <%- include("partials/_head") %>
     <link rel="stylesheet" type="text/css" href="/assets/css/profil/main.css" />
+    <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
   </head>
   
   <body>
@@ -14,7 +15,30 @@
   </div>
 
 <%- include("partials/_footer") %>
-
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 <script>  
   function destroyAcc() { if ( $("input[name='destroy']:checked")[0] ) { window.location.href='/destroy'; } }
+  
+  toastr.options = {
+  "closeButton": true,
+  "newestOnTop": true,
+  "progressBar": true,
+  "positionClass": "toast-top-right",
+  "preventDuplicates": true,
+  "showDuration": "300",
+  "hideDuration": "1000",
+  "timeOut": "5000",
+  "extendedTimeOut": "1000",
+  "showEasing": "swing",
+  "hideEasing": "linear",
+  "showMethod": "fadeIn",
+  "hideMethod": "fadeOut"
+}
+
+<% if (locals.toastr && locals.toastr.error) { %>
+  toastr["error"]("<%= toastr.error[0] %>","<%= toastr.error[1] %>")
+<% } %>
+<% if (locals.toastr && locals.toastr.success) { %>
+  toastr["success"]("<%= toastr.success[0] %>", "<%= toastr.success[1] %>")
+<% } %>
 </script>
