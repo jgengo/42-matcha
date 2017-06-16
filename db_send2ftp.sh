@@ -1,8 +1,6 @@
 #!/bin/sh
 
-dir=`pwd`
-
-tar -cvf /tmp/db.tar ${dir}/docker/sql/
+tar -cvf /tmp/db.tar ./docker/sql/
 
 ftp -n <<EOF
   open ftp.boxopix.fr
