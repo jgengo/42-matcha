@@ -8,5 +8,3 @@ ftp -n <<EOF
   cd www
   put /tmp/db.tar db.tar
 EOF
-
-

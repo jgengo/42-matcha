@@ -98,6 +98,24 @@ class Checker {
       })
     }
 
+    static mail_issue(params)
+    {
+        let strong_parameters = ['reason', 'title', 'message'];
+
+        return new Promise ( (resolve, reject) => {
+            if (this._checkInclusion(strong_parameters, params) == -1) reject(['Inclusion detected']);
+            else {
+                let array = [
+                    this._isRequired(params.reason, 'Reason'),
+                    this._isRequired(params.title, 'Title'),
+                    this._isRequired(params.message, 'Message')
+                ]
+                let filtered = array.filter( (d) => d !== undefined );
+                filtered.length ? reject(filtered) : resolve()
+            }
+        })
+    }
+
     static register_step_2(params)
     {
       let strong_parameters = ['validate_step', 'tags', 'bio'];
@@ -115,6 +133,18 @@ class Checker {
           filtered.length ? reject(filtered) : resolve()
         }
       })
+    }
+
+    static profil_edit(params)
+    {
+        let strong_parameters = ['bio'];
+
+        return new Promise ( (resolve, reject) => {
+            if (this._checkInclusion(strong_parameters, params) == -1) reject(['Inclusion detected']);
+            else {
+                resolve();
+            }
+        })
     }
 
 }

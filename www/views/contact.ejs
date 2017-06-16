@@ -16,6 +16,14 @@
        
     <form action="/contact" method="post" class="ui form">
     
+    <% if (locals.flash && locals.flash.error) { %>
+        <div class="ui negative message"><ul>
+        <% for (error of flash.error) { %>
+            <li><%= error %></li>
+        <% } %>
+        </ul></div>
+    <% } %>
+
     <!-- reason -->
     <div class="field">
       <label>Topic</label>
@@ -54,6 +62,15 @@
 
   </body>
   <script>
+    $('form').form({
+      inline: true,
+      fields: {
+          reason: { identifier: 'reason', rules: [{ type: 'empty', prompt: 'select a reason' }] },
+          title: { identifier: 'title', rules: [{ type: 'empty', prompt: 'type a title' }] },
+          message: { identifier: 'message', rules: [{ type: 'empty', prompt: 'please, write a message' }] },
+      }
+  });
+
   $('.ui.dropdown').dropdown('set selected', 'Greetings');
   function sendForm() { $('form').submit() };
   </script>

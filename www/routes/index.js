@@ -60,6 +60,15 @@ module.exports = (app) => {
         })
       
     })
+    app.post('/profil/:id/edit/:colomn', isAuth, isValidated, (req, res) => {
+      Checker.profil_edit(req.body)
+        .then( () => {
+          User.update(req)
+            .then( () => { res.redirect('/profil/'+req.params['id']); })
+            .catch( () => { res.redirect('/profil/'+req.params['id']); })
+        })
+        .catch( () => { res.redirect('/profil/'+req.params['id']); })
+    })
     // Users
     //-------------------------------------------------------------------------------------------
     app
@@ -194,14 +203,24 @@ module.exports = (app) => {
       res.render('contact', { current_user: req.session.user })
     })
     .post('/contact', isAuth, isValidated, (req, res) => {
-      Mail.admin_contact(req.body, req.session.user)
+    
+      Checker.mail_issue(req.body)
         .then( () => { 
-          req.toastr('success', "mail has just been sent.")
-          res.redirect('/') 
+    
+          Mail.admin_contact(req.body, req.session.user)
+            .then( () => { 
+              req.toastr('success', "mail is successfully sent.")
+              res.redirect('/') 
+            })
+            .catch( () => { 
+              req.toastr('Failed', "mail has not been sent for some reason.")
+              res.redirect('/') 
+            })
+    
         })
-        .catch( () => { 
-          req.toastr('Failed', "mail has not been sent for some reason.")
-          res.redirect('/') 
+        .catch( (err) => {
+          req.flash('error', err);
+          res.redirect('/contact')
         })
     })
 

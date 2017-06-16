@@ -16,15 +16,10 @@ age       = Math.floor(locals.moment().diff(user.birthdate, 'years', true));
   <div class='ui container segment' id='ft_main'>
 
     <!-- title -->
-   
     <div class="left floated left aligned six wide column">
       <h3 class="ui icon violet"><i class=" bordered violet inverted user icon"></i> <%- user.first_name + ' ' + user.last_name %> </h3>
-          <div class="tags">
-    <div class="ui violet tag tiny labels right">  
-       <% for (tag of tags) { %>
-        <a class="ui label"><%- tag %></a>
-      <% } %></div>
-    </div>
+      <!-- tags -->
+      <div class="tags"><div class="ui violet tag tiny labels right"><% for (tag of tags) { %><a class="ui label"><%- tag %></a><% } %></div></div>
     </div>
 
     <div class='ui divider'></div>
@@ -42,16 +37,20 @@ age       = Math.floor(locals.moment().diff(user.birthdate, 'years', true));
       <a class="ui grey corner label hidden" id='about_edit'>
         <i class="edit icon"></i>
       </a>
-      <span><%- user.bio || 'nothing' %></span>
+      <span id='bio_span'><%- user.bio || 'nothing' %></span>
+      <form class='ui form hidebio' id='bio_edit' method='post' action="/profil/<%- user.id %>/edit/bio">
+      <div class='field'><textarea name='bio' id='bio_textarea'><%- user.bio %></textarea></div>
+      <div class='field'><div class='ui button violet' onClick="sendForm('#bio_edit')">confirm</div></div>
+      </form>
     </div>
 
     <!-- Gallery -->
     <h3>Gallery</h3>
       <div class="ui small images four column grid">
-        <div class="four wide column"><img class="ui rounded image" src='https://cdn.intra.42.fr/users/jgengo.jpg' /></div>
-        <div class="four wide column"><img class="ui rounded image" src='http://boxopix.fr/.matcha_attachments/IMG_20170609_130134_076.jpg' /></div>
-        <div class="four wide column"><img class="ui rounded image" src='http://boxopix.fr/.matcha_attachments/logo%20copy.png' /></div>
-        <div class="four wide column"><img class="ui rounded image" src='http://boxopix.fr/.matcha_attachments/IMG_20170523_094730_828.jpg' /></div>
+        <div class="four wide column" id="img1"><img class="ui rounded image" src='https://cdn.intra.42.fr/users/jgengo.jpg' /></div>
+        <div class="four wide column" id="img2"><img class="ui rounded image" src='http://boxopix.fr/.matcha_attachments/IMG_20170609_130134_076.jpg' /></div>
+        <div class="four wide column" id="img3"><img class="ui rounded image" src='http://boxopix.fr/.matcha_attachments/logo%20copy.png' /></div>
+        <div class="four wide column" id="img4"><img class="ui rounded image" src='http://boxopix.fr/.matcha_attachments/IMG_20170523_094730_828.jpg' /></div>
        </div>
   </div>
 
@@ -94,13 +93,43 @@ age       = Math.floor(locals.moment().diff(user.birthdate, 'years', true));
 
 </div>
 
-
+<div class="ui small modal">
+  <i class="close icon"></i>
+  <div class='header'>Upload a picture</div>
+  <div class="content" style='width: 60%; margin: 0 auto;'>
+    <form action="/profile/<%- user.id %>/edit" method="post" name='img1' class="ui form">
+      <div class="field"> <label>Select into your folder</label> <input type='file' id='imgInp' /> </div>
+      <div class='hideyou' id='upload_field'>
+        <div class='field'> <label>Preview</label> <img src='' class='ui centered image' id='preview' /> </div>
+        <div class='field'><div class='ui fluid button violet'>Confirm</div></div>
+      </div>
+    </form>
+    
+  </div>
+  <!-- <div class="actions"><div class="ui deny basic violet button">Close</div></div> -->
 </div>
 
 <%- include("partials/_footer") %>
 
 <script>
+  $('#img3').click( () => { $('.ui.modal').modal('show'); } )
+
+  function readURL(input) {
+      if (input.files && input.files[0]) {
+          let reader = new FileReader();
+          reader.onload = function (e) { $('#preview').attr('src', e.target.result); $('#upload_field').removeClass('hideyou'); }
+          reader.readAsDataURL(input.files[0]);
+      }
+  }
+  $("#imgInp").change(function(){ readURL(this); });
+  $
   <% if (current_user.id == user.id) { %>
-  $('#about').hover( () => { $('#about_edit').toggleClass('hidden'); })
-  <% } %>
+    $('#about')
+      .hover( () => { $('#about_edit').toggleClass('hidden'); })
+      .click( () => { $('#bio_edit').removeClass('hidebio'); $("#bio_textarea").focus(); $('#bio_span').addClass('hidebio'); })
+  
+    function sendForm(id) { $(id).submit() };
+  <% } %> 
+
+
 </script>
