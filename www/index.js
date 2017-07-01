@@ -5,6 +5,8 @@ let app           = express();
 let bodyParser    = require('body-parser');
 let session       = require('express-session');
 const moment      = require('moment');
+const helmet			= require('helmet');
+
 
 const chalk       = require('chalk');
 const log         = console.log
@@ -16,6 +18,8 @@ app.use('/semantic', express.static(__dirname + '/public/assets/semantic/dist'))
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+app.use(helmet())
+
 app.use(session({ secret: 'wonderful42', resave: false, saveUninitialized: true, cookie: { secure: false } }))
 app.use(require(__dirname + '/middlewares/flash.js'))
 

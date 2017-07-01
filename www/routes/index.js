@@ -1,4 +1,5 @@
 const fs          = require('fs');
+const escape      = require('escape-html');
 
 // Model
 //-----------------------------------------------------------------------------------------------
@@ -206,7 +207,6 @@ module.exports = (app) => {
     
       Checker.mail_issue(req.body)
         .then( () => { 
-    
           Mail.admin_contact(req.body, req.session.user)
             .then( () => { 
               req.toastr('success', "mail is successfully sent.")
@@ -222,6 +222,20 @@ module.exports = (app) => {
           req.flash('error', err);
           res.redirect('/contact')
         })
+    })
+
+
+    app.post('/endpoint/:colomn', isAuth, isValidated, (req, res) => {
+      let obj = {}
+      Checker.bio_edit(req.body)
+        .then( () => {
+          User.update(req)
+            .then( () => { res.status(200).send(req.body) })
+            .catch( () => { res.redirect('/profil/'+req.params['id']); })
+        })
+        .catch( () => { res.status(404).send('error')  })
+
+      
     })
 
 }

@@ -135,7 +135,7 @@ class Checker {
       })
     }
 
-    static profil_edit(params)
+    static bio_edit(params)
     {
         let strong_parameters = ['bio'];
 

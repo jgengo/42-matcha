@@ -19,7 +19,7 @@ age       = Math.floor(locals.moment().diff(user.birthdate, 'years', true));
     <div class="left floated left aligned six wide column">
       <h3 class="ui icon violet"><i class=" bordered violet inverted user icon"></i> <%- user.first_name + ' ' + user.last_name %> </h3>
       <!-- tags -->
-      <div class="tags"><div class="ui violet tag tiny labels right"><% for (tag of tags) { %><a class="ui label"><%- tag %></a><% } %></div></div>
+      <div class="tags"><div class="ui violet tiny labels right"><% for (tag of tags) { %><a class="ui label"><%- tag %></a><% } %></div></div>
     </div>
 
     <div class='ui divider'></div>
@@ -37,29 +37,33 @@ age       = Math.floor(locals.moment().diff(user.birthdate, 'years', true));
       <a class="ui grey corner label hidden" id='about_edit'>
         <i class="edit icon"></i>
       </a>
-      <span id='bio_span'><%- user.bio || 'nothing' %></span>
-      <form class='ui form hidebio' id='bio_edit' method='post' action="/profil/<%- user.id %>/edit/bio">
+      <p id='bio_p'><%- user.bio || 'nothing' %></p>
+      <form class='ui form hidebio' id='bio_form' method='post' action="/profil/<%- user.id %>/edit/bio">
       <div class='field'><textarea name='bio' id='bio_textarea'><%- user.bio %></textarea></div>
-      <div class='field'><div class='ui button violet' onClick="sendForm('#bio_edit')">confirm</div></div>
+      <div class='field'><div class='ui button violet' id='bio_submit'>confirm</div></div>
       </form>
     </div>
 
+<!-- <div class='ui segment big' id='about'> -->
     <!-- Gallery -->
     <h3>Gallery</h3>
       <div class="ui small images four column grid">
-        <div class="four wide column" id="img1"><img class="ui rounded image" src='https://cdn.intra.42.fr/users/jgengo.jpg' /></div>
-        <div class="four wide column" id="img2"><img class="ui rounded image" src='http://boxopix.fr/.matcha_attachments/IMG_20170609_130134_076.jpg' /></div>
-        <div class="four wide column" id="img3"><img class="ui rounded image" src='http://boxopix.fr/.matcha_attachments/logo%20copy.png' /></div>
-        <div class="four wide column" id="img4"><img class="ui rounded image" src='http://boxopix.fr/.matcha_attachments/IMG_20170523_094730_828.jpg' /></div>
+      <!-- <div class='ui images'> -->
+        <div class="four wide column" id="img1"><img class="ui rounded image gallery" src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Jacques_Chirac_par_Claude_Truong-Ngoc_septembre_1980.jpg/220px-Jacques_Chirac_par_Claude_Truong-Ngoc_septembre_1980.jpg' /></div>
+        <div class="four wide column" id="img2"><img class="ui rounded image gallery" src='http://68.media.tumblr.com/5a2c255aadfd8e3840e1edaf75a4e908/tumblr_nifl0ebCvx1r7k22ko1_r1_500.jpg' /></div>
+        <div class="four wide column" id="img3"><img class="ui rounded image gallery" src='http://boxopix.fr/.matcha_attachments/logo%20copy.png' /></div>
+        <div class="four wide column" id="img4"><img class="ui rounded image gallery" src='https://68.media.tumblr.com/31b630a4fc578b7f702b9d88d5b1513c/tumblr_nfpyqy2Meu1r7k22ko1_500.jpg' /></div>
        </div>
+<!-- </div> -->
   </div>
+
 
 
   <!-- right box // avatar + infos -->
   <div class="three wide column">
     <div class="ui card centered" id='avatar'>
       <div class="ui top attached segment mini center aligned <%- (myProfil) ? '' : 'inverted violet' %>"><h4>Avatar</h4></div>
-      <div class='image'><img class="ui image" src='https://scontent.xx.fbcdn.net/v/t1.0-9/18664609_260181351117853_4831054038830304089_n.jpg?oh=b659d05d0ff66b0dde77b14b7c5e69cc&oe=59DE05DF' /></div>
+      <div class='image'><img class="ui image" src='https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Chirac_Lula_ABr62198_%28without_light%29.jpeg/220px-Chirac_Lula_ABr62198_%28without_light%29.jpeg' /></div>
       <% if (myProfil) { %>
       <div class="ui button bottom attached animated fade violet" type="submit" onClick="sendForm()">
         <div class="visible content">Change</div>
@@ -93,6 +97,8 @@ age       = Math.floor(locals.moment().diff(user.birthdate, 'years', true));
 
 </div>
 
+
+
 <div class="ui small modal">
   <i class="close icon"></i>
   <div class='header'>Upload a picture</div>
@@ -107,11 +113,32 @@ age       = Math.floor(locals.moment().diff(user.birthdate, 'years', true));
     
   </div>
   <!-- <div class="actions"><div class="ui deny basic violet button">Close</div></div> -->
+
+
+
 </div>
 
 <%- include("partials/_footer") %>
 
 <script>
+
+$('#bio_submit').click(function(e){ 
+  e.preventDefault(); 
+
+  let data = {};
+  data.bio = $('#bio_textarea').val();
+  $.ajax({type: 'POST',
+    contentType: 'application/json',
+    data: JSON.stringify(data), 
+    url: '/endpoint/colomn',
+    success: (data) => { 
+      $('#bio_p').text(data.bio)
+      $('#bio_form').addClass('hidebio'); $('#bio_p').removeClass('hidebio');
+      console.log('success');
+    }
+  })
+})
+
   $('#img3').click( () => { $('.ui.modal').modal('show'); } )
 
   function readURL(input) {
@@ -125,8 +152,8 @@ age       = Math.floor(locals.moment().diff(user.birthdate, 'years', true));
   $
   <% if (current_user.id == user.id) { %>
     $('#about')
-      .hover( () => { $('#about_edit').toggleClass('hidden'); })
-      .click( () => { $('#bio_edit').removeClass('hidebio'); $("#bio_textarea").focus(); $('#bio_span').addClass('hidebio'); })
+      .hover( () => { $('#about_form').toggleClass('hidden'); })
+      .click( () => { $('#bio_form').removeClass('hidebio'); $("#bio_textarea").focus(); $('#bio_p').addClass('hidebio'); })
   
     function sendForm(id) { $(id).submit() };
   <% } %> 
