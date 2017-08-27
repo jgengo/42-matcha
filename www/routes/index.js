@@ -59,7 +59,21 @@ module.exports = (app) => {
               res.render('profil', { user: user, current_user: req.session.user, tags: tags })
             })
         })
-      
+    })
+    app.get('/profil/:id/edit', isAuth, isValidated, (req, res) => {
+      req.active('profil')
+      User.find(req.params['id'])
+      .then( (user) => {
+        if (user.id == req.session.user.id) {
+          User.getTags(user.id)
+          .then( (tags) => {
+            res.render('profil_edit', { user: user, current_user: req.session.user, tags: tags })
+          })
+        } else {
+          req.toastr('error', 'You are not supposed to be here', 'Forbidden')
+          res.redirect('/')
+        }
+      })
     })
     app.post('/profil/:id/edit/:colomn', isAuth, isValidated, (req, res) => {
       Checker.profil_edit(req.body)
@@ -213,7 +227,7 @@ module.exports = (app) => {
               res.redirect('/') 
             })
             .catch( () => { 
-              req.toastr('Failed', "mail has not been sent for some reason.")
+              req.toastr("Failed", "mail has not been sent for some reason.")
               res.redirect('/') 
             })
     

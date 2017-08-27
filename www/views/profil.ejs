@@ -17,7 +17,10 @@ age       = Math.floor(locals.moment().diff(user.birthdate, 'years', true));
 
     <!-- title -->
     <div class="left floated left aligned six wide column">
-      <h3 class="ui icon violet"><i class=" bordered violet inverted user icon"></i> <%- user.first_name + ' ' + user.last_name %> </h3>
+      <h3 class="ui icon violet">
+        <i class=" bordered violet inverted user icon"></i> <%- user.first_name + ' ' + user.last_name %> 
+        <% if (current_user.id == user.id) { %><span class='edit_info'><a href="/profil/<%- user.id %>/edit">edit information</a></span><% } %>
+      </h3> 
       <!-- tags -->
       <div class="tags"><div class="ui violet tiny labels right"><% for (tag of tags) { %><a class="ui label"><%- tag %></a><% } %></div></div>
     </div>

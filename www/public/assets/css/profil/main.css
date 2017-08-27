@@ -2,6 +2,12 @@
   border-radius: 0;
 }
 
+#update_confirm
+{
+  margin-top: 10px;
+  text-align: center;
+}
+
 #avatar .button {
   margin: 0;
   width: 100%;
@@ -24,6 +30,16 @@
 
 .hidebio {
   display: none;
+}
+
+.edit_info {
+  color: #0E6EB8;
+  font-size: 0.8em;
+  padding-left: 15px;
+}
+
+.go_centered {
+  justify-content: center;
 }
 
 .ui.rounded.image.gallery {
