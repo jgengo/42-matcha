@@ -25,3 +25,4 @@ This is a solo project but some fellow students have inspired me during its real
 * arive-de - Alix Rive Decaillot
 * mkantzer - Manon Kantzer
 * lramirez - Lara Ramirez
+* aribeiro - Alexandra Ribeiro
