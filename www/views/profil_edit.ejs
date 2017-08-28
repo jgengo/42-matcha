@@ -1,89 +1,138 @@
 <%
-age       = Math.floor(locals.moment().diff(user.birthdate, 'years', true));
+bday      = locals.moment(user.birthdate).format('YYYY-MM-DD')
+i_by      = user.interested_by
 %>
+
 
 <!DOCTYPE html>
 <html lang="fr">
   <head>
     <%- include("partials/_head") %>
     <link rel="stylesheet" type="text/css" href="/assets/css/profil/main.css" />
-  </head>
 
+  </head>
   <body>
+
     <%- include("partials/_navbar") %>
-    <div class='ui container segment' id='ft_main'>
-      <h3 class="ui icon violet"><i class=" bordered violet inverted user icon"></i> Edit information</h3>
-      <div class='ui divider'></div>
-      <div class="ui stackable three column grid">
-        
-        <div class="column">
-          <form action="/register/step" method="post" class="ui form">
+
+    <form action="/profil/<%- user.id %>/edit" method="post" class="ui form">
+
+      <!-- hidden fields -->
+      <input type="radio" name="gender" id="r_g_male" value="male" hidden <%- (user.gender == 'male') ? 'checked' : '' %>>
+      <input type="radio" name="gender" id="r_g_female" value="female" hidden <%- (user.gender == 'female') ? 'checked' : '' %>>
+      <input type="checkbox" name="interested_by" id="c_o_male" value="male" hidden <%- (i_by === 'male' || i_by =='both') ? 'checked' : '' %> >
+      <input type="checkbox" name="interested_by" id="c_o_female" value="female" hidden <%- (i_by === 'female' || i_by =='both') ? 'checked' : '' %> >
+
+      <div class='ui container segment' id='ft_main'>
+        <h3 class="ui icon violet"><i class=" bordered violet inverted user icon"></i> Edit information</h3>
+        <div class='ui divider'></div>
+        <div class="ui centered grid">
+          
+          <div class="six wide tablet eight wide column">
             <div class="field">
               <label>First name</label>
-              <input type="text" name="firstName" placeholder="Jordane" value='<%- user.first_name %>'>
+              <input type="text" name="first_name" placeholder="Jordane" value='<%- user.first_name %>'>
             </div>
             <div class="field">
               <label>Last name</label>
-              <input type="text" name="lastName" placeholder="Gengo" value='<%- user.last_name %>'>
+              <input type="text" name="last_name" placeholder="Gengo" value='<%- user.last_name %>'>
+            </div>
+          </div>
+          </div><div class="ui centered grid">
+          <div class="six wide tablet eight wide column">
+          <div class='ui divider'></div>
+            <form action="/register/step" method="post" class="ui form">
+              <div class="field">
+                <label>Gender</label>
+                <div class="inline fields go_centered">
+                  <div class="field">
+                    <i class=" <%- (user.gender == 'male') ? 'violet inverted' : 'grey' %> big circular male icon" id="g_male"></i>
+                  </div>
+                  <div class="field">
+                    <i class="<%- (user.gender == 'male') ? 'grey' : 'violet inverted' %> big circular female icon" id="g_female"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="field">
+                <label>Birthdate</label>
+                <input data-toggle="datepicker" name="birthdate" placeholder="Click here to enter your birthdate">
+              </div>
+              <div class="field">
+                <label>Location</label>
+                <input type="text" name="location" placeholder="Paris" value="<%- user.location %>" />
+                <div class="ui <%- (user.hide_location === 1) ? 'checked' : '' %> checkbox" style="padding-top: 5px">
+                  <input type="checkbox" name="hide_location" <%- (user.hide_location) ? "checked=''" : '' %> />
+                  <label>Hide from others</label>
+                </div>
+              </div>
+              <div class="field" style="padding-top: 15px">
+                <label>Interested by</label>
+                <div class="inline fields go_centered">
+                  <div class="field">
+                    <i class="<%- (i_by === 'male' || i_by === 'both') ? 'violet inverted' : 'grey' %> big circular male icon toggle button" id="o_male"></i>
+                  </div>
+                  <div class="field">
+                    <i class="<%- (i_by === 'female' || i_by === 'both') ? 'violet inverted' : 'grey' %> big circular female icon" id="o_female"></i>
+                  </div>
+                </div>
+              </div>
+            </div> 
+
+            </div><div class="ui centered grid">
+            <div class="six wide tablet eight wide column">
+            <div class='ui divider'></div>
+              <form action="/register/step" method="post" class="ui form">
+                <div class="field">
+                  <label id='mi'>Main interests</label>
+                  <input type="text" name="tags" value="<%- tags %>" data-role="tagsinput" id='tags' />
+                </div>
+                <div class="field">
+                  <label>About you</label>
+                  <textarea name='bio' id='bio'><%- user.bio %></textarea>
+                </div>
+              </div>
             </div>
             
-          </form>
-        </div>
-        <div class="column">
-          <form action="/register/step" method="post" class="ui form">
-            <div class="field">
-              <label>Gender</label>
-              <div class="inline fields go_centered">
-                <div class="field">
-                  <i class="violet inverted big circular male icon" id="g_male"></i>
-                </div>
-                <div class="field">
-                  <i class="grey big circular female icon" id="g_female"></i>
-                </div>
+            <div class="ui centered grid">
+              <div class='six wide tablet eight wide column' id='update_confirm'>
+                <div type="submit" onClick="sendForm()" class="ui violet large button">update</div>
               </div>
-            </div>
-            <div class="field">
-              <label>Birthdate</label>
-              <input data-toggle="datepicker" name="birthdate" placeholder="Click here to enter your birthdate">
-            </div>
-            <div class="field">
-              <label>Location</label>
-              <input type="text" name="location" placeholder="Paris" value="<%- user.location %>" />
-              <div class="ui checkbox" style="padding-top: 5px">
-                <input type="checkbox" name="hide_location" value='<%- user.hide_location %>' />
-                <label>Hide from others</label>
-              </div>
-            </div>
-            <div class="field" style="padding-top: 15px">
-              <label>Interested by</label>
-              <div class="inline fields go_centered">
-                <div class="field">
-                  <i class="grey big circular male icon toggle button" id="o_male"></i>
-                </div>
-                <div class="field">
-                  <i class="grey big circular female icon" id="o_female"></i>
-                </div>
-              </div>
-            </div>
-          </form>
-        </div>
-        <div class="column">
-          <form action="/register/step" method="post" class="ui form">
-            <div class="field">
-              <label id='mi'>Main interests</label>
-              <input type="text" name="tags" value="<%- tags %>" data-role="tagsinput" id='tags' />
-            </div>
-            <div class="field">
-              <label>About you</label>
-              <textarea name='bio' id='bio'><%- user.bio %></textarea>
             </div>
           </div>
-        </div>
-        <div class='ui divider'></div>
-        <div class="ui centered grid">
-          <div class='six wide tablet eight wide column' id='update_confirm'>
-            <a href="" class="ui violet button">update</a>
-          </div>
-        </div>
-      </div>
-      <%- include("partials/_footer") %>
+        </form>
+        <%- include("partials/_footer") %>
+        <script src="/assets/datepicker/dist/datepicker.min.js"></script>
+        <script src="/assets/bt-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
+        <script>
+          function sendForm() {
+            $('form').submit()
+          };
+          $('.ui.radio.checkbox').checkbox();
+          $('.ui.checkbox').checkbox();
+          $('[data-toggle="datepicker"]').datepicker({ format: 'yyyy-mm-dd', autoHide: true, date: '<%- bday %>', autoPick: true });
+
+          $('#g_male').click(function() {
+            $(this).toggleClass('grey violet inverted');
+            $('#g_female').toggleClass('grey violet inverted');
+            $('input[type="radio"]').not(':checked').prop("checked", true);
+          });
+          $('#g_female').click(function() { 
+            $(this).toggleClass('grey violet inverted');
+            $('#g_male').toggleClass('grey violet inverted');
+            $('input[type="radio"]').not(':checked').prop("checked", true);
+          });
+          $('#o_male').click(function() {
+            $(this).toggleClass('grey violet inverted');
+            $('#c_o_male').prop("checked", !$('#c_o_male').prop("checked"))
+          });
+          $('#o_female').click(function() {
+            $(this).toggleClass('grey violet inverted');
+            $('#c_o_female').prop("checked", !$('#c_o_female').prop("checked"))
+          });
+
+          $('#tags').tagsinput({
+            maxTags: 5,
+            tagClass: 'ui violet label'
+          });
+        </script>
+

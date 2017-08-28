@@ -1,6 +1,6 @@
 <%- include("_header") %>
-<div class="ui centered grid" id="registerform">
-    <div class="six wide tablet eight wide column">
+    <div class="ui centered grid" id="registerform">
+        <div class="six wide tablet eight wide column">
         <div class="ui message" id="header">
             <div class="ui image">
                 <img src="../logo.png">
@@ -8,56 +8,57 @@
         </div>
         <form action="/register" method="post" class="ui form attached fluid segment">
             <% if (locals.flash && locals.flash.success) { %>
-            <div class="ui positive message" id="success"><%= flash.success %></div>
-            <a href="/login">
+                <div class="ui positive message" id="success"><%= flash.success %></div>
+                <a href="/login">
                 <div class="ui animated large fade fluid violet button">
                     <div class="visible content">Login</div>
                     <div class="hidden content"><i class="icon right arrow"></i></div>
                 </div></a>
-                <% } else { %>
+            <% } else { %>
                 <% if (locals.flash && locals.flash.error) { %>
-                <div class="ui negative message"><ul>
+                    <div class="ui negative message"><ul>
                     <% for (error of flash.error) { %>
-                    <li><%= error %></li>
+                        <li><%= error %></li>
                     <% } %>
-                </ul></div>
+                     </ul></div>
                 <% } %>
                 <!-- <div class="two fields"> -->
-                <div class="field">
+                    <div class="field">
                     <label>First name</label>
                     <input type="text" name="firstName" onfocus="this.placeholder=''" onblur="this.placeholder='Jordane'" placeholder="Jordane">
-                </div>
-                <div class="field">
+                    </div>
+                    <div class="field">
                     <label>Last name</label>
                     <input type="text" name="lastName" onfocus="this.placeholder=''" onblur="this.placeholder='Gengo'" placeholder="Gengo">
-                </div>
+                    </div>
                 <!-- </div> -->
                 <div class="field">
                     <label>E-mail</label>
                     <input type="email" name="email" onfocus="this.placeholder=''" onblur="this.placeholder='jgengo@student.42.fr'" placeholder="jgengo@student.42.fr">
                 </div>
-                <div class="field">
+                    <div class="field">
                     <label>Password</label>
                     <input type="password" name="password" onfocus="this.placeholder=''" onblur="this.placeholder='at least 8 characters'" placeholder="at least 8 characters">
-                </div>
-                <div class="field">
+                    </div>
+                    <div class="field">
                     <label>Password confirmation</label>
                     <input type="password" name="passwordCheck" placeholder="">
-                </div>
-                <div class="ui animated fade large fluid violet button" type="submit" onClick="sendForm()">
+                    </div>
+                    <div class="ui animated fade large fluid violet button" type="submit" onClick="sendForm()">
                     <div class="visible content">Register</div>
                     <div class="hidden content"><i class="icon right arrow"></i></div>
-                </div>
-                <div class="ui horizontal divider" id="divider">Or </div>
-                <p id="signup">Already have an account? <a href="/login">Sign in <i class="icon caret right"></i></a></p>
-                <% } %>
-            </form>
+                    </div>
+                    <div class="ui horizontal divider" id="divider">Or </div>
+                    <p id="signup">Already have an account? <a href="/login">Sign in <i class="icon caret right"></i></a></p>
+            <% } %>
+        </form>
         </div>
     </div>
 </div>
+
 <%- include("_footer") %>
 <script>
-    $('form').form({
+$('form').form({
         inline: true,
         fields: {
             firstName: { identifier: 'firstName', rules: [{ type: 'empty', prompt: 'Please enter your first name' }] },

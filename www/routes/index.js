@@ -75,6 +75,14 @@ module.exports = (app) => {
         }
       })
     })
+    app.post('/profil/:id/edit', isAuth, isValidated, (req, res) => {
+      User.find(req.params['id'])
+      .then( (user) => {
+        if (user.id == req.session.user.id) {
+          console.log(req.body);
+        }
+      })
+    })
     app.post('/profil/:id/edit/:colomn', isAuth, isValidated, (req, res) => {
       Checker.profil_edit(req.body)
         .then( () => {
