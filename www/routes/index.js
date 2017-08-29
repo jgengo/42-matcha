@@ -79,10 +79,31 @@ module.exports = (app) => {
       User.find(req.params['id'])
       .then( (user) => {
         if (user.id == req.session.user.id) {
-          console.log(req.body);
+          Checker.edit_profil(req.body)
+          
         }
       })
     })
+
+
+      // if (req.session.user.validate_step == 1) {
+      //   Checker.register_step_1(req.body)
+      //     .then( () => {
+      //       if ( (req.body.interested_by && req.body.interested_by.length == 2) || !req.body.interested_by)
+      //         req.body.interested_by = 'both'
+
+      //       if (req.body.birthdate == '') 
+      //         delete req.body.birthdate
+
+      //       User.update(req)
+      //         .then( () => { req.session.user.validate_step = 2; res.redirect('step'); } )
+      //         .catch( (err) => { req.flash('Error', err) })
+      //     })
+      //     .catch( (err) => { req.flash('error', err); res.redirect('step'); })
+      // }
+
+
+
     app.post('/profil/:id/edit/:colomn', isAuth, isValidated, (req, res) => {
       Checker.profil_edit(req.body)
         .then( () => {

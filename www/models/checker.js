@@ -97,25 +97,6 @@ class Checker {
         }
       })
     }
-
-    static mail_issue(params)
-    {
-        let strong_parameters = ['reason', 'title', 'message'];
-
-        return new Promise ( (resolve, reject) => {
-            if (this._checkInclusion(strong_parameters, params) == -1) reject(['Inclusion detected']);
-            else {
-                let array = [
-                    this._isRequired(params.reason, 'Reason'),
-                    this._isRequired(params.title, 'Title'),
-                    this._isRequired(params.message, 'Message')
-                ]
-                let filtered = array.filter( (d) => d !== undefined );
-                filtered.length ? reject(filtered) : resolve()
-            }
-        })
-    }
-
     static register_step_2(params)
     {
       let strong_parameters = ['validate_step', 'tags', 'bio'];
@@ -134,6 +115,41 @@ class Checker {
         }
       })
     }
+
+    static edit_profil(params)
+    {
+        let strong_parameters = ['gender', 'interested_by', 'first_name', 'last_name', 'birthdate', 'location', 'hide_location', 'tags', 'bio']
+
+        return new Promise ( (resolve, reject) => {
+            if (this._checkInclusion(strong_parameters, params) == -1)
+                reject(['Inclusion detected']);
+            else {
+                this._isRequired(params.firstName, 'First name'),
+                this._isRequired(params.lastName, 'Last name'),
+                this._isRequired(params.gender, 'Gender'),
+            }
+        })
+    }
+    
+    static mail_issue(params)
+    {
+        let strong_parameters = ['reason', 'title', 'message'];
+
+        return new Promise ( (resolve, reject) => {
+            if (this._checkInclusion(strong_parameters, params) == -1) reject(['Inclusion detected']);
+            else {
+                let array = [
+                    this._isRequired(params.reason, 'Reason'),
+                    this._isRequired(params.title, 'Title'),
+                    this._isRequired(params.message, 'Message')
+                ]
+                let filtered = array.filter( (d) => d !== undefined );
+                filtered.length ? reject(filtered) : resolve()
+            }
+        })
+    }
+
+
 
     static bio_edit(params)
     {
