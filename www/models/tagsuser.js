@@ -10,6 +10,7 @@ const info			= chalk.magenta
 
 class TagsUser
 {
+
 	static create(user, tag) 
 	{
 		return new Promise ( (resolve, reject) => {
@@ -24,6 +25,15 @@ class TagsUser
 		})
 	}
 
+    static destroy_all(user_id) {
+    	return new Promise( (resolve, reject) => {
+	        connection.query("DELETE FROM tagsusers WHERE user_id = ?", [user_id], (err, result) => {
+	          if (err) throw err;
+	          log(chalk.bold.yellow('[TagsUser] ') + 'User: ' + info(user_id) + ' Tags relation removed from db.')
+	          resolve()
+	        })
+    	})
+    }
 }
 
 module.exports = TagsUser

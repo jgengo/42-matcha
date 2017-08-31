@@ -47,6 +47,7 @@ module.exports = (app) => {
 
     app.get('/', isAuth, isValidated, (req, res) => {
         req.active('home')
+        User.force_geoloc(req)
         res.render('index', { current_user: req.session.user })
     })
 
@@ -60,6 +61,8 @@ module.exports = (app) => {
             })
         })
     })
+
+
     app.get('/profil/:id/edit', isAuth, isValidated, (req, res) => {
       req.active('profil')
       User.find(req.params['id'])
@@ -76,33 +79,39 @@ module.exports = (app) => {
       })
     })
     app.post('/profil/:id/edit', isAuth, isValidated, (req, res) => {
+
       User.find(req.params['id'])
       .then( (user) => {
         if (user.id == req.session.user.id) {
+
           Checker.edit_profil(req.body)
-          
+          .then( () => {
+            if ( (req.body.interested_by && req.body.interested_by.length == 2) || !req.body.interested_by)
+              req.body.interested_by = 'both'
+            if (req.body.birthdate == '')
+              delete req.body.birthdate
+            req.body.first_name = req.body.firstName; delete req.body.firstName;
+            req.body.last_name = req.body.lastName; delete req.body.lastName;
+
+            TagsUser.destroy_all(req.session.user.id)
+            .then( () => { 
+              req.body.tags.toLowerCase().split(',').forEach( (tag) => {
+
+                Tag.create(tag.trim())
+                .then( () => { TagsUser.create(req.session.user, tag.trim()); })
+                .then( () => {
+                  delete req.body.tags
+                  User.update(req)
+                  .then( () => { res.redirect('/profil/'+req.session.user.id) } )
+                  .catch( (err) => { req.flash('Error', err) })
+                })
+              })
+            })
+          })
+          .catch( (err) => { req.flash('error', err); res.redirect('edit') })
         }
       })
     })
-
-
-      // if (req.session.user.validate_step == 1) {
-      //   Checker.register_step_1(req.body)
-      //     .then( () => {
-      //       if ( (req.body.interested_by && req.body.interested_by.length == 2) || !req.body.interested_by)
-      //         req.body.interested_by = 'both'
-
-      //       if (req.body.birthdate == '') 
-      //         delete req.body.birthdate
-
-      //       User.update(req)
-      //         .then( () => { req.session.user.validate_step = 2; res.redirect('step'); } )
-      //         .catch( (err) => { req.flash('Error', err) })
-      //     })
-      //     .catch( (err) => { req.flash('error', err); res.redirect('step'); })
-      // }
-
-
 
     app.post('/profil/:id/edit/:colomn', isAuth, isValidated, (req, res) => {
       Checker.profil_edit(req.body)

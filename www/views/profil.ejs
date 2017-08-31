@@ -86,11 +86,9 @@ age       = Math.floor(locals.moment().diff(user.birthdate, 'years', true));
     <p></p>
 
     <!-- Location -->
-    <% if (user.hide_location == 0) { %>
     <h4 class="ui header">Location
     <div class="sub header"><%- user.location %></div>
     </h4>
-    <% } %>
 
     <h4 class="ui header">Joined <div class="sub header"><%- moment(user.created_at).fromNow() %></div></h4>
 

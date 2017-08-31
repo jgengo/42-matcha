@@ -1,9 +1,12 @@
 // const
 //---------------------------------------------------------------------------------------------------------------------
 const connection    = require('../config/db')
+
 const bcrypt        = require('bcrypt');
-const moment        = require('moment');
 const saltRounds    = 10;
+
+const moment        = require('moment');
+const iplocation    = require('iplocation');
 
 const chalk         = require('chalk');
 const log           = console.log
@@ -44,6 +47,24 @@ class User {
           if (err) throw err;
           (rows[0].validate_step === 0) ? resolve() : reject()
         })
+      })
+    }
+
+    static force_geoloc(req) {
+      return new Promise ( (resolve, reject) => {
+          iplocation(req.ip)
+          .then( res => {
+            if (!res.city)
+            {
+              log(chalk.bold.yellow('[Geoloc] ') + "user_id: "+req.session.user.id+" IP can't be found. Forced !"); 
+              connection.query('UPDATE users SET geoloc_city = "Paris", geoloc_lat = 48.8965, geoloc_lon = 2.3182 WHERE id = ?', [req.session.user.id])
+              reject();
+            } else {
+              log(chalk.bold.yellow('[Geoloc] ') + "user_id: "+req.session.user.id+" found ("+res.city+")");
+              connection.query('UPDATE users SET geoloc_city = ?, geoloc_lat = ?, geoloc_lon = ? WHERE id = ?', [res.city, res.latitude, res.longitude, req.session.user.id]);
+              resolve(); 
+            }
+          })
       })
     }
 

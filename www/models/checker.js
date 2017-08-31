@@ -83,7 +83,7 @@ class Checker {
 
     static register_step_1(params)
     {
-      let strong_parameters = ['validate_step', 'gender', 'birthdate','location', 'hide_location', 'interested_by'];
+      let strong_parameters = ['validate_step', 'gender', 'birthdate','location', 'interested_by'];
 
       return new Promise ( (resolve, reject) => {
         if (this._checkInclusion(strong_parameters, params) == -1)
@@ -118,15 +118,24 @@ class Checker {
 
     static edit_profil(params)
     {
-        let strong_parameters = ['gender', 'interested_by', 'first_name', 'last_name', 'birthdate', 'location', 'hide_location', 'tags', 'bio']
+        let strong_parameters = ['gender', 'interested_by', 'firstName', 'lastName', 'birthdate', 'location', 'tags', 'bio'];
 
         return new Promise ( (resolve, reject) => {
             if (this._checkInclusion(strong_parameters, params) == -1)
                 reject(['Inclusion detected']);
             else {
-                this._isRequired(params.firstName, 'First name'),
-                this._isRequired(params.lastName, 'Last name'),
-                this._isRequired(params.gender, 'Gender'),
+                let array = [
+                    this._isRequired(params.firstName, 'First name'),
+                    this._isRequired(params.lastName, 'Last name'),
+
+                    this._isRequired(params.gender, 'Gender'),
+
+                    this._isRequired(params.tags, 'Tags'),
+                    this._isNotBiggerThan(params.tags.split(','), 'Tags', 5),
+                    this._isNotBiggerThan(params.bio, 'About you', 1000)                
+                ]
+                let filtered = array.filter( (d) => d !== undefined );
+                filtered.length ? reject(filtered) : resolve()
             }
         })
     }
