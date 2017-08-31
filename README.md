@@ -23,6 +23,9 @@ This is a solo project but some fellow students have inspired me during its real
 
 * [cbarbier](https://github.com/cedwick) - Cedric Barbier
 * arive-de - Alix Rive Decaillot
+* ocarta-l - Oren Carta-Lag
+* amoreilh - Alexandre Moreilhon
+* nboulaye - Noe Boulaye
 * mkantzer - Manon Kantzer
 * lramirez - Lara Ramirez
 * aribeiro - Alexandra Ribeiro
