@@ -1,11 +1,13 @@
 // Node framework dependencies
 //-----------------------------------------------------------------------------------------------
 let express       = require('express');
+let favicon       = require('serve-favicon')
 let app           = express();
 let bodyParser    = require('body-parser');
 let session       = require('express-session');
 let RedisStore    = require('connect-redis')(session);
 let redis         = require("redis");
+let path          = require("path")
 let client        = redis.createClient();
 const moment      = require('moment');
 const helmet			= require('helmet');
@@ -23,8 +25,8 @@ client.on('connect', function() {
 // Static & middlewares
 //-----------------------------------------------------------------------------------------------
 app.use(express.static(__dirname + '/public'));
+app.use(favicon(path.join(__dirname,'public','favicon.ico')));
 app.use('/semantic', express.static(__dirname + '/public/assets/semantic/dist'))
-
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(helmet())
