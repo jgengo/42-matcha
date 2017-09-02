@@ -19,7 +19,9 @@ age       = Math.floor(locals.moment().diff(user.birthdate, 'years', true));
     <div class="left floated left aligned six wide column">
       <h3 class="ui icon violet">
         <i class=" bordered violet inverted user icon"></i> <%- user.first_name + ' ' + user.last_name %> 
-        <% if (current_user.id == user.id) { %><span class='edit_info'><a href="/profil/<%- user.id %>/edit">edit information</a></span><% } %>
+        <% if (current_user.id == user.id) { %>
+          <span class='edit_info'><a href="/profil/<%- user.id %>/edit">edit information</a></span>
+        <% } %>
       </h3> 
       <!-- tags -->
       <div class="tags"><div class="ui violet tiny labels right"><% for (tag of tags) { %><a class="ui label"><%- tag %></a><% } %></div></div>
@@ -42,7 +44,7 @@ age       = Math.floor(locals.moment().diff(user.birthdate, 'years', true));
       </a>
       <p id='bio_p'><%- user.bio || 'nothing' %></p>
       <form class='ui form hidebio' id='bio_form' method='post' action="/profil/<%- user.id %>/edit/bio">
-      <div class='field'><textarea name='bio' id='bio_textarea'><%- user.bio %></textarea></div>
+      <div class='field'><textarea name='bio' id='bio_textarea'><%- user.bio.replace(/<br\s*[\/]?>/gi, '\n') %></textarea></div>
       <div class='field'><div class='ui button violet' id='bio_submit'>confirm</div></div>
       </form>
     </div>
@@ -133,9 +135,8 @@ $('#bio_submit').click(function(e){
     data: JSON.stringify(data), 
     url: '/endpoint/colomn',
     success: (data) => { 
-      $('#bio_p').text(data.bio)
+      $('#bio_p').html(data);
       $('#bio_form').addClass('hidebio'); $('#bio_p').removeClass('hidebio');
-      console.log('success');
     }
   })
 })

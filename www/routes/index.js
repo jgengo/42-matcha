@@ -1,5 +1,5 @@
 const fs          = require('fs');
-const escape      = require('escape-html');
+const validator   = require('validator');
 
 // Model
 //-----------------------------------------------------------------------------------------------
@@ -92,6 +92,7 @@ module.exports = (app) => {
               delete req.body.birthdate
             req.body.first_name = req.body.firstName; delete req.body.firstName;
             req.body.last_name = req.body.lastName; delete req.body.lastName;
+            req.body.bio = validator.escape(req.body.bio).replace(/(?:\r\n|\r|\n)/g, '<br />');
 
             TagsUser.destroy_all(req.session.user.id)
             .then( () => { 
@@ -229,7 +230,8 @@ module.exports = (app) => {
 
                   if (req.body.bio == '')
                     delete req.body.bio
-
+                  else 
+                    req.body.bio = req.body.bio.replace(/(?:\r\n|\r|\n)/g, '<br />');
                   User.update(req)
                     .then( () => { req.session.user.validate_step = 0; res.redirect('/') })
                 }) 
@@ -279,10 +281,14 @@ module.exports = (app) => {
 
     app.post('/endpoint/:colomn', isAuth, isValidated, (req, res) => {
       let obj = {}
+      bio = validator.escape(req.body.bio);
+      bio = bio.replace(/(?:\r\n|\r|\n)/g, '<br />');
+      req.body.bio = bio
+
       Checker.bio_edit(req.body)
         .then( () => {
           User.update(req)
-            .then( () => { res.status(200).send(req.body) })
+            .then( () => { res.status(200).send(bio) })
             .catch( () => { res.redirect('/profil/'+req.params['id']); })
         })
         .catch( () => { res.status(404).send('error')  })

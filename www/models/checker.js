@@ -63,7 +63,7 @@ class Checker {
         let strong_parameters = ['firstName', 'lastName', 'email', 'password', 'passwordCheck']
 
         return new Promise( (resolve, reject) => {
-            if (this._checkInclusion(strong_parameters, params) == -1) reject(['Inclusion deteted'])
+            if (this._checkInclusion(strong_parameters, params) == -1) reject(['Inclusion detected'])
             else {
                 let array = [
                     this._isRequired(params.firstName, 'First name'),
