@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include('../partials/_head') %>
+    <link rel="stylesheet" type="text/css" href="/assets/css/message/main.css" />
+  </head>
+
+  <body>
+    <%- include('../partials/_navbar') %>
+    <div class='ui container segment' id='ft_main'>
+      <div class="left floated left aligned six wide column">
+        <h3 class="ui icon violet">
+        <i class=" bordered violet inverted inbox icon"></i> Messages
+        </h3>
+      </div>
+      <div class="ui divider"></div>
+
+      <div class="ui stackable two column grid">
+        <div class="four wide column tabular menu" id='menu_messages'>
+
+        </div>
+        <div class="twelve wide column" id='messages_box'>
+
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <%- include('../partials/_footer') %>
+
+    <script>
+      var socket = io.connect('').on('disconnect', function() { $('#menu_messages').html(''); });
+
+      function messages_cat(id, fullname)
+      {
+        socket.emit('messages cat', id)
+        $('#messages_box').html('').append(`<div class="ui violet center aligned segment remove_segment">${fullname}</div>`)
+      }
+
+      socket.on('connect', data => {
+        socket.emit('messages ls', "<%- md5 %>");
+      });
+      socket.on('messages <%- md5 %> ls', data => {
+        $.each(data, function(i, item) {
+          $('#menu_messages').append(`
+            <p><a class="ui fluid basic label item my_item violet" data-id="${item.sender_id}" data-fullname="${item.first_name} ${item.last_name}">
+              <img class="ui right spaced avatar image" src="https://semantic-ui.com//images/avatar/small/elliot.jpg">${item.first_name} ${item.last_name[0]}
+            </a></p>`);
+        })
+        $('.menu .item.my_item').tab().click(function (event) { $(event.target).transition('pulse', '200ms'); messages_cat($(event.target).data('id'), $(event.target).data('fullname')) });
+      })
+      socket.on('messages <%- md5 %> cat', data => {
+        $.each(data, function(i, item) {
+          $('#messages_box').append(`<div class="ui segment remove_segment"><span class='color-violet
+            '>${item.first_name}:</span> ${item.content}</div>`);
+        })
+      })
+      
+    </script>

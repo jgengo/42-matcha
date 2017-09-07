@@ -18,7 +18,7 @@ age       = Math.floor(locals.moment().diff(user.birthdate, 'years', true));
     <!-- title -->
     <div class="left floated left aligned six wide column">
       <h3 class="ui icon violet">
-        <i class=" bordered violet inverted user icon"></i> <%- user.first_name + ' ' + user.last_name %> 
+        <i class=" bordered violet inverted user icon"></i> <%- user.first_name+' '+user.last_name %> 
         <% if (current_user.id == user.id) { %>
           <span class='edit_info'><a href="/profil/<%- user.id %>/edit">edit information</a></span>
         <% } %>
@@ -44,7 +44,7 @@ age       = Math.floor(locals.moment().diff(user.birthdate, 'years', true));
       </a>
       <p id='bio_p'><%- user.bio || 'nothing' %></p>
       <form class='ui form hidebio' id='bio_form' method='post' action="/profil/<%- user.id %>/edit/bio">
-      <div class='field'><textarea name='bio' id='bio_textarea'><%- user.bio.replace(/<br\s*[\/]?>/gi, '\n') %></textarea></div>
+      <div class='field'><textarea name='bio' id='bio_textarea'><%- (user.bio) ? user.bio.replace(/<br\s*[\/]?>/gi, '\n') : '' %></textarea></div>
       <div class='field'><div class='ui button violet' id='bio_submit'>confirm</div></div>
       </form>
     </div>

@@ -1,0 +1,12 @@
+.my_item {
+  border-radius: 0 !important;
+}
+
+.color-violet {
+  color: #704177;
+}
+
+.remove_segment {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}

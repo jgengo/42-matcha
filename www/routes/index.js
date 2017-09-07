@@ -1,5 +1,6 @@
 const fs          = require('fs');
 const validator   = require('validator');
+const crypto      = require('crypto');
 
 // Model
 //-----------------------------------------------------------------------------------------------
@@ -8,6 +9,7 @@ const Checker     = require('../models/checker');
 const Tag         = require('../models/tag');
 const TagsUser    = require('../models/tagsuser');
 const Mail        = require('../models/mail');
+const Message     = require('../models/message');
 
 // Functions
 //-----------------------------------------------------------------------------------------------
@@ -91,7 +93,7 @@ module.exports = (app) => {
             if (req.body.birthdate == '')
               delete req.body.birthdate
             req.body.first_name = req.body.firstName; delete req.body.firstName;
-            req.body.last_name = req.body.lastName; delete req.body.lastName;
+            req.body.last_name = req.body.lastName.toUpperCase(); delete req.body.lastName;
             req.body.bio = validator.escape(req.body.bio).replace(/(?:\r\n|\r|\n)/g, '<br />');
 
             TagsUser.destroy_all(req.session.user.id)
@@ -246,6 +248,21 @@ module.exports = (app) => {
         else
           res.redirect('/')
   })
+
+
+
+
+    // Messages
+    //-------------------------------------------------------------------------------------------
+    app
+    .get('/messages', isAuth, isValidated, (req, res) => {
+      Message.messages_to(req.session.user.id)
+      .then( messages => { 
+        md5 = crypto.createHash('md5').update(`${req.session.user.id}`).digest("hex");
+        res.render('messages/index', { current_user: req.session.user, md5: md5, messages: messages }) 
+      })
+    })
+
 
 
     // Views

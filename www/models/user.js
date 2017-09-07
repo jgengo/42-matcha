@@ -87,7 +87,7 @@ class User {
         return new Promise( (resolve, reject) => {
             bcrypt.hash(content.password, saltRounds, (err, hash) => {
                 if (err) reject(err);
-                connection.query('INSERT INTO users (first_name, last_name, email, password) VALUES (?, ?, ?, ?);', [content.firstName, content.lastName, content.email, hash],
+                connection.query('INSERT INTO users (first_name, last_name, email, password) VALUES (?, ?, ?, ?);', [content.firstName, content.lastName.toUpperCase(), content.email, hash],
                     (err, result) => {
                         if (err) { reject(err.code); log(chalk.bold.yellow('[User] ') + info('error') + " SQL catched while "+info('user creation')+" ["+err.code+"]"); return; }
                         log(chalk.bold.yellow('[User] ') + "added into db.");

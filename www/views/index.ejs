@@ -15,11 +15,10 @@
   </div>
 
 <%- include("partials/_footer") %>
-<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
 <script>  
-  function destroyAcc() { if ( $("input[name='destroy']:checked")[0] ) { window.location.href='/destroy'; } }
   
-  toastr.options = {
+toastr.options = {
   "closeButton": true,
   "newestOnTop": true,
   "progressBar": true,
@@ -41,4 +40,14 @@
 <% if (locals.toastr && locals.toastr.success) { %>
   toastr["success"]("<%= toastr.success[0] %>", "<%= toastr.success[1] %>")
 <% } %>
+
+var socket = io.connect('');
+socket.on('connect', data => {
+  // socket.emit('join', "I am here!");
+});
+socket.on('messages', data => {
+  console.log(data);
+})
+
 </script>
+
