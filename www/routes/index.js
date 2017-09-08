@@ -258,8 +258,7 @@ module.exports = (app) => {
     .get('/messages', isAuth, isValidated, (req, res) => {
       Message.messages_to(req.session.user.id)
       .then( messages => { 
-        md5 = crypto.createHash('md5').update(`${req.session.user.id}`).digest("hex");
-        res.render('messages/index', { current_user: req.session.user, md5: md5, messages: messages }) 
+        res.render('messages/index', { current_user: req.session.user, messages: messages }) 
       })
     })
 

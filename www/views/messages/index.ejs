@@ -31,18 +31,34 @@
     <%- include('../partials/_footer') %>
 
     <script>
+      var sender_id = 0;
+
       var socket = io.connect('').on('disconnect', function() { $('#menu_messages').html(''); });
 
+      
       function messages_cat(id, fullname)
       {
-        socket.emit('messages cat', id)
+        sender_id = id;
+        socket.emit('messages cat', id);
         $('#messages_box').html('').append(`<div class="ui violet center aligned segment remove_segment">${fullname}</div>`)
       }
 
+      function messages_send(id, content)
+      {
+        socket.emit('messages send', {id: id, content: content});
+      }
+
+
+      // socket 
+
+      // on connection get list users
       socket.on('connect', data => {
-        socket.emit('messages ls', "<%- md5 %>");
+        socket.emit('messages ls');
       });
-      socket.on('messages <%- md5 %> ls', data => {
+
+
+      // get list users you talked
+      socket.on('messages ls', data => {
         $.each(data, function(i, item) {
           $('#menu_messages').append(`
             <p><a class="ui fluid basic label item my_item violet" data-id="${item.sender_id}" data-fullname="${item.first_name} ${item.last_name}">
@@ -51,11 +67,19 @@
         })
         $('.menu .item.my_item').tab().click(function (event) { $(event.target).transition('pulse', '200ms'); messages_cat($(event.target).data('id'), $(event.target).data('fullname')) });
       })
-      socket.on('messages <%- md5 %> cat', data => {
+
+      // get messages from a user
+      socket.on('messages cat', data => {
+        let html = '';
+
+        html += `<div class="ui segment remove_segment">`;
         $.each(data, function(i, item) {
-          $('#messages_box').append(`<div class="ui segment remove_segment"><span class='color-violet
-            '>${item.first_name}:</span> ${item.content}</div>`);
-        })
+          html += `<p><span class='color-violet'>${item.first_name}:</span> ${item.content}</p>`;
+        });
+        html += `</div><div class="ui fluid action input"><input type="text" id="messages_input" data-id='${sender_id}' placeholder="write your message..." onfocus="this.placeholder=''" onblur="this.placeholder='write your message...'"><div class="ui violet button">Send</div></div>`;
+
+        $('#messages_box').append(html);
+        $('#messages_input').keydown(function (event) { if (event.which === 13) { messages_send($(event.target).data('id'), $(event.target).val()); } });
       })
       
     </script>

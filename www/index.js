@@ -32,7 +32,7 @@ let socketSession       = socketIOSession(redis_options);
 // model
 //-----------------------------------------------------------------------------------------------
 const Message           = require('./models/message');
-
+const Checker           = require('./models/checker');
 
 // redis
 //-----------------------------------------------------------------------------------------------
@@ -51,19 +51,34 @@ io.on('connection', socket => {
 
   socket.on('messages ls', data => {
       Message.messages_to(user.id)
-      .then( messages => { socket.emit('messages '+data+' ls', messages) })
+      .then( messages => { socket.emit('messages ls', messages) })
   })
   socket.on('messages cat', data => {
     md5 = crypto.createHash('md5').update(`${user.id}`).digest("hex");
     Message.messages_from_to(data, user.id)
-    .then( messages => { socket.emit('messages '+md5+' cat', messages)})
+    .then( messages => { socket.emit('messages cat', messages)})
   })
-  // Message.unread_messages(user.id)
-  // .then( messages => { socket.emit('messages', messages); })
+  socket.on('messages send', data => {
+    Checker.messages_send(data)
+    .then( () => {
+      data.recipient_id = data.id
+      data.sender_id = socket.session.user.id
+      delete data.id
 
-  // socket.on('join', data => {
-  //   console.log(data);
-  // })
+      Message.create(data)
+      .then( () => {
+        sender_md5 = crypto.createHash('md5').update(`${data.sender_id}`).digest("hex");
+        recipient_md5 = crypto.createHash('md5').update(`${data.recipient_id}`).digest("hex");
+        socket.emit('messages '+sender_md5+' show', data.content);
+        socket.emit('messages '+recipient_md5+' show', data.content);
+      })
+      .catch( (err) => { 
+        console.log('oups: ' +err)
+      })
+     })
+    .catch( (err) => { log(title('[Socket.IO]')+' user_id: '+info(user.id)+' send bad formated data.\n\t'+err) })
+  })
+  
 })
 
 

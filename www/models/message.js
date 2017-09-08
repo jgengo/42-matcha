@@ -64,5 +64,32 @@ class Message {
       })
     }
 
+
+
+
+
+
+
+
+
+    static create(data)
+    {
+      return new Promise( (resolve, reject) => {
+        connection.query('INSERT INTO messages (sender_id, recipient_id, content) VALUES (?, ?, ?);', 
+        [data.sender_id, data.recipient_id, data.content],
+        (err, result) => {
+          if (err) { reject(err.code); log(chalk.bold.yellow('[Message] ') + info('error') + " SQL catched while "+info('message creation')+" ["+err.code+"]"); return; }
+          log(chalk.bold.yellow('[Message] ') + "added into db.");
+          resolve();
+        })
+      })
+    }
+
+
+
+
+
+
+
 }
 module.exports = Message

@@ -54,7 +54,8 @@ class Checker {
                     this._isBigEnough(params.password, 'Password', 8)
                 ]
                 let filtered = array.filter( (d) => d !== undefined );
-                filtered.length ? reject(filtered) : resolve()                
+                filtered.length ? reject(filtered) : resolve()  
+
             }
         })
     }
@@ -172,6 +173,27 @@ class Checker {
         })
     }
 
-}
 
+
+
+
+
+    static messages_send(params)
+    {
+        let strong_parameters = ['id', 'content'];
+
+        return new Promise ( (resolve, reject) => {
+            if (this._checkInclusion(strong_parameters, params) == -1) reject(['Inclusion detected']);
+            else {
+                let array = [
+                    this._isRequired(params.id, 'sender_id'),
+                    this._isRequired(params.content, 'content')
+                ]
+                let filtered = array.filter( (d) => d !== undefined );
+                filtered.length ? reject(filtered) : resolve()
+            }
+        })
+    }
+
+}
 module.exports = Checker

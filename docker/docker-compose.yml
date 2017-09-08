@@ -3,7 +3,7 @@ web:
   ports:
     - "1337:80"
   volumes:
-    - /Users/titus/matcha/docker/www:/app
+    - /Users/jgengo/matcha/docker/www:/app
   links:
     - db:db
 db:
@@ -11,8 +11,8 @@ db:
   ports:
     - "1338:3306"
   volumes:
-    - /Users/titus/matcha/docker/sql:/var/lib/mysql
-    - /Users/titus/matcha/docker/config:/etc/mysql/mysql.conf.d
+    - /Users/jgengo/matcha/docker/sql:/var/lib/mysql
+    - /Users/jgengo/matcha/docker/config:/etc/mysql/mysql.conf.d
   restart: always
   environment:
     - MYSQL_ROOT_PASSWORD=root
