@@ -274,7 +274,6 @@ module.exports = (app) => {
       res.render('contact', { current_user: req.session.user })
     })
     .post('/contact', isAuth, isValidated, (req, res) => {
-    
       Checker.mail_issue(req.body)
         .then( () => { 
           Mail.admin_contact(req.body, req.session.user)

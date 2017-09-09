@@ -27,7 +27,7 @@ const title             = chalk.bold.yellow
 
 const redis_options     = { store: new RedisStore({}), secret: 'wonderful42', resave: true, saveUninitialized: true, cookie: { secure: false } }
 let socketSession       = socketIOSession(redis_options);
-
+let users             = {}
 
 // model
 //-----------------------------------------------------------------------------------------------
@@ -44,7 +44,10 @@ client.on('connect', function() {
 //-----------------------------------------------------------------------------------------------
 io.use(socketSession.parser)
 io.on('connection', socket => {
-  var user = socket.session.user
+  var user = socket.session.user;
+  users[user.id] = socket.id;
+
+  console.log(users)
 
   log(title('[Socket.IO]')+' user_id: '+info(user.id)+' connected.');
 
@@ -66,11 +69,9 @@ io.on('connection', socket => {
       delete data.id
 
       Message.create(data)
-      .then( () => {
-        sender_md5 = crypto.createHash('md5').update(`${data.sender_id}`).digest("hex");
-        recipient_md5 = crypto.createHash('md5').update(`${data.recipient_id}`).digest("hex");
-        socket.emit('messages '+sender_md5+' show', data.content);
-        socket.emit('messages '+recipient_md5+' show', data.content);
+      .then( (create) => {
+        socket.emit('messages show', create);
+        socket.broadcast.to(users[data.recipient_id]).emit('messages show', create);
       })
       .catch( (err) => { 
         console.log('oups: ' +err)

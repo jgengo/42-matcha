@@ -79,8 +79,14 @@ class Message {
         [data.sender_id, data.recipient_id, data.content],
         (err, result) => {
           if (err) { reject(err.code); log(chalk.bold.yellow('[Message] ') + info('error') + " SQL catched while "+info('message creation')+" ["+err.code+"]"); return; }
+          console.log(result);
           log(chalk.bold.yellow('[Message] ') + "added into db.");
-          resolve();
+          connection.query(`
+            SELECT messages.*, users.id,users.first_name
+            FROM messages
+            LEFT JOIN users ON messages.sender_id = users.id
+            WHERE messages.id = ?`, [result.insertId], (err, rows) => { if (err) throw err; resolve(rows); }
+        )
         })
       })
     }
