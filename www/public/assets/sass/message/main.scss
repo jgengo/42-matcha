@@ -13,3 +13,9 @@ $violet : #704177;
 	border-radius: 0 !important;
 	box-shadow: none !important;
 }
+
+#messages_chat
+{
+	overflow-y: scroll;
+	max-height: 50vh;
+}

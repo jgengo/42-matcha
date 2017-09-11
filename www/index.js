@@ -16,6 +16,7 @@ const bodyParser        = require('body-parser');
 const path              = require("path")
 
 const moment            = require('moment');
+const validator         = require('validator');
 const helmet			      = require('helmet');
 const crypto            = require('crypto');
 
@@ -57,7 +58,6 @@ io.on('connection', socket => {
       .then( messages => { socket.emit('messages ls', messages) })
   })
   socket.on('messages cat', data => {
-    md5 = crypto.createHash('md5').update(`${user.id}`).digest("hex");
     Message.messages_from_to(data, user.id)
     .then( messages => { socket.emit('messages cat', messages)})
   })
@@ -67,6 +67,7 @@ io.on('connection', socket => {
       data.recipient_id = data.id
       data.sender_id = socket.session.user.id
       delete data.id
+      data.content = validator.escape(data.content);
 
       Message.create(data)
       .then( (create) => {

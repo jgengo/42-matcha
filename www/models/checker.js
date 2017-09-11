@@ -11,6 +11,11 @@ class Checker {
       return param1 !== param2 ? name + " don't match" : undefined
     }
 
+    static _isSecure (param, name)
+    {
+        return (param.match(/(?=.*[0-9].*[0-9]).{8,}/) === null) ? name + " is not enough secure at least 2 digits for at least a total of 8 chars" : undefined
+    }
+
     static _isBigEnough (param, name, size)
     {
       return param.length < size && param.length > 0 ? name + " is not enough big" : undefined
@@ -74,7 +79,8 @@ class Checker {
                     this._isRequired(params.passwordCheck, 'Password Check'),
                     this._isEqual(params.password, params.passwordCheck, 'Passwords'),
                     this._isBigEnough(params.password, 'Password', 8),
-                    this._isBigEnough(params.passwordCheck, 'Password Check', 8)
+                    this._isBigEnough(params.passwordCheck, 'Password Check', 8),
+                    this._isSecure(params.password, 'Password')
                 ]
                 let filtered = array.filter( (d) => d !== undefined );
                 filtered.length ? reject(filtered) : resolve() 

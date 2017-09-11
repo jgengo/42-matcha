@@ -48,6 +48,17 @@
         socket.emit('messages send', {id: id, content: content});
       }
 
+      function eventMessage(event)
+      {
+        if (event) {
+          messages_send($(event.target).data('id'), $(event.target).val());
+          $(event.target).val('');
+        } else {
+          i = $('#messages_input');
+          messages_send(i.data('id'), i.val());
+          i.val('');
+        }
+      }
 
       // socket 
 
@@ -76,14 +87,18 @@
         $.each(data, function(i, item) {
           html += `<p><span class='color-violet'>${item.first_name}:</span> ${item.content}</p>`;
         });
-        html += `</div><div class="ui fluid action input"><input type="text" id="messages_input" data-id='${sender_id}' placeholder="write your message..." onfocus="this.placeholder=''" onblur="this.placeholder='write your message...'"><div class="ui violet button">Send</div></div>`;
+        html += `</div><div class="ui fluid action input"><input type="text" id="messages_input" data-id='${sender_id}' placeholder="write your message..." onfocus="this.placeholder=''" onblur="this.placeholder='write your message...'"><div class="ui violet button" id='send_button'>Send</div></div>`;
 
         $('#messages_box').append(html);
-        $('#messages_input').keydown(function (event) { if (event.which === 13) { messages_send($(event.target).data('id'), $(event.target).val()); $(event.target).val(''); } });
+        $(function () { $('#messages_chat').scrollTop(1E10); $('#messages_input').focus(); });
+        $('#messages_input').keydown(function (event) { if (event.which === 13) { eventMessage(event); } });
+        $('#send_button').click(function() { eventMessage() })
       })
       
       socket.on('messages show', data => {
-        if (sender_id === data[0].recipient_id || sender_id === data[0].sender_id) { $('#messages_chat').append(`<p><span class='color-violet'>${data[0].first_name}:</span> ${data[0].content}</p>`); }
+        if (sender_id === data[0].recipient_id || sender_id === data[0].sender_id) { 
+          $('#messages_chat').append(`<p><span class='color-violet'>${data[0].first_name}:</span> ${data[0].content}</p>`).scrollTop(1E10);;
+        }
       })
 
 

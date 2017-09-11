@@ -2,6 +2,12 @@ const fs          = require('fs');
 const validator   = require('validator');
 const crypto      = require('crypto');
 
+
+const chalk       = require('chalk');
+const log         = console.log
+const info        = chalk.magenta
+const title       = chalk.bold.yellow
+
 // Model
 //-----------------------------------------------------------------------------------------------
 const User        = require('../models/user');
@@ -276,16 +282,9 @@ module.exports = (app) => {
     .post('/contact', isAuth, isValidated, (req, res) => {
       Checker.mail_issue(req.body)
         .then( () => { 
+          req.toastr('success', "The mail is being sent")
+          res.redirect('/') 
           Mail.admin_contact(req.body, req.session.user)
-            .then( () => { 
-              req.toastr('success', "mail is successfully sent.")
-              res.redirect('/') 
-            })
-            .catch( () => { 
-              req.toastr("Failed", "mail has not been sent for some reason.")
-              res.redirect('/') 
-            })
-    
         })
         .catch( (err) => {
           req.flash('error', err);
