@@ -1,7 +1,8 @@
 @import 'navbar';
 
 $violet : #704177;
-
+$green  : #2ECC40;
+$grey 	: #CCCCCC;
 
 #ft_main
 {
@@ -21,4 +22,16 @@ $violet : #704177;
     bottom: 0;
     width: 100%;
   }
+}
+
+
+.color-green {
+	color: $green;
+}
+.color-grey {
+	color: $grey;
+}
+.text-i
+{
+	font-style: oblique;
 }

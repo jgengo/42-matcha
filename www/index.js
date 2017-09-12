@@ -28,12 +28,13 @@ const title             = chalk.bold.yellow
 
 const redis_options     = { store: new RedisStore({}), secret: 'wonderful42', resave: true, saveUninitialized: true, cookie: { secure: false } }
 let socketSession       = socketIOSession(redis_options);
-let users             = {}
+let users               = {}
 
 // model
 //-----------------------------------------------------------------------------------------------
 const Message           = require('./models/message');
 const Checker           = require('./models/checker');
+const User              = require('./models/user');
 
 // redis
 //-----------------------------------------------------------------------------------------------
@@ -48,10 +49,13 @@ io.on('connection', socket => {
   var user = socket.session.user;
   users[user.id] = socket.id;
 
-  console.log(users)
-
   log(title('[Socket.IO]')+' user_id: '+info(user.id)+' connected.');
+  User.set_online(user.id, 1);
 
+  socket.on('disconnect', () => {
+    User.set_online(user.id, 0);
+    log(title('[Socket.IO]')+' user_id: '+info(user.id)+' has just disconnected.');
+  })
 
   socket.on('messages ls', data => {
       Message.messages_to(user.id)

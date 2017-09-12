@@ -69,6 +69,13 @@ class User {
       })
     }
 
+    static set_online(user_id, status) {
+      return new Promise ( (resolve, reject) => {
+        connection.query('UPDATE users SET online = ?, last_seen = ? WHERE id = ?', [status, moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'), user_id]);
+        resolve();
+      });
+    }
+
     // Relations Getter Methods
     //---------------------------------------------------------------------------------------------------------------------
     static getTags(id) {

@@ -40,7 +40,7 @@
       {
         sender_id = id;
         socket.emit('messages cat', id);
-        $('#messages_box').html('').append(`<div class="ui violet center aligned segment remove_segment">${fullname}</div>`)
+        $('#messages_box').html('').append(`<div class="ui violet center aligned segment remove_segment">${fullname} <span class='color-green' style='font-weight: bold;'> •</span><p class='activity'>Last activity: <span id='user-activity'>loading...</span></div>`)
       }
 
       function messages_send(id, content)

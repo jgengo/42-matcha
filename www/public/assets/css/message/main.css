@@ -15,3 +15,9 @@
   overflow-y: scroll;
   max-height: 50vh;
 }
+
+.activity {
+  color: #CCCCCC;
+  font-size: 0.85em;
+  font-style: oblique;
+}

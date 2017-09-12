@@ -62,3 +62,15 @@
     width: 100%;
   }
 }
+
+.color-green {
+  color: #2ECC40;
+}
+
+.color-grey {
+  color: #CCCCCC;
+}
+
+.text-i {
+  font-style: oblique;
+}
