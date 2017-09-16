@@ -44,6 +44,16 @@ class Mail
     })
   }
 
+  static password_changed(email)
+  {
+    const html_body = `${header}<p>Your password has just been updated.</p>`
+    var mailOptions = { from: '"matcha 👻" <no-reply@matcha.42.fr>', to: email, subject: '✔ matcha : password updated', html: html_body }
+
+    transporter.sendMail(mailOptions, (err, reply) => {
+      if (err) { log(chalk.bold.red('[Mail] ') + "has just met an error. ("+err+")"); return; }
+      else { log(chalk.bold.yellow('[Mail] ') + "has just been sent."); return;  }
+    })
+  }
 
   static admin_contact(content, user) 
   {

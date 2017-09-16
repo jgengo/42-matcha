@@ -67,6 +67,10 @@ io.on('connection', socket => {
   socket.on('messages ping', data => {
     User.ping(data).then( data => { socket.emit('messages pong', data) })
   })
+  socket.on('geoloc', data => {
+    data.id = user.id
+    User.update(data)
+  })
   socket.on('messages send', data => {
     Checker.messages_send(data)
     .then( () => {

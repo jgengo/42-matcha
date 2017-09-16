@@ -49,5 +49,11 @@ socket.on('messages', data => {
   console.log(data);
 })
 
+navigator.geolocation.getCurrentPosition( function(position) { 
+  console.log(position.coords.longitude);
+  socket.emit('geoloc', {geoloc_lat: position.coords.latitude, geoloc_lon: position.coords.longitude});
+});
+
+
 </script>
 

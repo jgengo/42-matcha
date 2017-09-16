@@ -16,6 +16,7 @@ const Tag         = require('../models/tag');
 const TagsUser    = require('../models/tagsuser');
 const Mail        = require('../models/mail');
 const Message     = require('../models/message');
+const Stalk       = require('../models/stalk');
 
 // Functions
 //-----------------------------------------------------------------------------------------------
@@ -63,6 +64,9 @@ module.exports = (app) => {
       req.active('profil')
       User.find(req.params['id'])
         .then( (user) => { 
+          if (user.id !== req.session.user.id) {
+            Stalk.create(req.session.user.id, user.id)
+          }
           User.getTags(user.id)
             .then( (tags) => {
               res.render('profil', { user: user, current_user: req.session.user, tags: tags })
@@ -165,7 +169,21 @@ module.exports = (app) => {
     })
     .post('/reset', isNotAuth, (req, res) => {
       if (req.body.token) {
-
+        if (req.body.token.length == 10)
+        {
+          Checker.reset_password(req.body)
+          .then( () => {
+            User.password_reset(req.body)
+            .then( () => {
+              req.toastr('success', 'Password changed')
+              res.redirect('login')              
+            }).catch( err => { req.flash('error', err); res.redirect('reset'); })
+          })
+          .catch( err => { req.flash('error', err); res.redirect('reset'); })
+        } else {
+          req.flash('error', ['token invalid']);
+          res.redirect('reset');   
+        }
       } else {
         Checker.reset_req(req.body)
         .then( () => {

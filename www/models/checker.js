@@ -137,6 +137,27 @@ class Checker {
             }
         })
     }
+    static reset_password(params)
+    {
+        let strong_parameters = ['token', 'password', 'passwordCheck'];
+
+        return new Promise( (resolve, reject) => {
+            if (this._checkInclusion(strong_parameters, params) == -1)
+                reject(['Inclusion detected']);
+            else {
+                let array = [ 
+                    this._isRequired(params.password, 'Password'),
+                    this._isRequired(params.passwordCheck, 'Password Check'),
+                    this._isEqual(params.password, params.passwordCheck, 'Passwords'),
+                    this._isBigEnough(params.password, 'Password', 8),
+                    this._isBigEnough(params.passwordCheck, 'Password Check', 8),
+                    this._isSecure(params.password, 'Password')
+                ]                
+                let filtered = array.filter( d => d !== undefined );
+                filtered.length ? reject(filtered) : resolve()
+            }
+        })
+    }
 
     static edit_profil(params)
     {

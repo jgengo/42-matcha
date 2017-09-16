@@ -21,7 +21,6 @@
     "nodemailer": "^4.0.1",
     "nodemon": "^1.11.0",
     "path": "^0.12.7",
-    "randomstring": "^1.1.5",
     "redis": "^2.8.0",
     "semantic-ui": "^2.2.10",
     "serve-favicon": "^2.4.3",

@@ -23,6 +23,8 @@
             <% } %>
             </ul></div>
         <% } %>
+
+
         <% if (token) { %>
             <input type="text" name="token" value="<%- token %>" hidden>
             <div class="field">
@@ -60,7 +62,15 @@
 
 <%- include("_footer") %>
 <% if (token) { %>
-
+<script>
+$('form').form({
+    inline: true,
+    fields: {
+        password: { identifier: 'password', rules: [{ type: 'empty', prompt: 'Please enter your password' }, { type: 'minLength[8]', prompt: 'Your password must be at least {ruleValue} characters'}] },
+        passwordCheck: { identifier: 'passwordCheck', rules: [{ type: 'empty', prompt: 'Please re-enter your password' }, { type: 'minLength[8]', prompt: 'Your password must be at least {ruleValue} characters'}, {type: 'match[password]', prompt: 'Passwords don\'t match'}] }
+    }
+});
+</script>
 <% } else { %>
 <script>
 $('form').form({

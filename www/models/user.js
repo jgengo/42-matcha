@@ -92,7 +92,7 @@ class User {
 
     static reset_password(params) {
       return new Promise( (resolve, reject) => {
-        var token = Math.random().toString(36).substring(2);
+        var token = Math.random().toString(36).substr(2, 10);
         connection.query('SELECT email FROM users WHERE email = ?', [params.email], (err, rows) => {
           if (rows.length) {
             connection.query('UPDATE users SET reset_token = ? WHERE email = ?', [token, params.email], (err, rows) => {
@@ -107,6 +107,25 @@ class User {
       })
     }
 
+    static password_reset(params) {
+      return new Promise ( (resolve, reject) => {
+        connection.query('SELECT * FROM users WHERE reset_token = ?', [params.token], (err, rows) => {
+          if (err) throw err;
+          if (rows.length) {
+            bcrypt.hash(params.password, saltRounds, (err, hash) => {
+              if (err) throw err;
+              connection.query('UPDATE users SET reset_token = NULL, password = ? WHERE reset_token = ?', [hash, params.token], (err, rowed) => {
+                if (err) throw err;
+                Mail.password_changed(rows[0].email)
+                resolve();
+              })
+            })
+          } else {
+            reject(['token invalid']);
+          }
+        })
+      })
+    }
 
 
     // Relations Getter Methods
