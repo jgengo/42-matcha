@@ -1,3 +1,11 @@
+#forgot {
+  color: #1B1C1D;
+}
+
+#forgot center {
+  margin-top: 6px;
+}
+
 body {
   height: 100vh;
 }

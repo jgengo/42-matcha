@@ -40,7 +40,8 @@
       {
         sender_id = id;
         socket.emit('messages cat', id);
-        $('#messages_box').html('').append(`<div class="ui violet center aligned segment remove_segment">${fullname} <span class='color-green' style='font-weight: bold;'> •</span><p class='activity'>Last activity: <span id='user-activity'>loading...</span></div>`)
+        $('#messages_box').html('').append(`<div class="ui violet center aligned segment remove_segment">${fullname} <span class='color-green' id='user-dot'> •</span><p class='activity'>Last activity: <span id='user-activity'>loading...</span></div>`);
+        socket.emit('messages ping', id);
       }
 
       function messages_send(id, content)
@@ -95,12 +96,18 @@
         $('#send_button').click(function() { eventMessage() })
       })
       
+      socket.on('messages pong', data => {
+        if (data.online)
+          $('#user-dot').attr('class', 'color-green');
+        else
+          $('#user-dot').attr('class', 'color-red');
+        $('#user-activity').html(data.last_seen)
+      })
+
       socket.on('messages show', data => {
         if (sender_id === data[0].recipient_id || sender_id === data[0].sender_id) { 
           $('#messages_chat').append(`<p><span class='color-violet'>${data[0].first_name}:</span> ${data[0].content}</p>`).scrollTop(1E10);;
         }
       })
-
-
 
     </script>

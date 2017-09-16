@@ -123,6 +123,21 @@ class Checker {
       })
     }
 
+    static reset_req(params)
+    {
+        let strong_parameters = ['email'];
+
+        return new Promise ( (resolve, reject) => {
+            if (this._checkInclusion(strong_parameters, params) == -1)
+                reject(['Inclusion detected']);
+            else {
+                let array = [ this._isRequired(params.email, 'Email') ]
+                let filtered = array.filter( d => d !== undefined );
+                filtered.length ? reject(filtered) : resolve()
+            }
+        })
+    }
+
     static edit_profil(params)
     {
         let strong_parameters = ['gender', 'interested_by', 'firstName', 'lastName', 'birthdate', 'location', 'tags', 'bio'];
@@ -178,9 +193,6 @@ class Checker {
             }
         })
     }
-
-
-
 
 
 

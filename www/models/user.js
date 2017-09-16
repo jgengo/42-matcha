@@ -14,6 +14,9 @@ const log           = console.log
 const info          = chalk.magenta
 
 
+
+const Mail        = require('../models/mail');
+
 class User {
 
     // Getter
@@ -27,6 +30,7 @@ class User {
 
     // Methods
     //---------------------------------------------------------------------------------------------------------------------
+
 
     static sign_in (content) {
       return new Promise ( (resolve, reject) => {
@@ -75,6 +79,35 @@ class User {
         resolve();
       });
     }
+
+    static ping(user_id) {
+      return new Promise( (resolve, reject) => {
+        connection.query('SELECT online, last_seen FROM users WHERE id = ?', [user_id], (err, rows) => {
+          if (err) throw err;
+          rows[0].last_seen = (rows[0].last_seen) ? moment(rows[0].last_seen).fromNow() : 'N/A';
+          resolve(rows[0]);
+        })
+      })
+    }
+
+    static reset_password(params) {
+      return new Promise( (resolve, reject) => {
+        var token = Math.random().toString(36).substring(2);
+        connection.query('SELECT email FROM users WHERE email = ?', [params.email], (err, rows) => {
+          if (rows.length) {
+            connection.query('UPDATE users SET reset_token = ? WHERE email = ?', [token, params.email], (err, rows) => {
+              if (err) throw err;
+              Mail.reset_password(token, params.email);
+              resolve(token);
+            })
+          } else {
+            reject(['Email not found'])
+          }
+        })
+      })
+    }
+
+
 
     // Relations Getter Methods
     //---------------------------------------------------------------------------------------------------------------------

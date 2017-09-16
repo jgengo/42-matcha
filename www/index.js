@@ -62,8 +62,10 @@ io.on('connection', socket => {
       .then( messages => { socket.emit('messages ls', messages) })
   })
   socket.on('messages cat', data => {
-    Message.messages_from_to(data, user.id)
-    .then( messages => { socket.emit('messages cat', messages)})
+    Message.messages_from_to(data, user.id).then( messages => { socket.emit('messages cat', messages)})
+  })
+  socket.on('messages ping', data => {
+    User.ping(data).then( data => { socket.emit('messages pong', data) })
   })
   socket.on('messages send', data => {
     Checker.messages_send(data)

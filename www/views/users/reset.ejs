@@ -1,0 +1,71 @@
+<%
+
+%>
+
+<%- include("_header") %>
+
+
+
+<div class="ui centered grid" id="registerform">
+    <div class="six wide tablet eight wide column">
+        <div class="ui message" id="header">
+            <div class="ui image">
+                <img src="../logo.png">
+            </div>
+        </div>
+
+        <form action="/reset" method="post" class="ui form attached fluid segment">
+
+        <% if (locals.flash && locals.flash.error) { %>
+            <div class="ui negative message"><ul>
+            <% for (error of flash.error) { %>
+                <li><%= error %></li>
+            <% } %>
+            </ul></div>
+        <% } %>
+        <% if (token) { %>
+            <input type="text" name="token" value="<%- token %>" hidden>
+            <div class="field">
+                <label>Password</label>
+                <input type="password" name="password" onfocus="this.placeholder=''" onblur="this.placeholder='at least 8 characters'" placeholder="at least 8 characters">
+            </div>
+            <div class="field">
+                <label>Password confirmation</label>
+                <input type="password" name="passwordCheck" placeholder="">
+            </div>
+
+            <div class="ui animated large fade fluid violet button" type="submit" onClick="sendForm()">
+            <div class="visible content">Send request</div>
+            <div class="hidden content"><i class="icon right arrow"></i></div>
+        <% } else { %>
+
+            <div class="field">
+                <label>E-mail</label>
+                <div class="ui left icon input">
+                    <i class="mail icon"></i>
+                    <input type="email" name="email" onfocus="this.placeholder=''" onblur="this.placeholder='E-mail address'" placeholder="E-mail address">
+                </div>
+            </div>
+
+            <div class="ui animated large fade fluid violet button" type="submit" onClick="sendForm()">
+            <div class="visible content">Send request</div>
+            <div class="hidden content"><i class="icon right arrow"></i></div>
+
+    
+        <% } %>
+        </form>
+    </div>
+</div>
+
+
+<%- include("_footer") %>
+<% if (token) { %>
+
+<% } else { %>
+<script>
+$('form').form({
+    inline: true,
+    fields: { email: { identifier: 'email', rules: [{ type: 'email', prompt: 'Please enter a valid email' }] } }
+});
+</script>
+<% } %>

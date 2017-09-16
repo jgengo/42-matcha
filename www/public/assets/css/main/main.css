@@ -63,12 +63,20 @@
   }
 }
 
+.color-black {
+  color: #1B1C1D;
+}
+
 .color-green {
   color: #2ECC40;
 }
 
 .color-grey {
   color: #CCCCCC;
+}
+
+.color-red {
+  color: #DB2828;
 }
 
 .text-i {

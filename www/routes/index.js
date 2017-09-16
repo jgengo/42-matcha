@@ -157,6 +157,34 @@ module.exports = (app) => {
         res.redirect('register');
       })
     })
+    .get('/reset', isNotAuth, (req, res) => {
+      res.render('users/reset', {token: 0});
+    })
+    .get('/reset/:token', isNotAuth, (req, res) => {
+      res.render('users/reset', {token: req.params['token']})
+    })
+    .post('/reset', isNotAuth, (req, res) => {
+      if (req.body.token) {
+
+      } else {
+        Checker.reset_req(req.body)
+        .then( () => {
+          User.reset_password(req.body)
+          .then( token => { 
+            req.toastr('success', 'Mail sent')
+            res.redirect('login')
+          })
+          .catch( err => {
+            req.flash('error', err);
+            res.redirect('reset');
+          })
+        })
+        .catch( err => {
+          req.flash('error', err);
+          res.redirect('reset');
+        })              
+      }
+    })
 
     app
     .get('/destroy', isAuth, isValidated, (req, res) => {
