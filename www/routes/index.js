@@ -339,6 +339,13 @@ module.exports = (app) => {
     })
 
 
+
+    app
+    .get('/timeline', isAuth, isValidated, (req, res) => {
+      res.render('timeline/index', { current_user: req.session.user })
+    })
+
+
     app.post('/endpoint/:colomn', isAuth, isValidated, (req, res) => {
       let obj = {}
       bio = validator.escape(req.body.bio);

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include('../partials/_head') %>
+    <link rel="stylesheet" type="text/css" href="/assets/css/timeline/main.css" />
+  </head>
+
+  <body>
+    <%- include('../partials/_navbar') %>
+    <div class='ui container segment' id='ft_main'>
+
+      <div class="left floated left aligned six wide column">
+        <h3 class="ui icon violet">
+        <i class=" bordered violet inverted list icon"></i> Timeline
+        </h3>
+      </div>
+      <div class="ui divider"></div>
+
+      <div class="ui stackable two column grid">
+        <div class="ten wide column centered">
+          <div class="three ui large buttons">
+            <button class="ui violet button" id='all'>All</button>
+            <button class="ui violet basic button" id='stalks'><i class='fitted unhide icon'></i> Stalks</button>
+            <button class="ui violet basic button" id='likes'><i class='fitted thumbs up icon'></i> Likes</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="column" id='timeline_box'>
+        <div class="ui feed" id='feed'>
+          <!-- <div class="event">
+            <div class="label"><i class='large unhide violet icon'></i></div>
+            <div class="content"><div class="summary"><a class='user'>Thomas GIRAUD</a> watched your profile<div class='date'>2days ago</div></div></div>
+          </div> -->
+
+
+        </div>
+      </div>
+
+  </div>
+
+    <%- include('../partials/_footer') %>
+
+
+<script>
+
+$('#all').click( event => {
+  $(event.target).addClass('active').removeClass('basic')
+  $('#stalks, #likes').removeClass('active').addClass('basic');
+  $('.stalk, .like').removeClass('hidden');
+})
+
+$('#stalks').click( event => {
+  $(event.target).addClass('active').removeClass('basic');
+  $('#all, #likes').removeClass('active').addClass('basic');
+  $('.stalk').removeClass('hidden');
+  $('.like').addClass('hidden');
+})
+$('#likes').click( event => {
+  $(event.target).addClass('active').removeClass('basic');
+  $('#all, #stalks').removeClass('active').addClass('basic');
+  $('.stalk').addClass('hidden');
+})
+
+function build_event_stalk(data)
+{
+  html = `<div class="event stalk"><div class="label"><i class='large unhide violet icon'></i></div><div class="content">
+  <div class="summary"><a class='user'>${data.first_name} ${data.last_name}</a> watched your profile<div class='date'>${data.created_at}</div>
+  </div></div></div>`
+  return html
+}
+
+var socket = io.connect('')
+socket.on('connect', data => {
+  socket.emit('timeline ls');
+});
+socket.on('timeline ls', data => {
+  $.each(data, function(i, item) {
+    $('#feed').append(build_event_stalk(item));
+  });
+});
+</script>
+

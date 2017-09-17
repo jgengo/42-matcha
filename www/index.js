@@ -35,6 +35,7 @@ let users               = {}
 const Message           = require('./models/message');
 const Checker           = require('./models/checker');
 const User              = require('./models/user');
+const Stalk             = require('./models/stalk');
 
 // redis
 //-----------------------------------------------------------------------------------------------
@@ -57,10 +58,8 @@ io.on('connection', socket => {
     log(title('[Socket.IO]')+' user_id: '+info(user.id)+' has just disconnected.');
   })
 
-  socket.on('messages ls', data => {
-      Message.messages_to(user.id)
-      .then( messages => { socket.emit('messages ls', messages) })
-  })
+  socket.on('timeline ls', data => { Stalk.ls(user.id).then( data => { socket.emit('timeline ls', data); }) });
+  socket.on('messages ls', data => { Message.messages_to(user.id).then( messages => { socket.emit('messages ls', messages) }) })
   socket.on('messages cat', data => {
     Message.messages_from_to(data, user.id).then( messages => { socket.emit('messages cat', messages)})
   })
