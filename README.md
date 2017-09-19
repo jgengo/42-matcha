@@ -21,7 +21,7 @@ I chose to learn and use **node.js (+Express)** and thereby discover a new langu
 
 This is a solo project but some fellow students have inspired me during its realisation and my entire scolarity here at 42. They have written lines of code in my own kernel for life.
 
-* [cbarbier](https://github.com/cedwick) - Cedric Barbier
+* [cbarbier](https://github.com/cbarbier) - Cedric Barbier
 * arive-de - Alix Rive Decaillot
 * ocarta-l - Oren Carta-Lag
 * amoreilh - Alexandre Moreilhon
