@@ -1,11 +1,74 @@
+#buttons button {
+  border-radius: 2px;
+}
+
+.no-a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.ui.segment.event {
+  margin-bottom: 15px;
+  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px;
+  box-shadow: none;
+  border-color: #8f5398;
+  transition: 200ms;
+  cursor: pointer;
+}
+
+.ui.segment.event:hover {
+  background-color: #8f5398;
+  color: #cfb0d4;
+}
+
+.ui.segment.event:hover span.user {
+  color: #FFF;
+}
+
+.ui.segment.event:hover .date {
+  color: #cfb0d4;
+}
+
+.ui.segment.event > i.icon {
+  align-self: baseline;
+  position: absolute;
+  right: -0.25em;
+  opacity: 0.2;
+  font-size: 7em !important;
+}
+
+.ui.segment.event img {
+  border-radius: 2px;
+}
+
+.ui.segment.event span.user {
+  transition: 200ms;
+  color: #704177;
+}
+
+.ui.segment.event .text {
+  margin: 0;
+  padding-left: 10px;
+}
+
+.ui.segment.event .date {
+  transition: 200ms;
+  text-transform: uppercase;
+  position: absolute;
+  right: 10px;
+  color: #929292;
+}
+
 #timeline_box {
   margin-top: 30px;
 }
 
 .hidden {
   display: none !important;
-}
-
-.event {
-  margin-top: 10px !important;
 }

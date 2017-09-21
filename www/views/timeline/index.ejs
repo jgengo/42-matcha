@@ -18,7 +18,7 @@
 
       <div class="ui stackable two column grid">
         <div class="ten wide column centered">
-          <div class="three ui large buttons">
+          <div class="three ui large buttons" id="buttons">
             <button class="ui violet button" id='all'>All</button>
             <button class="ui violet basic button" id='stalks'><i class='fitted unhide icon'></i> Stalks</button>
             <button class="ui violet basic button" id='likes'><i class='fitted thumbs up icon'></i> Likes</button>
@@ -27,13 +27,17 @@
       </div>
 
       <div class="column" id='timeline_box'>
-        <div class="ui feed" id='feed'>
-          <!-- <div class="event">
-            <div class="label"><i class='large unhide violet icon'></i></div>
-            <div class="content"><div class="summary"><a class='user'>Thomas GIRAUD</a> watched your profile<div class='date'>2days ago</div></div></div>
-          </div> -->
+        <div id='feed'>
 
-
+<!--           <a href="#" class="no-a">
+            <div class="ui segment event">
+              <i class="unhide violet icon"></i>
+              <img src='http://via.placeholder.com/32x32' />
+              <p class="text"><span class="user">Thomas GIRAUD</span> watched your profile</p>
+              <p class="date">2 hours ago</p>
+            </div>
+          </a>
+ -->
         </div>
       </div>
 
@@ -65,9 +69,19 @@ $('#likes').click( event => {
 
 function build_event(data)
 {
-  html = `<div class="event ${data.type}"><div class="label"><i class='large ${(data.type === 'stalk') ? 'unhide' : 'thumbs up'} violet icon'></i></div><div class="content">
-  <div class="summary"><a href="/profil/${data.id}" class='user'>${data.first_name} ${data.last_name}</a> ${(data.type === 'stalk') ? 'watched' : 'liked'} your profile<div class='date'>${data.created_at}</div>
-  </div></div></div>`
+  html = `<a href="/profil/${data.id}" class="no-a">
+            <div class="ui segment event ${data.type}">
+              <i class="${(data.type === 'stalk') ? 'unhide' : 'thumbs up'} violet icon"></i>
+              
+              <p class="text"><span class="user">${data.first_name} ${data.last_name}</span> ${(data.type === 'stalk') ? 'watched' : 'liked'} your profile</p>
+              <p class="date">${data.created_at}</p>
+            </div>
+          </a>`
+
+
+  // html = `<div class="event ${data.type}"><div class="label"><i class='large ${(data.type === 'stalk') ? 'unhide' : 'thumbs up'} violet icon'></i></div><div class="content">
+  // <div class="summary"><a href="/profil/${data.id}" class='user'>${data.first_name} ${data.last_name}</a> ${(data.type === 'stalk') ? 'watched' : 'liked'} your profile<div class='date'>${data.created_at}</div>
+  // </div></div></div>`
   return html
 }
 
