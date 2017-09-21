@@ -17,6 +17,7 @@ $grey 	: #CCCCCC;
 
 #messages_chat
 {
+	overflow-wrap: break-word;
 	overflow-y: scroll;
 	max-height: 50vh;
 }

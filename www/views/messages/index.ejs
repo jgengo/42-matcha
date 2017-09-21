@@ -77,7 +77,7 @@
               <img class="ui right spaced avatar image" src="https://semantic-ui.com//images/avatar/small/elliot.jpg">${item.first_name} ${item.last_name[0]}
             </a></p>`);
         })
-        $('.menu .item.my_item').tab().click(function (event) { $(event.target).transition('pulse', '200ms'); messages_cat($(event.target).data('id'), $(event.target).data('fullname')) });
+        $('.menu .item.my_item').tab().click(function (event) { if ($(event.target).data('id') !== sender_id) { $('.menu .item.my_item').addClass('basic'); $(event.target).transition('pulse', '200ms').toggleClass('basic'); messages_cat($(event.target).data('id'), $(event.target).data('fullname')) } });
       })
 
       // get messages from a user
@@ -86,7 +86,7 @@
 
         html += `<div class="ui segment remove_segment" id='messages_chat'>`;
         $.each(data, function(i, item) {
-          html += `<p><span class='color-violet'>${item.first_name}:</span> ${item.content}</p>`;
+          html += `<p><img class="ui right spaced avatar image" src="https://semantic-ui.com//images/avatar/small/elliot.jpg"><span class='color-violet'>${item.first_name}:</span><br /> ${item.content}</p>`;
         });
         html += `</div><div class="ui fluid action input"><input type="text" id="messages_input" data-id='${sender_id}' placeholder="write your message..." onfocus="this.placeholder=''" onblur="this.placeholder='write your message...'"><div class="ui violet button" id='send_button'>Send</div></div>`;
 

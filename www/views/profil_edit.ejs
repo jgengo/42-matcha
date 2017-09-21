@@ -90,7 +90,7 @@ i_by      = user.interested_by
                 </div>
                 <div class="field">
                   <label>About you</label>
-                  <textarea name='bio' id='bio'><%- user.bio.replace(/<br\s*[\/]?>/gi, '\n')  %></textarea>
+                  <textarea name='bio' id='bio'><%- (user.bio) ? user.bio.replace(/<br\s*[\/]?>/gi, '\n') : "" %></textarea>
                 </div>
               </div>
             </div>

@@ -60,12 +60,13 @@ $('#likes').click( event => {
   $(event.target).addClass('active').removeClass('basic');
   $('#all, #stalks').removeClass('active').addClass('basic');
   $('.stalk').addClass('hidden');
+  $('.like').removeClass('hidden');
 })
 
-function build_event_stalk(data)
+function build_event(data)
 {
-  html = `<div class="event stalk"><div class="label"><i class='large unhide violet icon'></i></div><div class="content">
-  <div class="summary"><a class='user'>${data.first_name} ${data.last_name}</a> watched your profile<div class='date'>${data.created_at}</div>
+  html = `<div class="event ${data.type}"><div class="label"><i class='large ${(data.type === 'stalk') ? 'unhide' : 'thumbs up'} violet icon'></i></div><div class="content">
+  <div class="summary"><a href="/profil/${data.id}" class='user'>${data.first_name} ${data.last_name}</a> ${(data.type === 'stalk') ? 'watched' : 'liked'} your profile<div class='date'>${data.created_at}</div>
   </div></div></div>`
   return html
 }
@@ -76,7 +77,7 @@ socket.on('connect', data => {
 });
 socket.on('timeline ls', data => {
   $.each(data, function(i, item) {
-    $('#feed').append(build_event_stalk(item));
+    $('#feed').append(build_event(item));
   });
 });
 </script>

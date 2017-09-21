@@ -15,11 +15,14 @@ class Stalk
 	static ls(user_id) {
 		return new Promise( (resolve, reject) => {
 			connection.query(`
-			SELECT stalks.created_at,users.last_name,users.first_name 
-			FROM stalks
+			(SELECT 'stalk' as type,users.id, users.first_name, users.last_name, stalks.created_at FROM stalks
 			LEFT JOIN users ON stalks.stalker_id = users.id
-			WHERE stalks.victim_id = ?
-			ORDER BY created_at DESC`, [user_id], (err, rows) => {
+			WHERE victim_id = ?)
+UNION
+			(SELECT 'like' as type, users.id, users.first_name, users.last_name, likes.created_at FROM likes
+			LEFT JOIN users ON likes.liker_id = users.id
+			WHERE liked_id = ?)
+			ORDER BY created_at DESC`, [user_id, user_id], (err, rows) => {
 				if (err) throw err;
 				log(title('[Stalk]') + " user_id: " + info(user_id) + " just get stalk list");
 				rows.map( x =>  { x.created_at = moment(x.created_at).fromNow() } );

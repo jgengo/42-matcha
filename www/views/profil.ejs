@@ -1,6 +1,9 @@
 <% 
-myProfil  = (user.id === current_user.id) ? true : false  
-age       = Math.floor(locals.moment().diff(user.birthdate, 'years', true));
+myProfil      = (user.id === current_user.id) ? true : false  
+age           = Math.floor(locals.moment().diff(user.birthdate, 'years', true));
+
+last_activity = moment(user.last_seen).fromNow();
+online        = (user.online) ? "En ligne" : "Hors ligne"
 %>
 
 <!DOCTYPE html>
@@ -49,7 +52,7 @@ age       = Math.floor(locals.moment().diff(user.birthdate, 'years', true));
       </form>
     </div>
 
-<!-- <div class='ui segment big' id='about'> -->
+
     <!-- Gallery -->
     <h3>Gallery</h3>
       <div class="ui small images four column grid">
@@ -78,6 +81,9 @@ age       = Math.floor(locals.moment().diff(user.birthdate, 'years', true));
       <!-- <div class="ui bottom attached button tiny violet"><i class="add icon"></i>Change</div> -->
     </div>
 
+
+    <h4 class='ui header'>Gender<div class="sub header"><%- user.gender %></div></h4>
+    <h4 class="ui header">Interested by<div class="sub header"><%- user.interested_by %></div></h4>
     <!-- birthdate & age -->
     <h4 class="ui header">Age
       <div class="sub header"><%- age %> yo.</div>
@@ -88,12 +94,10 @@ age       = Math.floor(locals.moment().diff(user.birthdate, 'years', true));
     <p></p>
 
     <!-- Location -->
-    <h4 class="ui header">Location
-    <div class="sub header"><%- user.location %></div>
-    </h4>
+    <h4 class="ui header">Location<div class="sub header"><%- user.location %></div></h4>
 
     <h4 class="ui header">Joined <div class="sub header"><%- moment(user.created_at).fromNow() %></div></h4>
-
+    <h4 class="ui header"><%- online %><div class="sub header"><%- last_activity %></div></h4>
     </div>
 
   </div>
