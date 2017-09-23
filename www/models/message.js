@@ -3,6 +3,7 @@
 const connection    = require('../config/db')
 
 const chalk         = require('chalk');
+const moment        = require('moment');
 const log           = console.log
 const info          = chalk.magenta
 
@@ -44,6 +45,7 @@ class Message {
           WHERE (recipient_id = ? and sender_id = ?) or (sender_id = ? and recipient_id = ?)
           ORDER BY messages.id`, [user_one, user_two, user_one, user_two], (err, rows) => {
             if (err) throw err;
+            rows.map( x =>  { x.created_at = moment(x.created_at).format('DD/MM/YYYY, h:mm:ss a') } );
             resolve(rows);
           })
       })
@@ -59,6 +61,7 @@ class Message {
           WHERE messages.recipient_id = ? 
           GROUP BY messages.sender_id;`, [recipient_id], (err, rows) => {
           if (err) throw err;
+          
           resolve(rows);
         })
       })
@@ -84,8 +87,9 @@ class Message {
             SELECT messages.*, users.id,users.first_name
             FROM messages
             LEFT JOIN users ON messages.sender_id = users.id
-            WHERE messages.id = ?`, [result.insertId], (err, rows) => { if (err) throw err; resolve(rows); }
+            WHERE messages.id = ?`, [result.insertId], (err, rows) => { if (err) throw err; rows.map( x =>  { x.created_at = moment(x.created_at).format('DD/MM/YYYY, h:mm:ss a') } ); resolve(rows); }
         )
+
         })
       })
     }

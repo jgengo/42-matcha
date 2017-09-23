@@ -28,16 +28,7 @@
 
       <div class="column" id='timeline_box'>
         <div id='feed'>
-
-<!--           <a href="#" class="no-a">
-            <div class="ui segment event">
-              <i class="unhide violet icon"></i>
-              <img src='http://via.placeholder.com/32x32' />
-              <p class="text"><span class="user">Thomas GIRAUD</span> watched your profile</p>
-              <p class="date">2 hours ago</p>
-            </div>
-          </a>
- -->
+          <!-- vignette ici -->
         </div>
       </div>
 
@@ -72,7 +63,6 @@ function build_event(data)
   html = `<a href="/profil/${data.id}" class="no-a">
             <div class="ui segment event ${data.type}">
               <i class="${(data.type === 'stalk') ? 'unhide' : 'thumbs up'} violet icon"></i>
-              
               <p class="text"><span class="user">${data.first_name} ${data.last_name}</span> ${(data.type === 'stalk') ? 'watched' : 'liked'} your profile</p>
               <p class="date">${data.created_at}</p>
             </div>

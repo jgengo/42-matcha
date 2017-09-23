@@ -86,7 +86,7 @@
 
         html += `<div class="ui segment remove_segment" id='messages_chat'>`;
         $.each(data, function(i, item) {
-          html += `<p><img class="ui right spaced avatar image" src="https://semantic-ui.com//images/avatar/small/elliot.jpg"><span class='color-violet'>${item.first_name}:</span><br /> ${item.content}</p>`;
+          html += `<p class='messblock'><img class="ui right spaced avatar image" src="https://semantic-ui.com//images/avatar/small/elliot.jpg"><span class='uniq-mess color-violet'>${item.first_name}</span><span class='date'>${item.created_at}</span><br />${item.content}</p>`;
         });
         html += `</div><div class="ui fluid action input"><input type="text" id="messages_input" data-id='${sender_id}' placeholder="write your message..." onfocus="this.placeholder=''" onblur="this.placeholder='write your message...'"><div class="ui violet button" id='send_button'>Send</div></div>`;
 
@@ -106,7 +106,7 @@
 
       socket.on('messages show', data => {
         if (sender_id === data[0].recipient_id || sender_id === data[0].sender_id) { 
-          $('#messages_chat').append(`<p><span class='color-violet'>${data[0].first_name}:</span> ${data[0].content}</p>`).scrollTop(1E10);;
+          $('#messages_chat').append(`<p class='messblock'><img class="ui right spaced avatar image" src="https://semantic-ui.com//images/avatar/small/elliot.jpg"><span class='uniq-mess color-violet'>${data[0].first_name}</span><span class='date'>${data[0].created_at}</span><br />${data[0].content}</p>`).scrollTop(1E10);
         }
       })
 
