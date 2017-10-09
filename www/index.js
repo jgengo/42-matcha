@@ -36,6 +36,7 @@ const Message           = require('./models/message');
 const Checker           = require('./models/checker');
 const User              = require('./models/user');
 const Stalk             = require('./models/stalk');
+const Like              = require('./models/like');
 
 // redis
 //-----------------------------------------------------------------------------------------------
@@ -57,6 +58,10 @@ io.on('connection', socket => {
     User.set_online(user.id, 0);
     log(title('[Socket.IO]')+' user_id: '+info(user.id)+' has just disconnected.');
   })
+
+
+
+
 
   socket.on('timeline ls', data => { Stalk.ls(user.id).then( data => { socket.emit('timeline ls', data); }) });
   socket.on('messages ls', data => { Message.messages_to(user.id).then( messages => { socket.emit('messages ls', messages) }) })
@@ -90,7 +95,17 @@ io.on('connection', socket => {
     .catch( (err) => { log(title('[Socket.IO]')+' user_id: '+info(user.id)+' send bad formated data.\n\t'+err) })
   })
   
+
+
+  socket.on('profil ls', user_id => { 
+    Like.count(user_id).then( data => { socket.emit('profil ls', data); })
+  })
+
+
 })
+
+
+
 
 
 // Static & middlewares

@@ -16,6 +16,7 @@ const info          = chalk.magenta
 
 
 const Mail        = require('../models/mail');
+const Like        = require('../models/like');
 
 class User {
 

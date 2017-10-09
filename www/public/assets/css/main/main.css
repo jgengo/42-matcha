@@ -83,6 +83,10 @@
   color: #704177;
 }
 
+.pr-15 {
+  padding-right: 15px !important;
+}
+
 .text-i {
   font-style: oblique;
 }
