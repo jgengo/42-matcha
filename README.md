@@ -11,11 +11,11 @@ I chose to learn and use **node.js (+Express)** and thereby discover a new langu
 - [x] Create two linked docker containers to host Apache, PHP and Adminer on one hand, and MySQL on the other.
 - [x] Think about UI design and CSS framework (bootstrap? materialize? ...) **Semantic UI**
 - [x] Choose a HTML templating engine (Pug, Haml, Slim, Handlebars, ...) **EJS**
-- [ ] Create User model and all associated functions (create, edit, destroy, show) 
-- [ ] Create all associated models (Stalk, Like, Block, Tags, Mail)
-- [ ] Create a Geoloc model (force if not given)
+- [x] Create User model and all associated functions (create, edit, destroy, show) 
+- [x] Create all associated models (Stalk, Like, Block, Tags, Mail)
+- [x] Create a Geoloc model (force if not given)
 - [ ] Create the algorithm that matches people up (taking into account sexual orientation)
-- [ ] Create a live chat (using websocket)
+- [x] Create a live chat (using websocket)
 
 ## Credits
 
@@ -29,3 +29,7 @@ This is a solo project but some fellow students have inspired me during its real
 * mkantzer - Manon Kantzer
 * lramirez - Lara Ramirez
 * aribeiro - Alexandra Ribeiro
+
+
+# NOT FINISHED --- Done another one with another mate.
+It was a beautiful project though where I learnt a lots.
